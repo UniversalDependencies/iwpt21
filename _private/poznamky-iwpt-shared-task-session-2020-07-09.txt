@@ -1,0 +1,67 @@
+Otázka na mě samotného :-)
+
+- Chtělo by to konečně vyhodnotit, jak si účastníci vedli na jednotlivých typech rozšíření (a asi to ještě rozčlenit po jazycích a treebancích).
+
+Jenna (Turku):
+
+- Podporují jen 4 konfigurace enhanced grafů. Stalo se, že narazili na graf, který obsahoval strukturu, která do tohohle nezapadá? Co dělali?
+- Ignorují gapping.
+
+Johannes (Orange):
+
+- Co je XLM-R?
+
+Han (Emory)
+
+?
+Nenapadá mě, co se zeptat. Použili kombinaci stromového a grafového parseru. Zřejmě neumí generovat cykly a sami přiznávají, že bez tohoto omezení by asi mohli být lepší.
+
+Mathieu (Fastparse, A Coruňa)
+
+- Snímek 8/10, rule tuning: Mohl by říct, co zjistili, jak se jednotlivé treebanky liší?
+- Říká UDPipe 2.5, ale tím asi myslí verzi předtrénovaných modelů, nikoli UDPipe samotného?
+- Ignorují gapping.
+- 9/10 Russian: vidí Case=Gen, ale ve značce hrany je ":acc" ... vysvětlit, že to je asi číslovkami
+  ... možná si připravit nějaký příklad a během diskuse mu nasdílet obrazovku?
+  - Netuším, co mohlo způsobit tu nekonzistenci, kterou objevil v litevštině? nmod někdy má Case, někdy má lemma, ne vždy.
+- Použili UDPipe + pravidla pro enhancements
+
+Giuseppe (Pisa)
+
+- Použili UUParser (transition-based). Pro tokenizaci UDPipe.
+  - Pak taky kombinaci UUParseru, Udify a UDPipe.
+  - Pak se přesunuli k Zhangovu biaffine parseru, protože byl rychlý a umožňoval používat různé modely z Huggingface.
+- Nad tím pravidla???
+- Říká big drop from EULAS to ELAS in some languages. Možná problém s těmi pády? Jsou to převážně jazyky, kde jsem pády do hran dogenerovával já, není problém v tom, že čekali pouze lemata předložek a nikoli hodnoty morfologického pádu?
+
+Xinyu (ShanghaiTech)
+
+- taky použili XLM-R (Conneau et al. 2019) ... Xinyu říká, že je to momentálně nejlepší vícejazyčná kontextová reprezentace pro neuronové sítě.
+- Říká, že čeština přidaná k tamilštině jim pomohla více než angličtina, snad proto, že je větší. Možná to ale také bylo tím, že je zpracovaná podobně?
+
+Adam (Göteborg / CLASP)
+
+- Použili Stanzu + pravidla.
+- Jejich pravidla na zlatých stromech mají mnohem větší přínos než na stromech vygenerovaných Stanzou. Asi to znamená, že Stanza dělá chyby hlavně v hranách, které jsou rozhodující pro aplikaci pravidel.
+
+James (ADAPT DCU)
+
+- Použili UDPipe a UDPipe-Future + pravidla a/nebo Stanfordský sémantický parser (Dozat and Manning 2018).
+- S neoficiálním vylepšeným systémem se posunuli na čtvrté místo (ELAS přes 80 %).
+
+Daniel (Köpsala)
+
+- Použili sémantický parser HIT-SCIR z MRP 2019.
+- Stejně jako ADAPT a ShanghaiTech měli v oficiálním výstupu chybu, ale po její opravě se neoficiálně dostali na šesté místo.
+- Je to transition-based parser, ale má navíc operace, které u stromových parserů nepotkáme.
+- OTÁZKA: V jejich výstupu jsem viděl obrovské množství prázdných uzlů. Má pro to nějaké vysvětlení?
+
+Stefan (Roberta, English only)
+
+- Použili Stanford na tokenizaci a segmentaci, pak už předpovídali přímo graf. S pomocí anglického BERTu (resp. RoBERTy).
+  - Heuristika a Udify pomáhají opravit invalidní grafy.
+
+
+From Joachim Wagner to Everyone:  07:14 PM
+Suggest to include all dev sets in the blind test sets next time. You can then select teams per language and present a best test overall
+test score overall

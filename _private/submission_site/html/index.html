@@ -1,0 +1,50 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>IWPT 2020 Shared Task Submission</title>
+    <style type="text/css" media="screen">
+      body, html {
+        padding: 3px 3px 3px 3px;
+        background-color: #D8DBE2;
+        font-family: Verdana, sans-serif;
+        font-size: 11pt;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>IWPT 2020 Shared Task System Output Submission</h1>
+    <p>Please read and carefully follow the submission instructions
+       that are posted <a href="https://universaldependencies.org/iwpt20/submission.html">at
+       the shared task website</a>. All files of a submission must be packed in one file,
+       the size of the file must not exceed 30MB, and the name of the file
+       must follow the required naming convention.</p>
+    <form action="/sharedtask/cgi-bin/upload.pl" method="post" enctype="multipart/form-data">
+      <table border="0">
+        <tr><td>Team name:</td><td><input type="text" name="team" /></td>
+          <td>(lowercase letters a-z, digits 0-9, underscore _)</td></tr>
+        <tr><td>Submission ID:</td><td><input type="text" name="submid" /></td>
+          <td>(lowercase letters a-z, digits 0-9, underscore _)</td></tr>
+        <tr><td>Dataset:</td><td>
+          <select name="dataset">
+            <option>dev</option>
+            <option selected="1">test</option>
+          </select>
+        </td><td>(dev or test)</td></tr>
+        <tr><td>Team's affiliation:</td><td><input type="text" name="affiliation" /></td>
+          <td>(Unicode letters, hyphen, comma, period, space)</td></tr>
+        <tr><td>Your name:</td><td><input type="text" name="name" /></td>
+          <td>(Unicode letters, hyphen, comma, period, space)</td></tr>
+        <tr><td>Your e-mail address:</td><td><input type="text" name="email" /></td>
+          <td>(user@example.com)</td></tr>
+        <tr><td>File to upload:</td><td><input type="file" name="tgz" /></td>
+          <td>(filename xxx-yyy.tgz where xxx is the team name and yyy is the submission id)</td></tr>
+      </table>
+      <p><input type="submit" name="Submit" value="Submit Form" /></p>
+    </form>
+    <p>In the case of any problems with the submission form, write to iwptsharedtask at gmail and/or to zeman at ufal dot mff dot cuni dot cz.</p>
+    <p>An overview of all previously submitted runs is <a href="https://quest.ms.mff.cuni.cz/sharedtask/cgi-bin/overview.pl">here</a>.</p>
+  </body>
+</html>
+

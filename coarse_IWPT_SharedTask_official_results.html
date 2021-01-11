@@ -1,0 +1,2518 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>IWPT Shared Task on Parsing into Enhanced Dependencies Results : </title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <style type="text/css">
+     <!--
+       .hilight { background: lightgreen; }
+     -->
+   </style>
+   <script type="text/javascript" language="javascript">
+<!--
+      $(function() {
+         $( "#tabs" ).tabs();
+
+         $( "#tabs-[Avg.]" ).tabs();
+
+         $( "#tabs-Arabic" ).tabs();
+
+         $( "#tabs-Bulgarian" ).tabs();
+
+         $( "#tabs-Czech" ).tabs();
+
+         $( "#tabs-Dutch" ).tabs();
+
+         $( "#tabs-English" ).tabs();
+
+         $( "#tabs-Estonian" ).tabs();
+
+         $( "#tabs-Finnish" ).tabs();
+
+         $( "#tabs-French" ).tabs();
+
+         $( "#tabs-Italian" ).tabs();
+
+         $( "#tabs-Latvian" ).tabs();
+
+         $( "#tabs-Lithuanian" ).tabs();
+
+         $( "#tabs-Polish" ).tabs();
+
+         $( "#tabs-Russian" ).tabs();
+
+         $( "#tabs-Slovak" ).tabs();
+
+         $( "#tabs-Swedish" ).tabs();
+
+         $( "#tabs-Tamil" ).tabs();
+
+         $( "#tabs-Ukrainian" ).tabs();
+
+         $( "#tabs-synthesis" ).tabs();
+      });
+-->
+ </script>
+   <!--Load the AJAX API-->
+   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+   <script type="text/javascript">
+   
+     // Load the Visualization API and the piechart package.
+     
+     
+		 google.load('visualization', '1', {'packages':['corechart','table']});
+	 
+	 	 
+     // Set a callback to run when the Google Visualization API is loaded.
+//     google.charts.setOnLoadCallback(drawTables);
+	 	google.setOnLoadCallback(function() {drawTables()});
+	 
+	 // Callback that creates and populates a data table, 
+	  // instantiates the pie chart, passes in the data and
+	       // draws it.
+		   
+	 function drawTables() {
+		 
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing [Avg.] - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_[Avg.]_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  84.09,  69.42,  67.23,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  96.37,  79.86,  ]);
+				 
+					data.addRow(['baseline2',  75.41,  72.97,  61.07,  ]);
+				 
+					data.addRow(['baseline3',  66.46,  64.57,  55.47,  ]);
+				 
+					data.addRow(['clasp_004',  82.66,  80.18,  67.85,  ]);
+				 
+					data.addRow(['emorynlp_final2',  86.14,  81.26,  79.84,  ]);
+				 
+					data.addRow(['fastparse_v2',  77.57,  75.96,  74.04,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  75.41,  64.93,  62.91,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  86.79,  84.62,  82.60,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  5.11,  5.26,  5.23,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.99,  73.01,  71.74,  ]);
+				 
+					data.addRow(['turkunlp_primary',  87.31,  85.83,  84.50,  ]);
+				 
+					data.addRow(['unipi_003',  80.74,  78.82,  72.76,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_[Avg.]_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Arabic - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Arabic_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  74.61,  58.76,  57.19,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  96.12,  67.35,  ]);
+				 
+					data.addRow(['baseline2',  67.77,  65.08,  46.41,  ]);
+				 
+					data.addRow(['baseline3',  67.77,  64.84,  45.16,  ]);
+				 
+					data.addRow(['clasp_004',  78.71,  75.62,  51.26,  ]);
+				 
+					data.addRow(['emorynlp_final2',  74.75,  69.46,  67.26,  ]);
+				 
+					data.addRow(['fastparse_v2',  71.19,  69.24,  66.92,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  67.77,  62.46,  60.84,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  75.54,  72.91,  70.96,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  2.04,  65.18,  63.41,  ]);
+				 
+					data.addRow(['turkunlp_primary',  81.17,  79.67,  77.82,  ]);
+				 
+					data.addRow(['unipi_003',  71.48,  68.66,  57.79,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Arabic_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Bulgarian - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Bulgarian_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  91.19,  77.95,  77.29,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  97.64,  85.82,  ]);
+				 
+					data.addRow(['baseline2',  85.07,  83.11,  73.74,  ]);
+				 
+					data.addRow(['baseline3',  85.07,  82.72,  79.90,  ]);
+				 
+					data.addRow(['clasp_004',  90.20,  87.72,  84.90,  ]);
+				 
+					data.addRow(['emorynlp_final2',  91.77,  88.84,  88.19,  ]);
+				 
+					data.addRow(['fastparse_v2',  86.96,  85.77,  84.86,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  85.07,  70.07,  68.88,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  91.83,  90.40,  89.42,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  1.11,  79.41,  78.67,  ]);
+				 
+					data.addRow(['turkunlp_primary',  92.48,  91.48,  90.73,  ]);
+				 
+					data.addRow(['unipi_003',  88.26,  86.77,  84.93,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Bulgarian_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Czech - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Czech_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  83.47,  68.15,  66.41,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  94.63,  78.44,  ]);
+				 
+					data.addRow(['baseline2',  82.70,  78.74,  65.31,  ]);
+				 
+					data.addRow(['baseline3',  82.70,  79.11,  63.62,  ]);
+				 
+					data.addRow(['clasp_004',  87.21,  83.44,  67.13,  ]);
+				 
+					data.addRow(['emorynlp_final2',  91.91,  86.63,  85.51,  ]);
+				 
+					data.addRow(['fastparse_v2',  81.75,  79.61,  77.21,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  82.70,  64.61,  61.11,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  92.25,  88.38,  86.95,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  1.36,  76.55,  75.43,  ]);
+				 
+					data.addRow(['turkunlp_primary',  90.83,  88.97,  87.51,  ]);
+				 
+					data.addRow(['unipi_003',  89.64,  86.19,  75.99,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Czech_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Dutch - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Dutch_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  85.70,  68.36,  67.67,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  96.85,  82.48,  ]);
+				 
+					data.addRow(['baseline2',  75.17,  73.01,  62.97,  ]);
+				 
+					data.addRow(['baseline3',  75.17,  73.27,  72.65,  ]);
+				 
+					data.addRow(['clasp_004',  82.34,  80.20,  78.93,  ]);
+				 
+					data.addRow(['emorynlp_final2',  86.29,  81.21,  80.72,  ]);
+				 
+					data.addRow(['fastparse_v2',  79.43,  77.99,  77.37,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  75.17,  64.54,  62.93,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  88.05,  86.58,  85.14,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.46,  71.45,  70.94,  ]);
+				 
+					data.addRow(['turkunlp_primary',  87.20,  85.90,  84.73,  ]);
+				 
+					data.addRow(['unipi_003',  80.53,  78.95,  77.62,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Dutch_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing English - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_English_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  85.68,  71.01,  70.44,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  97.24,  84.30,  ]);
+				 
+					data.addRow(['baseline2',  77.93,  75.86,  66.83,  ]);
+				 
+					data.addRow(['baseline3',  77.93,  76.93,  76.16,  ]);
+				 
+					data.addRow(['clasp_004',  84.78,  83.86,  82.87,  ]);
+				 
+					data.addRow(['emorynlp_final2',  88.70,  85.76,  85.30,  ]);
+				 
+					data.addRow(['fastparse_v2',  80.09,  79.21,  78.45,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  77.93,  66.58,  65.37,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  86.94,  86.02,  85.21,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  86.87,  89.35,  88.94,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.94,  72.96,  72.34,  ]);
+				 
+					data.addRow(['turkunlp_primary',  88.97,  87.84,  87.15,  ]);
+				 
+					data.addRow(['unipi_003',  85.10,  84.54,  83.95,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_English_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Estonian - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Estonian_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  84.01,  75.33,  61.12,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  98.16,  76.38,  ]);
+				 
+					data.addRow(['baseline2',  74.13,  72.87,  57.53,  ]);
+				 
+					data.addRow(['baseline3',  74.13,  71.68,  54.34,  ]);
+				 
+					data.addRow(['clasp_004',  82.33,  79.43,  60.44,  ]);
+				 
+					data.addRow(['emorynlp_final2',  84.25,  81.98,  81.36,  ]);
+				 
+					data.addRow(['fastparse_v2',  75.53,  74.98,  74.09,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  74.13,  60.52,  59.07,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  86.20,  84.70,  81.03,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.73,  75.63,  74.91,  ]);
+				 
+					data.addRow(['turkunlp_primary',  85.86,  85.12,  84.54,  ]);
+				 
+					data.addRow(['unipi_003',  63.18,  62.45,  57.24,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Estonian_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Finnish - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Finnish_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  89.03,  73.51,  72.37,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  95.91,  78.26,  ]);
+				 
+					data.addRow(['baseline2',  77.90,  74.91,  61.71,  ]);
+				 
+					data.addRow(['baseline3',  null,  null,  null,  ]);
+				 
+					data.addRow(['clasp_004',  86.79,  83.30,  65.96,  ]);
+				 
+					data.addRow(['emorynlp_final2',  91.84,  83.70,  82.96,  ]);
+				 
+					data.addRow(['fastparse_v2',  79.68,  77.76,  75.73,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  77.90,  68.89,  67.54,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  90.31,  87.79,  86.24,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.66,  76.92,  75.99,  ]);
+				 
+					data.addRow(['turkunlp_primary',  92.50,  90.18,  89.49,  ]);
+				 
+					data.addRow(['unipi_003',  81.25,  79.04,  72.13,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Finnish_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing French - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_French_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  86.55,  75.93,  74.74,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  98.80,  97.49,  ]);
+				 
+					data.addRow(['baseline2',  75.40,  74.53,  71.14,  ]);
+				 
+					data.addRow(['baseline3',  75.40,  74.17,  63.31,  ]);
+				 
+					data.addRow(['clasp_004',  85.02,  84.39,  72.76,  ]);
+				 
+					data.addRow(['emorynlp_final2',  89.33,  88.28,  86.23,  ]);
+				 
+					data.addRow(['fastparse_v2',  80.61,  80.07,  77.77,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  75.40,  69.21,  67.93,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  86.47,  85.81,  83.63,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  2.37,  78.16,  76.99,  ]);
+				 
+					data.addRow(['turkunlp_primary',  87.85,  87.26,  85.90,  ]);
+				 
+					data.addRow(['unipi_003',  82.58,  81.84,  78.85,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_French_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Italian - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Italian_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  92.20,  72.80,  71.98,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  96.96,  80.20,  ]);
+				 
+					data.addRow(['baseline2',  86.21,  83.72,  70.33,  ]);
+				 
+					data.addRow(['baseline3',  86.21,  84.85,  83.03,  ]);
+				 
+					data.addRow(['clasp_004',  90.84,  88.74,  87.14,  ]);
+				 
+					data.addRow(['emorynlp_final2',  93.66,  89.04,  88.52,  ]);
+				 
+					data.addRow(['fastparse_v2',  87.39,  85.93,  84.77,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  86.21,  70.36,  69.08,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  93.09,  91.99,  90.83,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.58,  73.62,  73.08,  ]);
+				 
+					data.addRow(['turkunlp_primary',  93.31,  92.29,  91.54,  ]);
+				 
+					data.addRow(['unipi_003',  90.69,  89.77,  89.14,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Italian_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Latvian - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Latvian_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  86.45,  73.03,  72.41,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  93.59,  79.31,  ]);
+				 
+					data.addRow(['baseline2',  74.25,  70.44,  59.14,  ]);
+				 
+					data.addRow(['baseline3',  null,  null,  null,  ]);
+				 
+					data.addRow(['clasp_004',  84.44,  80.60,  66.01,  ]);
+				 
+					data.addRow(['emorynlp_final2',  85.98,  79.66,  79.19,  ]);
+				 
+					data.addRow(['fastparse_v2',  79.69,  77.15,  75.57,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  74.25,  65.33,  64.75,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  87.96,  84.51,  82.11,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.97,  78.26,  77.77,  ]);
+				 
+					data.addRow(['turkunlp_primary',  88.53,  85.51,  84.94,  ]);
+				 
+					data.addRow(['unipi_003',  81.25,  78.44,  68.23,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Latvian_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Lithuanian - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Lithuanian_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  72.10,  60.37,  58.36,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  94.38,  74.22,  ]);
+				 
+					data.addRow(['baseline2',  60.58,  57.67,  46.78,  ]);
+				 
+					data.addRow(['baseline3',  60.58,  57.66,  44.84,  ]);
+				 
+					data.addRow(['clasp_004',  70.54,  67.37,  52.56,  ]);
+				 
+					data.addRow(['emorynlp_final2',  77.63,  68.24,  66.12,  ]);
+				 
+					data.addRow(['fastparse_v2',  66.29,  63.67,  61.41,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  60.58,  58.44,  56.28,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  81.54,  77.61,  75.89,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  1.17,  69.23,  66.85,  ]);
+				 
+					data.addRow(['turkunlp_primary',  81.85,  79.43,  77.64,  ]);
+				 
+					data.addRow(['unipi_003',  70.76,  67.16,  61.06,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Lithuanian_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Polish - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Polish_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  85.90,  70.85,  65.86,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  95.85,  81.59,  ]);
+				 
+					data.addRow(['baseline2',  82.11,  79.32,  66.38,  ]);
+				 
+					data.addRow(['baseline3',  82.11,  79.78,  65.37,  ]);
+				 
+					data.addRow(['clasp_004',  89.09,  86.71,  71.22,  ]);
+				 
+					data.addRow(['emorynlp_final2',  91.88,  86.79,  82.39,  ]);
+				 
+					data.addRow(['fastparse_v2',  83.38,  81.39,  74.54,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  82.11,  67.73,  61.34,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  92.11,  89.15,  80.39,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  1.42,  75.07,  71.01,  ]);
+				 
+					data.addRow(['turkunlp_primary',  91.82,  89.94,  84.64,  ]);
+				 
+					data.addRow(['unipi_003',  87.53,  84.83,  70.61,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Polish_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Russian - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Russian_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  92.16,  76.02,  75.27,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  96.41,  79.63,  ]);
+				 
+					data.addRow(['baseline2',  85.01,  82.25,  68.33,  ]);
+				 
+					data.addRow(['baseline3',  85.01,  82.46,  67.80,  ]);
+				 
+					data.addRow(['clasp_004',  90.60,  88.02,  70.37,  ]);
+				 
+					data.addRow(['emorynlp_final2',  92.87,  88.93,  88.60,  ]);
+				 
+					data.addRow(['fastparse_v2',  83.24,  81.68,  80.35,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  85.01,  66.65,  64.23,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  93.31,  90.97,  89.84,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.51,  78.62,  78.26,  ]);
+				 
+					data.addRow(['turkunlp_primary',  92.74,  91.57,  90.69,  ]);
+				 
+					data.addRow(['unipi_003',  90.52,  88.34,  76.90,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Russian_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Slovak - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Slovak_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  88.84,  71.02,  68.43,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  95.58,  77.60,  ]);
+				 
+					data.addRow(['baseline2',  75.97,  73.07,  60.02,  ]);
+				 
+					data.addRow(['baseline3',  75.97,  73.26,  58.05,  ]);
+				 
+					data.addRow(['clasp_004',  86.16,  83.31,  65.16,  ]);
+				 
+					data.addRow(['emorynlp_final2',  90.61,  84.73,  82.72,  ]);
+				 
+					data.addRow(['fastparse_v2',  78.26,  76.47,  73.46,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  75.97,  67.25,  64.08,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  89.06,  86.17,  84.36,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  1.35,  75.49,  73.14,  ]);
+				 
+					data.addRow(['turkunlp_primary',  91.57,  89.93,  88.56,  ]);
+				 
+					data.addRow(['unipi_003',  88.95,  85.93,  81.40,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Slovak_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Swedish - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Swedish_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  85.32,  69.42,  68.39,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  95.84,  80.98,  ]);
+				 
+					data.addRow(['baseline2',  74.96,  71.93,  62.18,  ]);
+				 
+					data.addRow(['baseline3',  74.96,  73.44,  71.53,  ]);
+				 
+					data.addRow(['clasp_004',  76.56,  73.84,  71.35,  ]);
+				 
+					data.addRow(['emorynlp_final2',  85.23,  79.11,  78.19,  ]);
+				 
+					data.addRow(['fastparse_v2',  77.61,  76.16,  75.24,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  74.96,  66.09,  64.50,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  85.91,  84.36,  83.27,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.20,  70.77,  69.60,  ]);
+				 
+					data.addRow(['turkunlp_primary',  88.31,  86.76,  85.64,  ]);
+				 
+					data.addRow(['unipi_003',  80.92,  79.90,  78.73,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Swedish_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Tamil - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Tamil_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  59.25,  50.12,  48.47,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  98.86,  76.29,  ]);
+				 
+					data.addRow(['baseline2',  51.96,  52.06,  40.71,  ]);
+				 
+					data.addRow(['baseline3',  51.96,  52.02,  40.25,  ]);
+				 
+					data.addRow(['clasp_004',  55.76,  55.32,  42.15,  ]);
+				 
+					data.addRow(['emorynlp_final2',  58.69,  58.66,  54.26,  ]);
+				 
+					data.addRow(['fastparse_v2',  48.82,  48.07,  46.99,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  51.96,  49.43,  47.44,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  66.23,  65.68,  64.23,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.00,  50.18,  48.20,  ]);
+				 
+					data.addRow(['turkunlp_primary',  59.66,  59.58,  57.83,  ]);
+				 
+					data.addRow(['unipi_003',  54.69,  54.59,  48.50,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Tamil_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		   //1
+		
+		 	//2
+			
+			<!-- starting processing Ukrainian - coarse - -->
+			
+			
+				var data = new google.visualization.DataTable();
+			
+				var chart = new google.visualization.Table(document.getElementById('chart_lang_Ukrainian_coarse'));
+			 	//# create columns 
+				data.addColumn('string', 'team');
+				 
+				
+				 	data.addColumn('number','LAS (%)');
+				
+				 	data.addColumn('number','EULAS (%)');
+				
+				 	data.addColumn('number','ELAS (%)');
+				
+				
+				//# add rows
+				 
+					data.addRow(['adapt_test',  87.08,  67.55,  66.43,  ]);
+				 
+					data.addRow(['baseline1',  100.00,  95.46,  77.24,  ]);
+				 
+					data.addRow(['baseline2',  74.83,  71.98,  58.73,  ]);
+				 
+					data.addRow(['baseline3',  74.83,  71.46,  56.92,  ]);
+				 
+					data.addRow(['clasp_004',  83.86,  81.24,  63.24,  ]);
+				 
+					data.addRow(['emorynlp_final2',  88.91,  80.34,  79.69,  ]);
+				 
+					data.addRow(['fastparse_v2',  78.73,  76.23,  74.02,  ]);
+				 
+					data.addRow(['koebsala_udpipe_test',  74.83,  65.60,  64.17,  ]);
+				 
+					data.addRow(['orange_deskin_test_02',  88.59,  85.46,  84.64,  ]);
+				 
+					data.addRow(['robertnlp_mainsubmission',  null,  null,  null,  ]);
+				 
+					data.addRow(['shanghaitech_alibaba_sub10',  0.94,  73.74,  72.98,  ]);
+				 
+					data.addRow(['turkunlp_primary',  89.68,  87.65,  87.22,  ]);
+				 
+					data.addRow(['unipi_003',  85.23,  82.51,  73.90,  ]);
+					
+				
+			    var formatter = new google.visualization.ColorFormat();
+			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
+			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
+			      formatter.format(data,1);
+			      formatter.format(data,2);
+			      formatter.format(data,3);
+
+
+		      var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+		      formatter.format(data,1);
+		      formatter.format(data,2);
+		      formatter.format(data,3);
+
+			  chart.draw(data, {width: '60em', allowHtml: true});
+			  
+
+	      var synthesis = google.visualization.data.group(
+	  						 data,
+	  						 [0],
+	         [{'column': 1, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 2, 'aggregation': google.visualization.data.max, 'type': 'number'},
+	          {'column': 3, 'aggregation': google.visualization.data.max, 'type': 'number'}
+	         ]
+	      );
+	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Ukrainian_coarse'));
+	      chart.draw(synthesis, {width: 1200,height: 600});
+
+				 
+			//2
+		 //1
+		  
+		
+		 // DEBUG_HERE
+ 		 //3
+ 		       var data = new google.visualization.DataTable();
+
+ 		       data.addColumn('string', 'team / ELAS (%)');
+ 			   var lang_counter=0;
+ 			   
+ 		       		data.addColumn('number', '[Avg.]');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Arabic');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Bulgarian');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Czech');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Dutch');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'English');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Estonian');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Finnish');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'French');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Italian');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Latvian');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Lithuanian');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Polish');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Russian');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Slovak');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Swedish');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Tamil');
+ 					lang_counter++;
+ 				
+ 		       		data.addColumn('number', 'Ukrainian');
+ 					lang_counter++;
+ 				
+ 		 //      data.addColumn('number', 'ACC (%, avg)');
+ 		 //      data.addColumn('number', 'LAS (%, avg2)');
+		 
+		 
+ 		//# add rows
+ 	 		  //4
+ 	 			data.addRow(['adapt_test',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.23,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					57.19,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.29,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.41,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.67,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					70.44,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					61.12,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.37,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					74.74,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					71.98,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.41,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					58.36,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					65.86,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.27,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					68.43,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					68.39,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					48.47,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.43,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['baseline1',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					79.86,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.35,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					85.82,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.44,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					82.48,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.30,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					76.38,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.26,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					97.49,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					80.20,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					79.31,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					74.22,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					81.59,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					79.63,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.60,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					80.98,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					76.29,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.24,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['baseline2',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					61.07,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					46.41,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					73.74,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					65.31,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					62.97,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.83,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					57.53,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					61.71,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					71.14,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					70.33,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					59.14,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					46.78,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.38,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					68.33,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					60.02,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					62.18,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					40.71,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					58.73,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['baseline3',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					55.47,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					45.16,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					79.90,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					63.62,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.65,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					76.16,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					54.34,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					63.31,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					83.03,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					44.84,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					65.37,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.80,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					58.05,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					71.53,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					40.25,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					56.92,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['clasp_004',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.85,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					51.26,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.90,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.13,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.93,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					82.87,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					60.44,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					65.96,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.76,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					87.14,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.01,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					52.56,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					71.22,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					70.37,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					65.16,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					71.35,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					42.15,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					63.24,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['emorynlp_final2',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					79.84,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.26,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					88.19,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					85.51,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					80.72,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					85.30,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					81.36,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					82.96,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					86.23,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					88.52,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					79.19,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.12,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					82.39,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					88.60,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					82.72,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.19,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					54.26,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					79.69,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['fastparse_v2',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					74.04,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.92,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.86,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.21,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.37,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.45,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					74.09,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.73,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.77,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.77,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.57,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					61.41,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					74.54,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					80.35,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					73.46,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.24,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					46.99,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					74.02,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['koebsala_udpipe_test',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					62.91,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					60.84,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					68.88,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					61.11,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					62.93,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					65.37,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					59.07,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.54,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					67.93,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					69.08,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					64.75,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					56.28,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					61.34,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					64.23,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					64.08,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					64.50,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					47.44,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					64.17,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['orange_deskin_test_02',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					82.60,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					70.96,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					89.42,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					86.95,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					85.14,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					85.21,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					81.03,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					86.24,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					83.63,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					90.83,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					82.11,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.89,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					80.39,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					89.84,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.36,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					83.27,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					64.23,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.64,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['robertnlp_mainsubmission',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					5.23,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					88.94,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					null,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['shanghaitech_alibaba_sub10',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					71.74,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					63.41,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.67,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.43,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					70.94,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.34,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					74.91,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.99,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					76.99,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					73.08,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.77,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					66.85,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					71.01,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.26,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					73.14,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					69.60,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					48.20,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.98,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['turkunlp_primary',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.50,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.82,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					90.73,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					87.51,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.73,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					87.15,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.54,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					89.49,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					85.90,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					91.54,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.94,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.64,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.64,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					90.69,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					88.56,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					85.64,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					57.83,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					87.22,
+ 				
+ 				]);
+				
+			  //4
+ 	 			data.addRow(['unipi_003',
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.76,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					57.79,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					84.93,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					75.99,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					77.62,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					83.95,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					57.24,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					72.13,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.85,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					89.14,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					68.23,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					61.06,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					70.61,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					76.90,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					81.40,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					78.73,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					48.50,
+ 				 // the horror, Mresults != lang bc of the debugging
+ 					73.90,
+ 				
+ 				]);
+				
+			 //4 #foreach t	
+				
+ 			 //3 # foreach m1 #3
+		
+		 <!-- here end displays synthesis per page -->		 
+ 	     var formatter = new google.visualization.ColorFormat();
+ 	       formatter.addGradientRange(85,100,'white','#7BB77E','#37B73D');
+ 	       formatter.addGradientRange(70,85,'white','#F48404','#F2D9AE');
+ 		   var i;
+ 		   for (i = 0; i < lang_counter+1; i++) { // team col + nb of langages
+ 			   formatter.format(data,i);
+ 			}   
+
+
+ 	       var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
+ 		   for (i = 0; i < lang_counter+1; i++) { 
+ 			   formatter.format(data,i);
+ 			}   
+
+ 	     var chart = new google.visualization.Table(document.getElementById('chart_synthesis_coarse'));
+ 	     chart.draw(data, {width: '600em', allowHtml: true});
+
+
+		 // printing synthesis graphic
+		 
+		 
+//		 var data = new google.visualization.DataTable();
+		 var data = transposeDateDataTable(data)
+		
+
+
+
+
+		 var chart = new google.visualization.LineChart(document.getElementById('chart_synthesis_scatter_coarse'));
+		 chart.draw(data, {width: 1200, pointSize: 10, lineWidth: 0, height: 800, 
+		 vAxis: { title: 'ELAS (%)', gridlines: { count: -1}, minorGridlines: {count: 1}}, 
+		 hAxis: {title: '', slantedText:true, slantedTextAngle:45 }, series: {0: {lineWidth: 2, pointSize: 0, visibleInLegend: false }}});
+
+
+		 
+	 }// end drawTables
+	 
+	 
+	 
+	 function transposeDateDataTable (dataTable) {
+
+	     // Create new datatable
+
+	     var newDataTable = new google.visualization.DataTable ();
+
+	     // Add first column from original datatable
+
+	     newDataTable.addColumn ('string', dataTable.getColumnLabel (0));
+
+	     // Convert column labels to row labels
+
+	     for (var x=1; x < dataTable.getNumberOfColumns (); x++) {
+	         var label = dataTable.getColumnLabel (x);
+	         newDataTable.addRow ([label]);
+	     }
+
+	     // Convert row labels and data to columns
+
+	     for (var x=0; x < dataTable.getNumberOfRows (); x++) {
+	         newDataTable.addColumn ('number', dataTable.getValue (x, 0)); // Use first column date as label
+	         for (var y=1; y < dataTable.getNumberOfColumns (); y++) {
+	             newDataTable.setValue (y-1, x+1, dataTable.getValue (x, y));
+	         }
+	     }
+
+	     return newDataTable;
+
+	 }// end of transpose
+   </script>
+    
+  </head>
+
+  <body>
+    <h1> IWPT EUD  Parsing Results Overview Charts (coarse F1 scores - official)  </h1>
+	 <i> (20/05/26 23:41:07)</i><br>
+
+    <div id="tabs">
+      <ul>
+
+        <li><a href="#tabs-[Avg.]">[Avg.]</a></li>
+
+        <li><a href="#tabs-Arabic">Arabic</a></li>
+
+        <li><a href="#tabs-Bulgarian">Bulgarian</a></li>
+
+        <li><a href="#tabs-Czech">Czech</a></li>
+
+        <li><a href="#tabs-Dutch">Dutch</a></li>
+
+        <li><a href="#tabs-English">English</a></li>
+
+        <li><a href="#tabs-Estonian">Estonian</a></li>
+
+        <li><a href="#tabs-Finnish">Finnish</a></li>
+
+        <li><a href="#tabs-French">French</a></li>
+
+        <li><a href="#tabs-Italian">Italian</a></li>
+
+        <li><a href="#tabs-Latvian">Latvian</a></li>
+
+        <li><a href="#tabs-Lithuanian">Lithuanian</a></li>
+
+        <li><a href="#tabs-Polish">Polish</a></li>
+
+        <li><a href="#tabs-Russian">Russian</a></li>
+
+        <li><a href="#tabs-Slovak">Slovak</a></li>
+
+        <li><a href="#tabs-Swedish">Swedish</a></li>
+
+        <li><a href="#tabs-Tamil">Tamil</a></li>
+
+        <li><a href="#tabs-Ukrainian">Ukrainian</a></li>
+
+       <li><a href="#tabs-synthesis">Synthesis</a></li> 
+      </ul>  
+  	
+  		<div id="tabs-[Avg.]">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-[Avg.]-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-[Avg.]-coarse">
+  			             <div id="chart_lang_[Avg.]_coarse"></div>
+  			             <div id="chart_bar_lang_[Avg.]_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-[Avg.]" -->
+    
+  		<div id="tabs-Arabic">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Arabic-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Arabic-coarse">
+  			             <div id="chart_lang_Arabic_coarse"></div>
+  			             <div id="chart_bar_lang_Arabic_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Arabic" -->
+    
+  		<div id="tabs-Bulgarian">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Bulgarian-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Bulgarian-coarse">
+  			             <div id="chart_lang_Bulgarian_coarse"></div>
+  			             <div id="chart_bar_lang_Bulgarian_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Bulgarian" -->
+    
+  		<div id="tabs-Czech">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Czech-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Czech-coarse">
+  			             <div id="chart_lang_Czech_coarse"></div>
+  			             <div id="chart_bar_lang_Czech_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Czech" -->
+    
+  		<div id="tabs-Dutch">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Dutch-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Dutch-coarse">
+  			             <div id="chart_lang_Dutch_coarse"></div>
+  			             <div id="chart_bar_lang_Dutch_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Dutch" -->
+    
+  		<div id="tabs-English">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-English-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-English-coarse">
+  			             <div id="chart_lang_English_coarse"></div>
+  			             <div id="chart_bar_lang_English_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-English" -->
+    
+  		<div id="tabs-Estonian">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Estonian-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Estonian-coarse">
+  			             <div id="chart_lang_Estonian_coarse"></div>
+  			             <div id="chart_bar_lang_Estonian_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Estonian" -->
+    
+  		<div id="tabs-Finnish">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Finnish-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Finnish-coarse">
+  			             <div id="chart_lang_Finnish_coarse"></div>
+  			             <div id="chart_bar_lang_Finnish_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Finnish" -->
+    
+  		<div id="tabs-French">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-French-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-French-coarse">
+  			             <div id="chart_lang_French_coarse"></div>
+  			             <div id="chart_bar_lang_French_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-French" -->
+    
+  		<div id="tabs-Italian">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Italian-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Italian-coarse">
+  			             <div id="chart_lang_Italian_coarse"></div>
+  			             <div id="chart_bar_lang_Italian_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Italian" -->
+    
+  		<div id="tabs-Latvian">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Latvian-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Latvian-coarse">
+  			             <div id="chart_lang_Latvian_coarse"></div>
+  			             <div id="chart_bar_lang_Latvian_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Latvian" -->
+    
+  		<div id="tabs-Lithuanian">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Lithuanian-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Lithuanian-coarse">
+  			             <div id="chart_lang_Lithuanian_coarse"></div>
+  			             <div id="chart_bar_lang_Lithuanian_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Lithuanian" -->
+    
+  		<div id="tabs-Polish">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Polish-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Polish-coarse">
+  			             <div id="chart_lang_Polish_coarse"></div>
+  			             <div id="chart_bar_lang_Polish_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Polish" -->
+    
+  		<div id="tabs-Russian">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Russian-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Russian-coarse">
+  			             <div id="chart_lang_Russian_coarse"></div>
+  			             <div id="chart_bar_lang_Russian_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Russian" -->
+    
+  		<div id="tabs-Slovak">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Slovak-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Slovak-coarse">
+  			             <div id="chart_lang_Slovak_coarse"></div>
+  			             <div id="chart_bar_lang_Slovak_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Slovak" -->
+    
+  		<div id="tabs-Swedish">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Swedish-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Swedish-coarse">
+  			             <div id="chart_lang_Swedish_coarse"></div>
+  			             <div id="chart_bar_lang_Swedish_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Swedish" -->
+    
+  		<div id="tabs-Tamil">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Tamil-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Tamil-coarse">
+  			             <div id="chart_lang_Tamil_coarse"></div>
+  			             <div id="chart_bar_lang_Tamil_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Tamil" -->
+    
+  		<div id="tabs-Ukrainian">
+  	        <ul>
+  			
+  	        	<li><a href="#tabs-Ukrainian-coarse">coarse</a></li>
+  			
+  	        </ul>
+	
+  			
+  			        <div id="tabs-Ukrainian-coarse">
+  			             <div id="chart_lang_Ukrainian_coarse"></div>
+  			             <div id="chart_bar_lang_Ukrainian_coarse"></div>
+  			        </div>
+  			
+	  		</div> <!-- id="tabs-Ukrainian" -->
+     <!-- foreach language -->    
+	
+     
+	  
+
+
+     <div id="tabs-synthesis">
+        <ul>
+
+           <li><a href="#tabs-synthesis-coarse">coarse</a></li>
+
+       </ul>
+  
+	   
+	           <div id="tabs-synthesis-coarse">
+	                <div id="chart_synthesis_coarse"></div>
+	                <div id="chart_synthesis_scatter_coarse"></div>
+	           </div><!-- div id="tabs-synthesis-coarse" -->
+
+	   
+	  </div> <!-- div id="tabs" -->
+    </body>
+
+  <html>

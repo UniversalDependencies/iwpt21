@@ -1,0 +1,10 @@
+sk-datasplit-fix
+UD_*
+archive
+dev-blind
+dev-gold
+test-blind
+test-gold
+iwpt2020-*.tgz
+sysoutputs
+
