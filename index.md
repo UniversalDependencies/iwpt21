@@ -14,7 +14,7 @@ shared tasks on UD parsing. In
 [2020](https://universaldependencies.org/iwpt20/) there was the first shared
 task on parsing enhanced UD, organized as a part of IWPT 2020. The current
 task is second in a row, organized as a part of the 17th [International
-Conference on Parsing Technologies (IWPT)](https://iwpt20.sigparse.org/),
+Conference on Parsing Technologies (IWPT)](https://iwpt21.sigparse.org/),
 to be collocated with [ACL-IJCNLP 2021](https://2021.aclweb.org/) in Bangkok,
 Thailand.
 
