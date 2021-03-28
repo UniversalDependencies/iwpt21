@@ -72,10 +72,10 @@ find_dev_txt     = $(wildcard UD_$(tbk)/*-dev.txt)
 find_dev_conllu  = $(wildcard UD_$(tbk)/*-dev.conllu)
 find_test_txt    = $(wildcard UD_$(tbk)/*-test.txt)
 find_test_conllu = $(wildcard UD_$(tbk)/*-test.conllu)
-dev_txt_merge     := $(foreach ll,$(LCODES),./mergetest.pl dev-blind/$(ll).txt $(foreach tbk,$(TBKS_$(ll)),$(find_dev_txt)) ;)
-dev_conllu_merge  := $(foreach ll,$(LCODES),./mergetest.pl dev-gold/$(ll).conllu $(foreach tbk,$(TBKS_$(ll)),$(find_dev_conllu)) ;)
-test_txt_merge    := $(foreach ll,$(LCODES),./mergetest.pl test-blind/$(ll).txt $(foreach tbk,$(TBKS_$(ll)),$(find_test_txt)) ;)
-test_conllu_merge := $(foreach ll,$(LCODES),./mergetest.pl test-gold/$(ll).conllu $(foreach tbk,$(TBKS_$(ll)),$(find_test_conllu)) ;)
+dev_txt_merge     := $(foreach ll,$(LCODES),../tools/mergetest.pl dev-blind/$(ll).txt $(foreach tbk,$(TBKS_$(ll)),$(find_dev_txt)) ;)
+dev_conllu_merge  := $(foreach ll,$(LCODES),../tools/mergetest.pl dev-gold/$(ll).conllu $(foreach tbk,$(TBKS_$(ll)),$(find_dev_conllu)) ;)
+test_txt_merge    := $(foreach ll,$(LCODES),../tools/mergetest.pl test-blind/$(ll).txt $(foreach tbk,$(TBKS_$(ll)),$(find_test_txt)) ;)
+test_conllu_merge := $(foreach ll,$(LCODES),../tools/mergetest.pl test-gold/$(ll).conllu $(foreach tbk,$(TBKS_$(ll)),$(find_test_conllu)) ;)
 
 mergetest:
 	rm -rf dev-blind
