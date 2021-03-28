@@ -93,17 +93,17 @@ mergetest:
 
 pack:
 	rm -f *.tgz
-	tar czf iwpt2020-train-dev.tgz train-dev
-	cd dev-gold ; tar czf ../iwpt2020-dev-gold.tgz *.conllu
-	cd dev-blind ; tar czf ../iwpt2020-dev-blind.tgz *.txt
-	cd test-gold ; tar czf ../iwpt2020-test-gold.tgz *.conllu
-	cd test-blind ; tar czf ../iwpt2020-test-blind.tgz *.txt
+	tar czf iwpt2021-train-dev.tgz train-dev
+	cd dev-gold ; tar czf ../iwpt2021-dev-gold.tgz *.conllu
+	cd dev-blind ; tar czf ../iwpt2021-dev-blind.tgz *.txt
+	cd test-gold ; tar czf ../iwpt2021-test-gold.tgz *.conllu
+	cd test-blind ; tar czf ../iwpt2021-test-blind.tgz *.txt
 
 # Make the training and development data available for download.
 publish:
-	publish iwpt2020-train-dev.tgz
-	publish iwpt2020-dev-gold.tgz
-	publish iwpt2020-dev-blind.tgz
+	publish iwpt2021-train-dev.tgz
+	publish iwpt2021-dev-gold.tgz
+	publish iwpt2021-dev-blind.tgz
 	@echo Do not forget to archive the current version before it is overwritten next time.
 	date
 
