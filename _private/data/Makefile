@@ -1,9 +1,9 @@
 SHELL=/bin/bash
-FROMUD25=Dutch-Alpino Dutch-LassySmall English-EWT English-PUD Swedish-PUD Swedish-Talbanken
-FROMDEV=Arabic-PADT Czech-CAC Czech-FicTree Czech-PDT Czech-PUD Lithuanian-ALKSNIS Slovak-SNK Tamil-TTB
-FROMFORK=Bulgarian-BTB Estonian-EDT Estonian-EWT Finnish-PUD Finnish-TDT Italian-ISDT Latvian-LVTB Polish-LFG Polish-PDB Polish-PUD Russian-SynTagRus Ukrainian-IU
+FROMUD27=Arabic-PADT Czech-CAC Czech-FicTree Czech-PDT Czech-PUD Dutch-Alpino Dutch-LassySmall English-EWT English-PUD Italian-ISDT Lithuanian-ALKSNIS Slovak-SNK Swedish-PUD Swedish-Talbanken
+FROMDEV=Tamil-TTB
+FROMFORK=Bulgarian-BTB Estonian-EDT Estonian-EWT Finnish-PUD Finnish-TDT Latvian-LVTB Polish-LFG Polish-PDB Polish-PUD Russian-SynTagRus Ukrainian-IU
 FROMFRENCH=French-FQB French-Sequoia
-ALL=$(FROMUD25) $(FROMDEV) $(FROMFORK) $(FROMFRENCH)
+ALL=$(FROMUD27) $(FROMDEV) $(FROMFORK) $(FROMFRENCH)
 UDDIR=/net/work/people/zeman/unidep
 LCODES=ar bg cs nl en et fi fr it lv lt pl ru sk sv ta uk
 TBKS_ar=Arabic-PADT
@@ -29,7 +29,7 @@ dirs:
 
 fetch:
 	for i in $(ALL) ; do rm -f UD_$$i/* ; done
-	for i in $(FROMUD25) ; do srcdir=$(UDDIR)/UD_$$i ; pushd $$srcdir ; git checkout master ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; pushd $$srcdir ; git checkout dev ; popd ; ls -al UD_$$i | grep conllu ; done
+	for i in $(FROMUD27) ; do srcdir=$(UDDIR)/UD_$$i ; pushd $$srcdir ; git checkout master ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; pushd $$srcdir ; git checkout dev ; popd ; ls -al UD_$$i | grep conllu ; done
 	for i in $(FROMDEV)  ; do srcdir=$(UDDIR)/UD_$$i ; pushd $$srcdir ; git pull --no-edit ; git checkout dev ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; ls -al UD_$$i | grep conllu ; done
 	for i in $(FROMFORK) ; do srcdir=$(UDDIR)/forks/UD_$$i ; pushd $$srcdir ; git pull --no-edit ; git checkout enhanced ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; ls -al UD_$$i | grep conllu ; done
 	cp $(UDDIR)/forks/french/fr_fqb-ud-*.conllu $(UDDIR)/forks/french/README* UD_French-FQB ; ls -al UD_French-FQB | grep conllu
