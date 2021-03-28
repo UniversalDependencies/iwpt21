@@ -1,0 +1,24 @@
+SHELL=/bin/bash
+SRCDIR=/net/data/universal-dependencies-2.7
+
+TREEBANKS=UD_Arabic-PADT UD_Bulgarian-BTB UD_Czech-CAC UD_Czech-FicTree UD_Czech-PDT UD_Czech-PUD UD_Dutch-Alpino UD_Dutch-LassySmall UD_English-EWT UD_English-PUD UD_Estonian-EDT UD_Estonian-EWT UD_Finnish-PUD UD_Finnish-TDT UD_Italian-ISDT UD_Latvian-LVTB UD_Lithuanian-ALKSNIS UD_Polish-LFG UD_Polish-PDB UD_Polish-PUD UD_Russian-SynTagRus UD_Slovak-SNK UD_Swedish-PUD UD_Swedish-Talbanken UD_Tamil-TTB UD_Ukrainian-IU
+
+TRAINDEVDATA=$(foreach treebank,$(TREEBANKS),data/traindev/$(treebank))
+TESTDATA=$(foreach treebank,$(TREEBANKS),data/test/$(treebank))
+
+treebanks: $(TRAINDEVDATA) $(TESTDATA)
+
+# compgen is a bash command. Its exit status is 1 if no match, 0 if one or more matches, STDOUT is the list of matches. The wildcard must be escaped so that compgen sees it.
+data/traindev/UD_%:
+	if compgen -G "$(SRCDIR)/$(@F)/*-train.conllu" > /dev/null ; then \
+	    mkdir -p $@ ; \
+	    cp $(SRCDIR)/$(@F)/*-{train,dev}.conllu $@ ; \
+	fi
+
+data/test/UD_%:
+	mkdir -p $@
+	cp $(SRCDIR)/$(@F)/*-test.conllu $@
+
+clean:
+	rm -rf data
+
