@@ -92,7 +92,7 @@ mergetest:
 	$(test_conllu_merge)
 
 pack:
-	rm -f *.tgz
+	rm -f ./iwpt2021-*.tgz
 	tar czf iwpt2021-train-dev.tgz train-dev
 	cd dev-gold ; tar czf ../iwpt2021-dev-gold.tgz *.conllu
 	cd dev-blind ; tar czf ../iwpt2021-dev-blind.tgz *.txt
