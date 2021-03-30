@@ -105,7 +105,7 @@ publish:
 	publish iwpt2021-dev-gold.tgz
 	publish iwpt2021-dev-blind.tgz
 	@echo Do not forget to archive the current version before it is overwritten next time.
-	@echo mkdir -p archive/`date +%F` ; cp iwpt2021-*.tgz archive/`date +%F`
+	@echo mkdir -p archive/`date +%F` ';' cp iwpt2021-*.tgz archive/`date +%F`
 	date
 
 # Baseline 1: Take gold-standard annotation, replace the enhanced graph with the basic tree.
