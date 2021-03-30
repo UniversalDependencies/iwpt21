@@ -52,6 +52,7 @@ ls:
 validate1:
 	for i in UD_*/*.conllu ; do echo $$i ; validate.py --lang ud --level 1 $$i ; done
 
+# make validate2 |& tee validate.log
 validate2:
 	for i in UD_*/*.conllu ; do echo $$i ; validate.py --lang ud --level 2 $$i ; done
 
