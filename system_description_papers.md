@@ -8,7 +8,7 @@ title: System Description Papers
 Each team which has submitted a system that has produced valid results is invited to submit a system description paper. 
 
 
-Presentation details are not yet fixed at the moment. We will follow IWPT2020 and ACL2020's recommendations. 
+Presentation details are not yet fixed at the moment. We will follow IWPT2021 and ACL2021's recommendations. 
 
 # Format and length
 
