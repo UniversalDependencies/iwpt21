@@ -1,6 +1,6 @@
 ---
 layout: page
-title: IWPT 2020 Shared Task – Data
+title: IWPT 2021 Shared Task – Data
 ---
 
 # Shared Task Data
@@ -33,7 +33,5 @@ what data can be used in the shared task.
 
 ## Change Log
 
-* 2020-03-21 16:12 UTC+1: Minor fix in UD_Estonian-EDT/et_edt-ud-train.txt
-* 2020-03-17 22:12 UTC+1: Updated Estonian data; fixed SpaceAfter=No issues in UD_Czech-PDT, UD_English-EWT, UD_Latvian-LVTB and UD_Swedish-Talbanken.
-* 2020-02-06 16:14 UTC+1: Updated UD_Russian-SynTagRus.
-* 2020-02-04 15:18 UTC+1: The first train-dev package prepared.
+
+* 2021-04-03 15:18 UTC+1: The first train-dev package prepared.
