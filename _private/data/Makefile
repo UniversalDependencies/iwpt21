@@ -28,6 +28,10 @@ TBKS_uk=Ukrainian-IU
 dirs:
 	for i in $(ALL) ; do echo $$i ; mkdir -p UD_$$i ; done
 
+rename_french_files:
+	cd $(UDDIR)/forks/$(FRENCHDIR)/UD_French-FQB ; for i in *.fulldeps.conllu.without_canonical_func.connlu ; do echo $$i ; mv $$i `basename $$i .fulldeps.conllu.without_canonical_func.connlu`.conllu ; done
+	cd $(UDDIR)/forks/$(FRENCHDIR)/UD_French-Sequoia ; for i in *.fulldeps.conllu.without_canonical_func.connlu ; do echo $$i ; mv $$i `basename $$i .fulldeps.conllu.without_canonical_func.connlu`.conllu ; done
+
 fetch:
 	for i in $(ALL) ; do rm -f UD_$$i/* ; done
 	for i in $(FROMUD27) ; do srcdir=$(UDDIR)/UD_$$i ; pushd $$srcdir ; git checkout master ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; pushd $$srcdir ; git checkout dev ; popd ; ls -al UD_$$i | grep conllu ; done
