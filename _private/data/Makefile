@@ -5,6 +5,7 @@ FROMFORK=Estonian-EDT Estonian-EWT Finnish-PUD Finnish-TDT Latvian-LVTB Polish-L
 FROMFRENCH=French-FQB French-Sequoia
 ALL=$(FROMUD27) $(FROMDEV) $(FROMFORK) $(FROMFRENCH)
 UDDIR=/net/work/people/zeman/unidep
+FRENCHDIR=4Dan_IWPT2021_FrenchData/4Dan_IWPT2021_FrenchData.bad
 LCODES=ar bg cs nl en et fi fr it lv lt pl ru sk sv ta uk
 TBKS_ar=Arabic-PADT
 TBKS_bg=Bulgarian-BTB
@@ -27,13 +28,17 @@ TBKS_uk=Ukrainian-IU
 dirs:
 	for i in $(ALL) ; do echo $$i ; mkdir -p UD_$$i ; done
 
+rename_french_files:
+	cd $(UDDIR)/forks/$(FRENCHDIR)/UD_French-FQB ; for i in *.fulldeps.conllu.without_canonical_func.connlu ; do echo $$i ; mv $$i `basename $$i .fulldeps.conllu.without_canonical_func.connlu`.conllu ; done
+	cd $(UDDIR)/forks/$(FRENCHDIR)/UD_French-Sequoia ; for i in *.fulldeps.conllu.without_canonical_func.connlu ; do echo $$i ; mv $$i `basename $$i .fulldeps.conllu.without_canonical_func.connlu`.conllu ; done
+
 fetch:
 	for i in $(ALL) ; do rm -f UD_$$i/* ; done
 	for i in $(FROMUD27) ; do srcdir=$(UDDIR)/UD_$$i ; pushd $$srcdir ; git checkout master ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; pushd $$srcdir ; git checkout dev ; popd ; ls -al UD_$$i | grep conllu ; done
 	for i in $(FROMDEV)  ; do srcdir=$(UDDIR)/UD_$$i ; pushd $$srcdir ; git pull --no-edit ; git checkout dev ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; ls -al UD_$$i | grep conllu ; done
 	for i in $(FROMFORK) ; do srcdir=$(UDDIR)/forks/UD_$$i ; pushd $$srcdir ; git pull --no-edit ; git checkout enhanced ; popd ; cp $$srcdir/*.conllu $$srcdir/README* $$srcdir/LICENSE* UD_$$i ; ls -al UD_$$i | grep conllu ; done
-	cp $(UDDIR)/forks/french/fr_fqb-ud-*.conllu $(UDDIR)/forks/french/README* UD_French-FQB ; ls -al UD_French-FQB | grep conllu
-	cp $(UDDIR)/forks/french/fr_sequoia-ud-*.conllu $(UDDIR)/forks/french/README* UD_French-Sequoia ; ls -al UD_French-Sequoia | grep conllu
+	cp $(UDDIR)/forks/$(FRENCHDIR)/UD_French-FQB/fr_fqb-ud-*.conllu $(UDDIR)/forks/$(FRENCHDIR)/UD_French-FQB/README* UD_French-FQB ; ls -al UD_French-FQB | grep conllu
+	cp $(UDDIR)/forks/$(FRENCHDIR)/UD_French-Sequoia/fr_sequoia-ud-*.conllu $(UDDIR)/forks/$(FRENCHDIR)/UD_French-Sequoia/README* UD_French-Sequoia ; ls -al UD_French-Sequoia | grep conllu
 	cat UD_Czech-PDT/cs_pdt-ud-train-*.conllu > UD_Czech-PDT/cs_pdt-ud-train.conllu
 	rm UD_Czech-PDT/cs_pdt-ud-train-*.conllu
 	ls -al UD_Czech-PDT | grep conllu
