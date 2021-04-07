@@ -3,6 +3,13 @@ layout: page
 title: IWPT 2021 Shared Task – Data
 ---
 
+# Shared Task Data
+
+The training, development and evaluation data sets that were used in the
+shared task are now publicly available for download in
+[Lindat](http://hdl.handle.net/11234/1-3238). The package also includes
+scripts used during the shared task by the organizing team, as well as
+the primary submissions (parsed data) of each participating team.
 
 ## Training and Development Data
 
@@ -16,7 +23,8 @@ systems should expect as input. Some folders do not contain data because
 the corresponding UD treebank contains only test data and no training
 data. Participants can expect that data from such treebanks will be part
 of the evaluation; while they cannot use the actual data from those treebanks
-to train their systems, they may use the information from the README files (e.g. to learn what
+to train their systems,
+they may use the information from the README files (e.g. to learn what
 genres the treebank contains). There is always at least one other treebank
 for the same language that has training data.
 
