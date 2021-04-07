@@ -23,6 +23,12 @@ for the same language that has training data.
 See the [task description](task_and_evaluation.html) for more details on
 what data can be used in the shared task.
 
+Data are available here 
+
+[Train data](http://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-train-dev.tgz)
+[Dev data](http://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-dev-gold.tgz)
+[Dev blind data](http://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-dev-blind.tgz)
+
 ## Change Log
 
 
