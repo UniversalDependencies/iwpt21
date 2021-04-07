@@ -9,11 +9,11 @@ We do not have gold-standard annotation of all [enhancement types](https://unive
 
 | Language    | ar  | bg  | cs  | nl  | en  | et  | fi  | fr  | it  | lv  | lt  | pl  | ru  | sk  | sv  | ta  | uk  |
 |-------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-| Gapping     | yes | yes | yes | yes | yes | yes | yes |     | yes | yes | yes | prt | yes | yes | yes |     | yes |
+| Gapping     | yes |     | yes | yes | yes | yes | yes |     | yes | yes | yes | prt | yes | yes | yes |     | yes |
 | CoordParent | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes |
 | CoordDep    | yes | yes | prt | yes | yes | prt | prt | yes | yes | yes | yes | yes |     | yes | yes | yes | yes |
 | XSubject    |     | yes | yes | yes | yes |     | prt | yes | yes | yes | yes | yes | yes | yes | yes |     | yes |
-| RelClause   | yes | yes | yes | yes | yes | yes | yes |     | yes | yes | yes | yes | yes | yes | yes |     | yes |
+| RelClause   | yes | yes | yes | yes | yes | yes | yes |     | yes | yes | yes | yes | yes | yes | yes | yes | yes |
 | CaseDeprel  | yes | yes | yes | yes | yes | yes | yes |     | yes | yes | yes | yes | yes | yes | yes | yes | yes |
 
 
@@ -23,4 +23,5 @@ Note that even within one enhancement type, there are differences in the annotat
 
 * In the instances of gapping, some languages have empty nodes but the relation between the empty node and its argument is just “dep”, although ideally it should be “nsubj”, “obj”, “obl” etc.
 * The case-enhanced deprels (relation types) contain both the morphological case and the preposition in some languages, while they contain only the preposition in others. In some languages, conj relations are similarly enhanced with the conjunction lemma, although this is not described in the EUD guidelines.
-* Some languages contain additional subtypes of the dependency relation types that are not used in the basic tree. An example is “nsubj:xsubj” for the external subject of xcomp infinitives. A special case is French where the data also encode diathesis normalization as described by Candito et al. (2017). This information is encoded as relation subtypes in a somewhat cryptic way so that the file is formally valid CoNLL-U.
+* Some languages contain additional subtypes of the dependency relation types that are not used in the basic tree. An example is “nsubj:xsubj” for the external subject of xcomp infinitives.
+  <!-- A special case is French where the data also encode diathesis normalization as described by Candito et al. (2017). This information is encoded as relation subtypes in a somewhat cryptic way so that the file is formally valid CoNLL-U. -->
