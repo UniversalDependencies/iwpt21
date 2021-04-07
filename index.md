@@ -16,7 +16,7 @@ task on parsing enhanced UD, organized as a part of IWPT 2020. The current
 task is second in a row, organized as a part of the 17th [International
 Conference on Parsing Technologies (IWPT)](https://iwpt21.sigparse.org/),
 to be collocated with [ACL-IJCNLP 2021](https://2021.aclweb.org/) in Bangkok,
-Thailand.
+Thailand (now planned as a virtual on-line event).
 
 UD defines two levels of annotation, the basic trees and the [enhanced
 graphs](https://universaldependencies.org/u/overview/enhanced-syntax.html) (EUD).
