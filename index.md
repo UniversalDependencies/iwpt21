@@ -27,6 +27,6 @@ dependency representation. The evaluation will be done on datasets in
 
 ## Organizing Committee
 
-* Gosse Bouma
-* Djamé Seddah
-* Daniel Zeman
+* [Gosse Bouma](https://www.rug.nl/staff/g.bouma/)
+* [Djamé Seddah](http://pauillac.inria.fr/~seddah/)
+* [Daniel Zeman](https://ufal.mff.cuni.cz/daniel-zeman)
