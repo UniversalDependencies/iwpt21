@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Call for papers
+title: Call for participation
 ---
 
 # CALL FOR PARTICIPATION
@@ -15,18 +15,12 @@ dependencies involving coordinate structures, and dependencies involving
 ellipsis. Enhanced dependencies call for non-tree graphs with reentrancies,
 cycles, and empty nodes.
 
-Data for the shared task consists of at least the treebanks in UD release 2.7
-that contain enhanced annotation, and potentially one or more additional
-languages/treebanks. The task will be parsing from raw strings into EUD
+Data for the shared task consists of the treebanks in UD release 2.7
+that contain enhanced annotation, plus French.
+The task will be parsing from raw strings into EUD
 according to the guidelines at [https://universaldependencies.org/u/overview/enhanced-syntax.html](https://universaldependencies.org/u/overview/enhanced-syntax.html).
 Evaluation will measure performance per phenomenon and will take into account
 the fact that not all treebanks cover all of the phenomena listed in the EUD
 guidelines.
-
-Tentative schedule:
-February 2021: data and evaluation metric available,
-March, 15: test data release
-April, 15: system description papers due
-August, 5-6: IWPT workshop at ACL-IJCNLP 2021.
 
 Details will be announced on [https://universaldependencies.org/iwpt21/](https://universaldependencies.org/iwpt21/).
