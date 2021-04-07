@@ -62,7 +62,7 @@ so they can spot potential problems early. Here are some of the issues that may 
   if you blindly copy a lemma to the label and the lemma contains other punctuation, your output will be invalid.
 
 In addition to the validity of the CoNLL-U file, it is required that
-non-whitespace characters in the FORM field of surface tokens be identical to those in the input file.
+**non-whitespace characters** in the FORM field of surface tokens **be identical** to those in the input file.
 This is a pre-requisite for the evaluation; files with modified word forms will be rejected.
 
 If a CoNLL-U file for a particular test corpus is invalid or missing, the submission is not completely discarded
