@@ -52,4 +52,5 @@ of the gold package.
 
 ## Change Log
 
-* 2021-04-05 22:14 UTC+1: The first train-dev package published.
+* 2021-04-05 22:14 UTC+2: The first train-dev package published.
+* 2021-04-07 21:02 UTC+2: Updated annotation of Arabic, Czech, Lithuanian, and Slovak.
