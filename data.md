@@ -21,6 +21,7 @@ During the task, the data is temporarily available at the following links:
 * [Training and development data by treebank](https://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-train-dev.tgz)
 * [Gold development data by language](https://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-dev-gold.tgz)
 * [Blind development data by language](https://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-dev-blind.tgz)
+* [Blind test data by language](http://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-test-blind.tgz)
 
 ## Training and Development Data
 
