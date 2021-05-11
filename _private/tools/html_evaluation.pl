@@ -41,7 +41,7 @@ my %dev_treebanks =
     'bg' => ['Bulgarian-BTB'],
     'cs' => ['Czech-FicTree', 'Czech-CAC', 'Czech-PDT'],
     'nl' => ['Dutch-Alpino', 'Dutch-LassySmall'],
-    'en' => ['English-EWT'],
+    'en' => ['English-EWT', 'English-GUM'],
     'et' => ['Estonian-EDT'],
     'fi' => ['Finnish-TDT'],
     'fr' => ['French-Sequoia'],
@@ -61,7 +61,7 @@ my %test_treebanks =
     'bg' => ['Bulgarian-BTB'],
     'cs' => ['Czech-FicTree', 'Czech-CAC', 'Czech-PDT', 'Czech-PUD'],
     'nl' => ['Dutch-Alpino', 'Dutch-LassySmall'],
-    'en' => ['English-EWT', 'English-PUD'],
+    'en' => ['English-EWT', 'English-GUM', 'English-PUD'],
     'et' => ['Estonian-EDT', 'Estonian-EWT'],
     'fi' => ['Finnish-TDT', 'Finnish-PUD'],
     'fr' => ['French-Sequoia', 'French-FQB'],
@@ -79,7 +79,7 @@ my %test_treebanks =
 my %enhancements =
 (
     'Arabic-PADT'        => 'no xsubj',
-    'Bulgarian-BTB'      => '', # all
+    'Bulgarian-BTB'      => 'no gapping',
     'Czech-FicTree'      => '', # all
     'Czech-CAC'          => '', # all
     'Czech-PDT'          => '', # all
@@ -87,6 +87,7 @@ my %enhancements =
     'Dutch-Alpino'       => '', # all
     'Dutch-LassySmall'   => '', # all
     'English-EWT'        => '', # all
+    'English-GUM'        => '', # all
     'English-PUD'        => '', # all
     'Estonian-EDT'       => 'no xsubj',
     'Estonian-EWT'       => 'no codepend, no xsubj',
@@ -100,11 +101,11 @@ my %enhancements =
     'Polish-LFG'         => 'no gapping', # no gapping
     'Polish-PDB'         => '', # all
     'Polish-PUD'         => '', # all
-    'Russian-SynTagRus'  => '', # no coord depend
+    'Russian-SynTagRus'  => 'no codepend', # no coord depend
     'Slovak-SNK'         => '', # all
     'Swedish-Talbanken'  => '', # all
     'Swedish-PUD'        => '', # all
-    'Tamil-TTB'          => 'no gapping, xsubj, relcl',
+    'Tamil-TTB'          => 'no gapping, xsubj',
     'Ukrainian-IU'       => '', # all
 );
 
@@ -238,7 +239,7 @@ $html .= "<head>\n";
 $html .= "  <title>IWPT Results of $team/$submid</title>\n";
 $html .= "</head>\n";
 $html .= "<body>\n";
-$html .= "  <h1>IWPT 2020 Shared Task Results of <span style='color:blue'>$team</span>/$submid</h1>\n";
+$html .= "  <h1>IWPT 2021 Shared Task Results of <span style='color:blue'>$team</span>/$submid</h1>\n";
 my @metrics = qw(Tokens Words Sentences UPOS XPOS UFeats AllTags Lemmas UAS LAS CLAS MLAS BLEX EULAS ELAS);
 $html .= "  <h2>Coarse F<sub>1</sub> Scores</h2>\n";
 $html .= "  <p>Each score pertains to the combined test set of the language, without distinguishing individual treebanks and the enhancement types they annotate. The last line shows the macro-average over languages.</p>\n";

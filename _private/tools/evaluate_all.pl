@@ -21,10 +21,10 @@ my $ud_folder = '/home/zeman/unidep';
 my $validate_script = "/usr/bin/python3 $ud_folder/tools/validate.py";
 my $collapse_script = "/usr/bin/perl $ud_folder/tools/enhanced_collapse_empty_nodes.pl";
 
-my $task_folder = "/home/zeman/iwpt2020";
+my $task_folder = "/home/zeman/iwpt2021";
 my $gold_treebanks_folder = "$task_folder/_private/data"; # where are UD_* folders with both gold conllu and txt files; also, 'dev-gold' and 'test-gold' subfolders should be there
 my $cut_script = "/usr/bin/perl $task_folder/_private/tools/match_and_split_conllu_by_input_text.pl";
-my $eval_script = "/usr/bin/python3 $task_folder/iwpt20_xud_eval.py";
+my $eval_script = "/usr/bin/python3 $task_folder/iwpt21_xud_eval.py";
 my $system_tgz_folder = "$task_folder/_private/data/sysoutputs";
 my $system_unpacked_folder = "$task_folder/_private/data/sysoutputs";
 my $archived_submissions_folder = "$task_folder/_private/data/archive/sysoutputs";
@@ -36,7 +36,7 @@ my %treebanks =
     'bg' => ['Bulgarian-BTB'],
     'cs' => ['Czech-FicTree', 'Czech-CAC', 'Czech-PDT', 'Czech-PUD'],
     'nl' => ['Dutch-Alpino', 'Dutch-LassySmall'],
-    'en' => ['English-EWT', 'English-PUD'],
+    'en' => ['English-EWT', 'English-GUM', 'English-PUD'],
     'et' => ['Estonian-EDT', 'Estonian-EWT'],
     'fi' => ['Finnish-TDT', 'Finnish-PUD'],
     'fr' => ['French-Sequoia', 'French-FQB'],
@@ -54,7 +54,7 @@ my %treebanks =
 my %enhancements =
 (
     'Arabic-PADT'        => '4', # no xsubj
-    'Bulgarian-BTB'      => '0', # all
+    'Bulgarian-BTB'      => '1', # all
     'Czech-FicTree'      => '0', # all
     'Czech-CAC'          => '0', # all
     'Czech-PDT'          => '0', # all
@@ -62,6 +62,7 @@ my %enhancements =
     'Dutch-Alpino'       => '0', # all
     'Dutch-LassySmall'   => '0', # all
     'English-EWT'        => '0', # all
+    'English-GUM'        => '0', # all
     'English-PUD'        => '0', # all
     'Estonian-EDT'       => '4', # no xsubj
     'Estonian-EWT'       => '34', # no coord depend, no xsubj
@@ -79,7 +80,7 @@ my %enhancements =
     'Slovak-SNK'         => '0', # all
     'Swedish-Talbanken'  => '0', # all
     'Swedish-PUD'        => '0', # all
-    'Tamil-TTB'          => '145', # no gapping, no xsubj, no relcl
+    'Tamil-TTB'          => '14', # no gapping, no xsubj, no relcl
     'Ukrainian-IU'       => '0', # all
 );
 
