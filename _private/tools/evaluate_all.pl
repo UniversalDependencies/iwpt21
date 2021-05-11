@@ -236,6 +236,10 @@ foreach my $language (@languages)
             system("$collapse_script < $pertreebank/$treebank_file-sys.conllu > $pertreebank/$treebank_file-sys.nen.conllu");
             system("$eval_script -v $treebank_enhancements $pertreebank/$treebank_file-gold.nen.conllu $pertreebank/$treebank_file-sys.nen.conllu > $pertreebank/$treebank_file.eval.log");
         }
+        else
+        {
+            print("$treebank_file: $treebank_folder/$treebank_file.conllu does not exist\n");
+        }
     }
 }
 # Print a summary of selected scores.
