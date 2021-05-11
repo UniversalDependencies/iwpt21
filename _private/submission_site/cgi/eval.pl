@@ -10,7 +10,26 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
-my $task_dir = '/home/zeman/iwpt2021';
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
+
+my $task_dir = $config::config{task_folder};
 my $query = new CGI;
 my $team = $query->param('team');
 my $submid = $query->param('submid');
