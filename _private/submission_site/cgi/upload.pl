@@ -18,7 +18,7 @@ my $timestamp = sprintf("%4d-%02d-%02d-%02d-%02d-%02d", $year+1900, $mon+1, $mda
 # Before deploying this script, we must create the upload folder (see $upload_dir below).
 # We also must chmod the folder to 777 (user www-data must be able to write to it).
 my $upload_dir = '/usr/lib/cgi-bin/sysoutputs';
-my $task_dir = '/home/zeman/iwpt2020';
+my $task_dir = '/home/zeman/iwpt2021';
 my $query = new CGI;
 my $remoteaddr = $query->remote_addr();
 # The traffic is being forwarded through quest, so normally we see quest's local address as the remote address.

@@ -10,7 +10,7 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
-my $sysoutputs = '/home/zeman/iwpt2020/_private/data/sysoutputs';
+my $sysoutputs = '/home/zeman/iwpt2021/_private/data/sysoutputs';
 # We must set our own PATH even if we do not depend on it.
 # The system call may potentially use it, and the one from outside is considered insecure.
 $ENV{'PATH'} = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin';
@@ -74,7 +74,8 @@ foreach my $team (@objects)
 # Sort the submissions by their timestamp.
 @submissions = sort {$a->{timestamp} cmp $b->{timestamp}} (@submissions);
 # Identify the primary submission of each team.
-my $deadline = '2020-04-25-14-05-00';
+# 22.5.2021 23:59 anywhere on Earth = 23.5.2021 13:59 Central-European Summer Time
+my $deadline = '2021-05-23-14-05-00';
 my %primary;
 foreach my $submission (@submissions)
 {
@@ -94,7 +95,6 @@ my $n = 0;
 my $was_hr = 0;
 foreach my $submission (@submissions)
 {
-    # 24.4.2020 23:59 anywhere on Earth = 25.4.2020 13:59 Central-European Daylight Saving Time
     if($submission->{timestamp} gt $deadline && !$was_hr)
     {
         print("    <tr><td colspan='100%'><hr/></td></tr>\n");

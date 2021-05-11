@@ -10,7 +10,7 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
-my $task_dir = '/home/zeman/iwpt2020';
+my $task_dir = '/home/zeman/iwpt2021';
 my $query = new CGI;
 my $team = $query->param('team');
 my $submid = $query->param('submid');
