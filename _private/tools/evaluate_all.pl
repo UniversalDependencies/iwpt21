@@ -212,7 +212,11 @@ foreach my $language (@languages)
 {
     # Do not perform per-treebank evaluation for languages whose input file
     # has errors.
-    next if($errlang{$language});
+    if($errlang{$language})
+    {
+        print("Skipping per-treebank evaluation of language [$language] because of errors in format.\n");
+        next;
+    }
     system("/bin/cp $system_folder/$language.conllu $pertreebank/rest.conllu");
     my @treebanks = @{$treebanks{$language}};
     foreach my $treebank (@treebanks)
