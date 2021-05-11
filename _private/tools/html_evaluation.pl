@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 # Scans the folder with the evaluation results of a shared task submission.
 # Collects all scores and creates a HTML page that presents them.
-# Copyright © 2020 Dan Zeman <zeman@ufal.mff.cuni.cz>
+# Copyright © 2020-2021 Dan Zeman <zeman@ufal.mff.cuni.cz>
 # License: GNU GPL
 
 use utf8;
@@ -9,6 +9,25 @@ use open ':utf8';
 binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
+
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
 
 my $system_unpacked_folder = '/home/zeman/iwpt2021/_private/data/sysoutputs';
 
