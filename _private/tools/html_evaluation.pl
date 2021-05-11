@@ -195,7 +195,7 @@ my $n = scalar(@languages);
 $html .= "    <tr><td><b>Average</b></td>";
 foreach my $metric (@metrics)
 {
-    $score{language}{AVG}{$metric}{f} = sprintf("%.2f", $score{language}{SUM}{$metric}{f}/$n);
+    $score{language}{AVG}{$metric}{f} = $n > 0 ? sprintf("%.2f", $score{language}{SUM}{$metric}{f}/$n) : '';
     $html .= "<td><b>$score{language}{AVG}{$metric}{f}</b></td>";
 }
 $html .= "</tr>\n";
