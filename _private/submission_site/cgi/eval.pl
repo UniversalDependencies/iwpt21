@@ -27,6 +27,7 @@ BEGIN
         $path =~ s:/[^/]*$:/:;
         chdir($path);
         $scriptpath = getcwd();
+        $scriptpath = $1 if($scriptpath =~ m/^(.+)$/); # untaint $scriptpath
         chdir($currentpath);
     }
     require "$scriptpath/config.pm";
