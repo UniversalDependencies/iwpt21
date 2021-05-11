@@ -20,6 +20,7 @@ BEGIN
     $path = $1 if($path =~ m/^(.+\.pl)$/); # untaint $path
     $path =~ s:\\:/:g;
     my $currentpath = getcwd();
+    $currentpath = $1 if($currentpath =~ m/^(.+)$/); # untaint $currentpath
     $scriptpath = $currentpath;
     if($path =~ m:/:)
     {
