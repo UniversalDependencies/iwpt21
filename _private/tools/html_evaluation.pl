@@ -10,7 +10,7 @@ binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 
-my $system_unpacked_folder = '/home/zeman/iwpt2020/_private/data/sysoutputs';
+my $system_unpacked_folder = '/home/zeman/iwpt2021/_private/data/sysoutputs';
 
 # List of language codes and names.
 my %languages =
