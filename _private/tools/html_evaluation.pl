@@ -29,104 +29,15 @@ BEGIN
     require "$scriptpath/config.pm";
 }
 
-my $system_unpacked_folder = $config::config{system_unpacked_folder};#'/home/zeman/iwpt2021/_private/data/sysoutputs';
-
+my $system_unpacked_folder = $config::config{system_unpacked_folder};
 # List of language codes and names.
-my %languages =
-(
-    'ar' => 'Arabic',
-    'bg' => 'Bulgarian',
-    'cs' => 'Czech',
-    'nl' => 'Dutch',
-    'en' => 'English',
-    'et' => 'Estonian',
-    'fi' => 'Finnish',
-    'fr' => 'French',
-    'it' => 'Italian',
-    'lv' => 'Latvian',
-    'lt' => 'Lithuanian',
-    'pl' => 'Polish',
-    'ru' => 'Russian',
-    'sk' => 'Slovak',
-    'sv' => 'Swedish',
-    'ta' => 'Tamil',
-    'uk' => 'Ukrainian'
-);
+my %languages = %{$config::config{languages}};
 my @languages = sort {$languages{$a} cmp $languages{$b}} (keys(%languages));
 # List and ordering of treebanks for each language.
-my %dev_treebanks =
-(
-    'ar' => ['Arabic-PADT'],
-    'bg' => ['Bulgarian-BTB'],
-    'cs' => ['Czech-FicTree', 'Czech-CAC', 'Czech-PDT'],
-    'nl' => ['Dutch-Alpino', 'Dutch-LassySmall'],
-    'en' => ['English-EWT', 'English-GUM'],
-    'et' => ['Estonian-EDT'],
-    'fi' => ['Finnish-TDT'],
-    'fr' => ['French-Sequoia'],
-    'it' => ['Italian-ISDT'],
-    'lv' => ['Latvian-LVTB'],
-    'lt' => ['Lithuanian-ALKSNIS'],
-    'pl' => ['Polish-LFG', 'Polish-PDB'],
-    'ru' => ['Russian-SynTagRus'],
-    'sk' => ['Slovak-SNK'],
-    'sv' => ['Swedish-Talbanken'],
-    'ta' => ['Tamil-TTB'],
-    'uk' => ['Ukrainian-IU']
-);
-my %test_treebanks =
-(
-    'ar' => ['Arabic-PADT'],
-    'bg' => ['Bulgarian-BTB'],
-    'cs' => ['Czech-FicTree', 'Czech-CAC', 'Czech-PDT', 'Czech-PUD'],
-    'nl' => ['Dutch-Alpino', 'Dutch-LassySmall'],
-    'en' => ['English-EWT', 'English-GUM', 'English-PUD'],
-    'et' => ['Estonian-EDT', 'Estonian-EWT'],
-    'fi' => ['Finnish-TDT', 'Finnish-PUD'],
-    'fr' => ['French-Sequoia', 'French-FQB'],
-    'it' => ['Italian-ISDT'],
-    'lv' => ['Latvian-LVTB'],
-    'lt' => ['Lithuanian-ALKSNIS'],
-    'pl' => ['Polish-LFG', 'Polish-PDB', 'Polish-PUD'],
-    'ru' => ['Russian-SynTagRus'],
-    'sk' => ['Slovak-SNK'],
-    'sv' => ['Swedish-Talbanken', 'Swedish-PUD'],
-    'ta' => ['Tamil-TTB'],
-    'uk' => ['Ukrainian-IU']
-);
+my %dev_treebanks = %{$config::config{dev_treebanks}};
+my %test_treebanks = %{$config::config{test_treebanks}};
 # Enhancement type selection for each treebank (only for information in the table).
-my %enhancements =
-(
-    'Arabic-PADT'        => 'no xsubj',
-    'Bulgarian-BTB'      => 'no gapping',
-    'Czech-FicTree'      => '', # all
-    'Czech-CAC'          => '', # all
-    'Czech-PDT'          => '', # all
-    'Czech-PUD'          => 'no codepend',
-    'Dutch-Alpino'       => '', # all
-    'Dutch-LassySmall'   => '', # all
-    'English-EWT'        => '', # all
-    'English-GUM'        => '', # all
-    'English-PUD'        => '', # all
-    'Estonian-EDT'       => 'no xsubj',
-    'Estonian-EWT'       => 'no codepend, no xsubj',
-    'Finnish-TDT'        => '', # all
-    'Finnish-PUD'        => 'no codepend, no xsubj',
-    'French-Sequoia'     => 'no gapping, relcl, case',
-    'French-FQB'         => 'no gapping, relcl, case',
-    'Italian-ISDT'       => '', # all
-    'Latvian-LVTB'       => '', # all
-    'Lithuanian-ALKSNIS' => '', # all
-    'Polish-LFG'         => 'no gapping', # no gapping
-    'Polish-PDB'         => '', # all
-    'Polish-PUD'         => '', # all
-    'Russian-SynTagRus'  => 'no codepend', # no coord depend
-    'Slovak-SNK'         => '', # all
-    'Swedish-Talbanken'  => '', # all
-    'Swedish-PUD'        => '', # all
-    'Tamil-TTB'          => 'no gapping, xsubj',
-    'Ukrainian-IU'       => '', # all
-);
+my %enhancements = %{$config::config{enhancements}};
 
 if(scalar(@ARGV)!=3)
 {
@@ -258,7 +169,7 @@ $html .= "<head>\n";
 $html .= "  <title>IWPT Results of $team/$submid</title>\n";
 $html .= "</head>\n";
 $html .= "<body>\n";
-$html .= "  <h1>IWPT 2021 Shared Task Results of <span style='color:blue'>$team</span>/$submid</h1>\n";
+$html .= "  <h1>IWPT $config::config{year} Shared Task Results of <span style='color:blue'>$team</span>/$submid</h1>\n";
 my @metrics = qw(Tokens Words Sentences UPOS XPOS UFeats AllTags Lemmas UAS LAS CLAS MLAS BLEX EULAS ELAS);
 $html .= "  <h2>Coarse F<sub>1</sub> Scores</h2>\n";
 $html .= "  <p>Each score pertains to the combined test set of the language, without distinguishing individual treebanks and the enhancement types they annotate. The last line shows the macro-average over languages.</p>\n";

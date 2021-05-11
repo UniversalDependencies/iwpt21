@@ -12,6 +12,8 @@ BEGIN
 {
     %config =
     (
+        # Year of the IWPT shared task to be used in HTML headings etc.
+        'year' => '2021',
         'system_unpacked_folder' => '/home/zeman/iwpt2021/_private/data/sysoutputs',
         # List of language codes and names.
         'languages' =>
