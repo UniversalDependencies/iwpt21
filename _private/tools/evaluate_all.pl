@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 # Takes a system output file for one language and splits it into parts corresponding
 # to individual source treebanks.
-# Copyright © 2020 Dan Zeman <zeman@ufal.mff.cuni.cz>
+# Copyright © 2020-2021 Dan Zeman <zeman@ufal.mff.cuni.cz>
 # License: GNU GPL
 
 # Usage: evaluate_all.pl TEAM SUBMID dev|test
@@ -17,72 +17,45 @@ binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 
-my $ud_folder = '/home/zeman/unidep';
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+my $scriptpath;
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path = $1 if($path =~ m/^(.+\.pl)$/); # untaint $path
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $currentpath = $1 if($currentpath =~ m/^(.+)$/); # untaint $currentpath
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        $scriptpath = $1 if($scriptpath =~ m/^(.+)$/); # untaint $scriptpath
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
+
+my $ud_folder = $config::config{ud_folder};
 my $validate_script = "/usr/bin/python3 $ud_folder/tools/validate.py";
 my $collapse_script = "/usr/bin/perl $ud_folder/tools/enhanced_collapse_empty_nodes.pl";
 
-my $task_folder = "/home/zeman/iwpt2021";
+my $task_folder = $config::config{task_folder};
 my $gold_treebanks_folder = "$task_folder/_private/data"; # where are UD_* folders with both gold conllu and txt files; also, 'dev-gold' and 'test-gold' subfolders should be there
 my $cut_script = "/usr/bin/perl $task_folder/_private/tools/match_and_split_conllu_by_input_text.pl";
-my $eval_script = "/usr/bin/python3 $task_folder/iwpt21_xud_eval.py";
+my $eval_script = $config::config{eval_script};
 my $system_tgz_folder = "$task_folder/_private/data/sysoutputs";
 my $system_unpacked_folder = "$task_folder/_private/data/sysoutputs";
 my $archived_submissions_folder = "$task_folder/_private/data/archive/sysoutputs";
 
 # List and ordering of treebanks for each language.
-my %treebanks =
-(
-    'ar' => ['Arabic-PADT'],
-    'bg' => ['Bulgarian-BTB'],
-    'cs' => ['Czech-FicTree', 'Czech-CAC', 'Czech-PDT', 'Czech-PUD'],
-    'nl' => ['Dutch-Alpino', 'Dutch-LassySmall'],
-    'en' => ['English-EWT', 'English-GUM', 'English-PUD'],
-    'et' => ['Estonian-EDT', 'Estonian-EWT'],
-    'fi' => ['Finnish-TDT', 'Finnish-PUD'],
-    'fr' => ['French-Sequoia', 'French-FQB'],
-    'it' => ['Italian-ISDT'],
-    'lv' => ['Latvian-LVTB'],
-    'lt' => ['Lithuanian-ALKSNIS'],
-    'pl' => ['Polish-LFG', 'Polish-PDB', 'Polish-PUD'],
-    'ru' => ['Russian-SynTagRus'],
-    'sk' => ['Slovak-SNK'],
-    'sv' => ['Swedish-Talbanken', 'Swedish-PUD'],
-    'ta' => ['Tamil-TTB'],
-    'uk' => ['Ukrainian-IU']
-);
+my %treebanks = %{$config::config{test_treebanks}};
 # Enhancement type selection for each treebank.
-my %enhancements =
-(
-    'Arabic-PADT'        => '4', # no xsubj
-    'Bulgarian-BTB'      => '1', # all
-    'Czech-FicTree'      => '0', # all
-    'Czech-CAC'          => '0', # all
-    'Czech-PDT'          => '0', # all
-    'Czech-PUD'          => '3', # no coord depend
-    'Dutch-Alpino'       => '0', # all
-    'Dutch-LassySmall'   => '0', # all
-    'English-EWT'        => '0', # all
-    'English-GUM'        => '0', # all
-    'English-PUD'        => '0', # all
-    'Estonian-EDT'       => '4', # no xsubj
-    'Estonian-EWT'       => '34', # no coord depend, no xsubj
-    'Finnish-TDT'        => '0', # all
-    'Finnish-PUD'        => '34', # no coord depend, no xsubj
-    'French-Sequoia'     => '156', # no gapping, no relcl, no case deprel
-    'French-FQB'         => '156', # no gapping, no relcl, no case deprel
-    'Italian-ISDT'       => '0', # all
-    'Latvian-LVTB'       => '0', # all
-    'Lithuanian-ALKSNIS' => '0', # all
-    'Polish-LFG'         => '1', # no gapping
-    'Polish-PDB'         => '0', # all
-    'Polish-PUD'         => '0', # all
-    'Russian-SynTagRus'  => '3', # no coord depend
-    'Slovak-SNK'         => '0', # all
-    'Swedish-Talbanken'  => '0', # all
-    'Swedish-PUD'        => '0', # all
-    'Tamil-TTB'          => '14', # no gapping, no xsubj, no relcl
-    'Ukrainian-IU'       => '0', # all
-);
+my %enhancements = %{$config::config{enhancements_for_eval_script}};
 
 if(scalar(@ARGV)!=3)
 {

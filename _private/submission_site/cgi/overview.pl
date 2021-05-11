@@ -10,7 +10,30 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
-my $sysoutputs = '/home/zeman/iwpt2021/_private/data/sysoutputs';
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+my $scriptpath;
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path = $1 if($path =~ m/^(.+\.pl)$/); # untaint $path
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $currentpath = $1 if($currentpath =~ m/^(.+)$/); # untaint $currentpath
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        $scriptpath = $1 if($scriptpath =~ m/^(.+)$/); # untaint $scriptpath
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
+
+my $sysoutputs = $config::config{system_unpacked_folder};
 # We must set our own PATH even if we do not depend on it.
 # The system call may potentially use it, and the one from outside is considered insecure.
 $ENV{'PATH'} = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin';

@@ -10,7 +10,30 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
-my $upload_dir = '/usr/lib/cgi-bin/sysoutputs';
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+my $scriptpath;
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path = $1 if($path =~ m/^(.+\.pl)$/); # untaint $path
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $currentpath = $1 if($currentpath =~ m/^(.+)$/); # untaint $currentpath
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        $scriptpath = $1 if($scriptpath =~ m/^(.+)$/); # untaint $scriptpath
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
+
+my $upload_dir = $config::config{upload_folder};
 my $query = new CGI;
 my $timestamp = $query->param('timestamp');
 my $team = $query->param('team');

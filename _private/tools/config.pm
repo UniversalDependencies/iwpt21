@@ -12,9 +12,12 @@ BEGIN
     (
         # Year of the IWPT shared task to be used in HTML headings etc.
         'year' => '2021',
-        # Paths to important folders.
+        # Paths to important folders and files.
+        'upload_folder'          => '/usr/lib/cgi-bin/sysoutputs',
+        'ud_folder'              => '/home/zeman/unidep', # contains UD tools
         'task_folder'            => '/home/zeman/iwpt2021',
         'system_unpacked_folder' => '/home/zeman/iwpt2021/_private/data/sysoutputs',
+        'eval_script'            => '/usr/bin/python3 /home/zeman/iwpt2021/iwpt21_xud_eval.py',
         # List of language codes and names.
         'languages' =>
         {
@@ -109,6 +112,39 @@ BEGIN
             'Swedish-PUD'        => '', # all
             'Tamil-TTB'          => 'no gapping, xsubj',
             'Ukrainian-IU'       => '', # all
+        },
+        # Enhancement type selection for each treebank (now in the format required by the eval script).
+        'enhancements_for_eval_script' =>
+        {
+            'Arabic-PADT'        => '4', # no xsubj
+            'Bulgarian-BTB'      => '1', # all
+            'Czech-FicTree'      => '0', # all
+            'Czech-CAC'          => '0', # all
+            'Czech-PDT'          => '0', # all
+            'Czech-PUD'          => '3', # no coord depend
+            'Dutch-Alpino'       => '0', # all
+            'Dutch-LassySmall'   => '0', # all
+            'English-EWT'        => '0', # all
+            'English-GUM'        => '0', # all
+            'English-PUD'        => '0', # all
+            'Estonian-EDT'       => '4', # no xsubj
+            'Estonian-EWT'       => '34', # no coord depend, no xsubj
+            'Finnish-TDT'        => '0', # all
+            'Finnish-PUD'        => '34', # no coord depend, no xsubj
+            'French-Sequoia'     => '156', # no gapping, no relcl, no case deprel
+            'French-FQB'         => '156', # no gapping, no relcl, no case deprel
+            'Italian-ISDT'       => '0', # all
+            'Latvian-LVTB'       => '0', # all
+            'Lithuanian-ALKSNIS' => '0', # all
+            'Polish-LFG'         => '1', # no gapping
+            'Polish-PDB'         => '0', # all
+            'Polish-PUD'         => '0', # all
+            'Russian-SynTagRus'  => '3', # no coord depend
+            'Slovak-SNK'         => '0', # all
+            'Swedish-Talbanken'  => '0', # all
+            'Swedish-PUD'        => '0', # all
+            'Tamil-TTB'          => '14', # no gapping, no xsubj, no relcl
+            'Ukrainian-IU'       => '0', # all
         }
     );
 }

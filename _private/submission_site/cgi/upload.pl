@@ -10,6 +10,29 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+my $scriptpath;
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path = $1 if($path =~ m/^(.+\.pl)$/); # untaint $path
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $currentpath = $1 if($currentpath =~ m/^(.+)$/); # untaint $currentpath
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        $scriptpath = $1 if($scriptpath =~ m/^(.+)$/); # untaint $scriptpath
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
+
 # Set the maximum size of an uploaded file to 30MB.
 $CGI::POST_MAX = 30*1024*1024;
 my $safe_filename_characters = 'a-zA-Z0-9_.-';
@@ -17,8 +40,8 @@ my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime(tim
 my $timestamp = sprintf("%4d-%02d-%02d-%02d-%02d-%02d", $year+1900, $mon+1, $mday, $hour, $min, $sec);
 # Before deploying this script, we must create the upload folder (see $upload_dir below).
 # We also must chmod the folder to 777 (user www-data must be able to write to it).
-my $upload_dir = '/usr/lib/cgi-bin/sysoutputs';
-my $task_dir = '/home/zeman/iwpt2021';
+my $upload_dir = $config::config{upload_folder};
+my $task_dir = $config::config{task_folder};
 my $query = new CGI;
 my $remoteaddr = $query->remote_addr();
 # The traffic is being forwarded through quest, so normally we see quest's local address as the remote address.
