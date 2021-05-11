@@ -29,7 +29,7 @@ BEGIN
     require "$scriptpath/config.pm";
 }
 
-my $system_unpacked_folder = '/home/zeman/iwpt2021/_private/data/sysoutputs';
+my $system_unpacked_folder = $config::config{system_unpacked_folder};#'/home/zeman/iwpt2021/_private/data/sysoutputs';
 
 # List of language codes and names.
 my %languages =
