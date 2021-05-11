@@ -100,7 +100,7 @@ foreach my $submission (@submissions)
         print("    <tr><td colspan='100%'><hr/></td></tr>\n");
         $was_hr = 1;
     }
-    my $style = $submission == $primary{$submission->{team}} ? ' style="color:blue"' : '';
+    my $style = defined($primary{$submission->{team}}) && $submission == $primary{$submission->{team}} ? ' style="color:blue"' : '';
     # Use a different color for the baseline submissions.
     # Do this regardless whether it is the primary submission and whether the deadline has passed.
     if($submission->{team} =~ m/^baseline/)
