@@ -12,6 +12,7 @@ use Encode;
 
 # In order to find the configuration file on the disk, we need to know the
 # path to the script.
+my $scriptpath;
 BEGIN
 {
     use Cwd;
