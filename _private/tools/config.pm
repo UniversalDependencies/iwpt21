@@ -6,8 +6,6 @@
 package config;
 use utf8;
 
-my %config;
-
 BEGIN
 {
     %config =
