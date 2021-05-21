@@ -108,11 +108,23 @@ while(<LOG>)
         # Replace escape sequences of the form \u0627 with the actual Unicode characters.
         if(m/^First 20 differing characters/)
         {
-            while(m/\\u([0-9a-fA-F]+)/)
+            my $orig = $_;
+            my $modif = $orig;
+            while($modif =~ m/\\x([0-9a-fA-F]{2})/)
             {
                 my $u = $1;
                 my $c = chr(hex($u));
-                s/\\u$u/$c/g;
+                $modif =~ s/\\x$u/$c/g;
+            }
+            while($modif =~ m/\\u([0-9a-fA-F]+)/)
+            {
+                my $u = $1;
+                my $c = chr(hex($u));
+                $modif =~ s/\\u$u/$c/g;
+            }
+            if($modif ne $orig)
+            {
+                $_ = $orig.$modif;
             }
         }
         # Escape special HTML characters.
