@@ -112,7 +112,7 @@ while(<LOG>)
             {
                 my $u = $1;
                 my $c = chr(hex($u));
-                $x =~ s/\\u$u/$c/g;
+                s/\\u$u/$c/g;
             }
         }
         # Escape special HTML characters.
