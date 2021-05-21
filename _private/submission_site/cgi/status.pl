@@ -104,6 +104,17 @@ while(<LOG>)
     unless(m/^(Incoming path to an empty node ignored|Cyclic enhanced path will not be used)/)
     {
         $last_line = $_;
+        # Make more readable the evaluator's complaint that non-whitespace characters do not match.
+        # Replace escape sequences of the form \u0627 with the actual Unicode characters.
+        if(m/^First 20 differing characters/)
+        {
+            while(m/\\u([0-9a-fA-F]+)/)
+            {
+                my $u = $1;
+                my $c = chr(hex($u));
+                $x =~ s/\\u$u/$c/g;
+            }
+        }
         # Escape special HTML characters.
         s/&/&amp;/g;
         s/</&lt;/g;
