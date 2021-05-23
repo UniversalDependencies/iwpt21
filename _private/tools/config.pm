@@ -12,6 +12,9 @@ BEGIN
     (
         # Year of the IWPT shared task to be used in HTML headings etc.
         'year' => '2021',
+        # 22.5.2021 23:59 anywhere on Earth = 23.5.2021 13:59 Central-European Summer Time
+        # There was a last-minute failure on the submission server, so I am moving the deadline until after I fixed it.
+        'deadline' => '2021-05-23-22-10-00',
         # Paths to important folders and files.
         'upload_folder'          => '/usr/lib/cgi-bin/sysoutputs',
         'ud_folder'              => '/home/zeman/unidep', # contains UD tools

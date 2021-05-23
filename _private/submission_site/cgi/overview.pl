@@ -34,6 +34,7 @@ BEGIN
 }
 
 my $sysoutputs = $config::config{system_unpacked_folder};
+my $deadline = $config::config{deadline};
 # We must set our own PATH even if we do not depend on it.
 # The system call may potentially use it, and the one from outside is considered insecure.
 $ENV{'PATH'} = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin';
@@ -97,8 +98,6 @@ foreach my $team (@objects)
 # Sort the submissions by their timestamp.
 @submissions = sort {$a->{timestamp} cmp $b->{timestamp}} (@submissions);
 # Identify the primary submission of each team.
-# 22.5.2021 23:59 anywhere on Earth = 23.5.2021 13:59 Central-European Summer Time
-my $deadline = '2021-05-23-14-05-00';
 my %primary;
 foreach my $submission (@submissions)
 {
