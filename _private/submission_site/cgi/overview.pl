@@ -10,7 +10,31 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
-my $sysoutputs = '/home/zeman/iwpt2020/_private/data/sysoutputs';
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+my $scriptpath;
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path = $1 if($path =~ m/^(.+\.pl)$/); # untaint $path
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $currentpath = $1 if($currentpath =~ m/^(.+)$/); # untaint $currentpath
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        $scriptpath = $1 if($scriptpath =~ m/^(.+)$/); # untaint $scriptpath
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
+
+my $sysoutputs = $config::config{system_unpacked_folder};
+my $deadline = $config::config{deadline};
 # We must set our own PATH even if we do not depend on it.
 # The system call may potentially use it, and the one from outside is considered insecure.
 $ENV{'PATH'} = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin';
@@ -74,7 +98,6 @@ foreach my $team (@objects)
 # Sort the submissions by their timestamp.
 @submissions = sort {$a->{timestamp} cmp $b->{timestamp}} (@submissions);
 # Identify the primary submission of each team.
-my $deadline = '2020-04-25-14-05-00';
 my %primary;
 foreach my $submission (@submissions)
 {
@@ -94,13 +117,12 @@ my $n = 0;
 my $was_hr = 0;
 foreach my $submission (@submissions)
 {
-    # 24.4.2020 23:59 anywhere on Earth = 25.4.2020 13:59 Central-European Daylight Saving Time
     if($submission->{timestamp} gt $deadline && !$was_hr)
     {
         print("    <tr><td colspan='100%'><hr/></td></tr>\n");
         $was_hr = 1;
     }
-    my $style = $submission == $primary{$submission->{team}} ? ' style="color:blue"' : '';
+    my $style = defined($primary{$submission->{team}}) && $submission == $primary{$submission->{team}} ? ' style="color:blue"' : '';
     # Use a different color for the baseline submissions.
     # Do this regardless whether it is the primary submission and whether the deadline has passed.
     if($submission->{team} =~ m/^baseline/)

@@ -1,6 +1,6 @@
 SHELL=/bin/bash
-FROMUD27=Arabic-PADT Bulgarian-BTB Czech-CAC Czech-FicTree Czech-PDT Czech-PUD Dutch-Alpino Dutch-LassySmall English-EWT English-PUD Italian-ISDT Lithuanian-ALKSNIS Slovak-SNK Swedish-PUD Swedish-Talbanken
-FROMDEV=Tamil-TTB
+FROMUD27=Bulgarian-BTB Dutch-Alpino Dutch-LassySmall English-EWT English-PUD Italian-ISDT Swedish-PUD Swedish-Talbanken
+FROMDEV=Arabic-PADT Czech-CAC Czech-FicTree Czech-PDT Czech-PUD English-GUM Lithuanian-ALKSNIS Slovak-SNK Tamil-TTB
 FROMFORK=Estonian-EDT Estonian-EWT Finnish-PUD Finnish-TDT Latvian-LVTB Polish-LFG Polish-PDB Polish-PUD Russian-SynTagRus Ukrainian-IU
 FROMFRENCH=French-FQB French-Sequoia
 ALL=$(FROMUD27) $(FROMDEV) $(FROMFORK) $(FROMFRENCH)
@@ -11,7 +11,7 @@ TBKS_ar=Arabic-PADT
 TBKS_bg=Bulgarian-BTB
 TBKS_cs=Czech-FicTree Czech-CAC Czech-PDT Czech-PUD
 TBKS_nl=Dutch-Alpino Dutch-LassySmall
-TBKS_en=English-EWT English-PUD
+TBKS_en=English-EWT English-GUM English-PUD
 TBKS_et=Estonian-EDT Estonian-EWT
 TBKS_fi=Finnish-TDT Finnish-PUD
 TBKS_fr=French-Sequoia French-FQB

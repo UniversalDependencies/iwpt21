@@ -10,7 +10,30 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Encode;
 
-my $upload_dir = '/usr/lib/cgi-bin/sysoutputs';
+# In order to find the configuration file on the disk, we need to know the
+# path to the script.
+my $scriptpath;
+BEGIN
+{
+    use Cwd;
+    my $path = $0;
+    $path = $1 if($path =~ m/^(.+\.pl)$/); # untaint $path
+    $path =~ s:\\:/:g;
+    my $currentpath = getcwd();
+    $currentpath = $1 if($currentpath =~ m/^(.+)$/); # untaint $currentpath
+    $scriptpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $scriptpath = getcwd();
+        $scriptpath = $1 if($scriptpath =~ m/^(.+)$/); # untaint $scriptpath
+        chdir($currentpath);
+    }
+    require "$scriptpath/config.pm";
+}
+
+my $upload_dir = $config::config{upload_folder};
 my $query = new CGI;
 my $timestamp = $query->param('timestamp');
 my $team = $query->param('team');
@@ -81,6 +104,29 @@ while(<LOG>)
     unless(m/^(Incoming path to an empty node ignored|Cyclic enhanced path will not be used)/)
     {
         $last_line = $_;
+        # Make more readable the evaluator's complaint that non-whitespace characters do not match.
+        # Replace escape sequences of the form \u0627 with the actual Unicode characters.
+        if(m/^First 20 differing characters/)
+        {
+            my $orig = $_;
+            my $modif = $orig;
+            while($modif =~ m/\\x([0-9a-fA-F]{2})/)
+            {
+                my $u = $1;
+                my $c = chr(hex($u));
+                $modif =~ s/\\x$u/$c/g;
+            }
+            while($modif =~ m/\\u([0-9a-fA-F]+)/)
+            {
+                my $u = $1;
+                my $c = chr(hex($u));
+                $modif =~ s/\\u$u/$c/g;
+            }
+            if($modif ne $orig)
+            {
+                $_ = $orig.$modif;
+            }
+        }
         # Escape special HTML characters.
         s/&/&amp;/g;
         s/</&lt;/g;
