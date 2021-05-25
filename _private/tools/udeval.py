@@ -551,7 +551,7 @@ def evaluate(gold_ud, system_ud):
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
-                        print('matching dep = ' + dep)
+                        print('matching dep = ' + dep, parent, sparent)
                         # Parents are pointers to word object, make sure to compare system parent with aligned gold word
                         # in cases where tokenization introduces mismatches in number of words per sentence.
                         if parent == alignment.matched_words_map.get(sparent, 'NotAligned'):
