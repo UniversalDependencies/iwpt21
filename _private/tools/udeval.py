@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+# [25 May 2021] further modification by Dan Zeman:
+# Evaluate individual types of UD enhancements separately. Exploit enhancement
+# class labels in MISC, previously added by the script enhanced_classify_relations.pl
+# from the UD tools repository.
+
 # Code from CoNLL 2018 UD shared task updated for evaluation of enhanced
 # dependencies in IWPT 2020 shared task.
 # -- read DEPS, split on '|', compute overlap
@@ -486,20 +491,70 @@ def evaluate(gold_ud, system_ud):
         aligned = len(alignment.matched_words)
         correct = 0
         for words in alignment.matched_words:
-                gold_deps = words.gold_word.columns[DEPS]
-                system_deps = words.system_word.columns[DEPS]
-                for (parent,dep) in gold_deps :
-                    eulas_dep = [d.split(':')[0] for d in dep]
-                    for (sparent,sdep) in system_deps:
-                        eulas_sdep = [d.split(':')[0] for d in sdep]
-                        if dep == sdep or ( eulas_dep == eulas_sdep and EULAS ) :
-                            if parent == alignment.matched_words_map.get(sparent,"NotAligned") :
-                                correct += 1
-                            elif (parent == 0 and sparent == 0) :  # cases where parent is root
-                                correct += 1
+            gold_deps = words.gold_word.columns[DEPS]
+            system_deps = words.system_word.columns[DEPS]
+            for (parent,dep) in gold_deps :
+                eulas_dep = [d.split(':')[0] for d in dep]
+                for (sparent,sdep) in system_deps:
+                    eulas_sdep = [d.split(':')[0] for d in sdep]
+                    if dep == sdep or ( eulas_dep == eulas_sdep and EULAS ) :
+                        if parent == alignment.matched_words_map.get(sparent,"NotAligned") :
+                            correct += 1
+                        elif (parent == 0 and sparent == 0) :  # cases where parent is root
+                            correct += 1
 
         return Score(gold, system, correct, aligned)
 
+    def edeptype_alignment_score(alignment, type):
+        # DZ: Look for basic + enhanced dependency classification provided by
+        # the script enhanced_classify_relations.pl and stored in MISC. Known
+        # dependency types (copied from that script):
+        # * basic (B) ... this enhanced edge is identical to an edge in the basic tree (including the deprel)
+        # * cased (C) ... case-enhanced relation (the relation with the shorter label may or may not exist in the basic tree)
+        # * relabeled (L) ... the same two nodes are also connected in the basic tree but the deprel is different and the difference does not look like a case enhancement
+        # * gapping (G) ... the parent or the child is an empty node; the edge was added because of gapping
+        # * orphan (O) ... basic relation missing from enhanced graph because it was replaced by a relation to/from an empty node (the basic edge is not necessarily labeled 'orphan')
+        # * coparent (P) ... shared parent of coordination, relation propagated to a non-first conjunct
+        # * codepend (S) ... shared dependent of coordination, relation propagated from a non-first conjunct
+        # * xsubj (X) ... relation between a controlled predicate and its external subject
+        # * relcl (R) ... relation between a node in a relative clause and the modified nominal; also the 'ref' relation between the modified nominal and the coreferential relative pronoun
+        # * relpron (W) ... basic relation incoming to a relative pronoun is missing from enhanced graph because it was replaced by the 'ref' relation
+        # * missing (M) ... basic relation is missing from the enhanced graph but none of the above reasons has been recognized
+        # * enhanced (E) ... this enhanced edge does not exist in the basic tree and none of the above reasons has been recognized
+        # Some types may be combined. For example, there may be an enhanced relation
+        # that exists because of 'relcl' and 'coparent', and it would disappear if
+        # either of the enhancement types were not annotated.
+        pattern = re.compile(r'^Edep=[A-Z]*' + type + r'[A-Z]*:(\d+):(.+)$')
+        # Count the number of instances in the gold annotation.
+        gold = 0
+        for gold_word in alignment.gold_words:
+            gold += len([x for x in gold_word.columns[MISC].split('|') if pattern.match(x)])
+        system = 0
+        for system_word in alignment.system_words:
+            system += len([x for x in system_word.columns[MISC].split('|') if pattern.match(x)])
+        aligned = len(alignment.matched_words)
+        correct = 0
+        for words in alignment.matched_words:
+            gold_deps = []
+            for x in words.gold_word.columns[MISC].split('|'):
+                match = pattern.match(x)
+                if match:
+                    gold_deps.append(match.group(1), match.group(2))
+            system_deps = []
+            for x in words.system_word.columns[MISC].split('|'):
+                match = pattern.match(x)
+                if match:
+                    system_deps.append(match.group(1), match.group(2))
+            for (parent, dep) in gold_deps:
+                for (sparent, sdep) in system_deps:
+                    if dep == sdep:
+                        # Parents are pointers to word object, make sure to compare system parent with aligned gold word
+                        # in cases where tokenization introduces mismatches in number of words per sentence.
+                        if parent == alignment.matched_words_map.get(sparent, 'NotAligned'):
+                            correct += 1
+                        elif (parent == 0 and sparent == 0):  # cases where parent is root
+                            correct += 1
+        return Score(gold, system, correct, aligned)
 
     def beyond_end(words, i, multiword_span_end):
         if i >= len(words):
@@ -617,8 +672,9 @@ def evaluate(gold_ud, system_ud):
         "UAS": alignment_score(alignment, lambda w, ga: ga(w.parent)),
         "LAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL])),
         # include enhanced DEPS score -- GB
-        "ELAS": enhanced_alignment_score(alignment,0),
-        "EULAS": enhanced_alignment_score(alignment,1),
+        "ELAS": enhanced_alignment_score(alignment, 0),
+        "EULAS": enhanced_alignment_score(alignment, 1),
+        "P": edeptype_alignment_score(alignment, 'P'),
         "CLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL]),
                                 filter_fn=lambda w: w.is_content_deprel),
         "MLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL], w.columns[UPOS], w.columns[FEATS],
