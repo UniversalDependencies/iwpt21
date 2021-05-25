@@ -675,7 +675,7 @@ def evaluate(gold_ud, system_ud):
         # include enhanced DEPS score -- GB
         "ELAS": enhanced_alignment_score(alignment, 0),
         "EULAS": enhanced_alignment_score(alignment, 1),
-        "P": edeptype_alignment_score(alignment, 'P'),
+        "EUDP": edeptype_alignment_score(alignment, 'P'),
         "CLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL]),
                                 filter_fn=lambda w: w.is_content_deprel),
         "MLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL], w.columns[UPOS], w.columns[FEATS],
@@ -730,7 +730,7 @@ def main():
         print("LAS F1 Score: {:.2f}".format(100 * evaluation["LAS"].f1))
         print("ELAS F1 Score: {:.2f}".format(100 * evaluation["ELAS"].f1))
         print("EULAS F1 Score: {:.2f}".format(100 * evaluation["EULAS"].f1))
-
+        print("EUD P F1 Score: {:.2f}".format(100 * evaluation["EUDP"].f1))
         print("MLAS Score: {:.2f}".format(100 * evaluation["MLAS"].f1))
         print("BLEX Score: {:.2f}".format(100 * evaluation["BLEX"].f1))
     else:
@@ -739,7 +739,7 @@ def main():
         else:
             print("Metric     | Precision |    Recall |  F1 Score | AligndAcc")
         print("-----------+-----------+-----------+-----------+-----------")
-        for metric in["Tokens", "Sentences", "Words", "UPOS", "XPOS", "UFeats", "AllTags", "Lemmas", "UAS", "LAS", "ELAS", "EULAS", "CLAS", "MLAS", "BLEX"]:
+        for metric in["Tokens", "Sentences", "Words", "UPOS", "XPOS", "UFeats", "AllTags", "Lemmas", "UAS", "LAS", "ELAS", "EULAS", "EUDP", "CLAS", "MLAS", "BLEX"]:
             if args.counts:
                 print("{:11}|{:10} |{:10} |{:10} |{:10}".format(
                     metric,
