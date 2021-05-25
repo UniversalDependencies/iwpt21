@@ -3,9 +3,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>IWPT Shared Task on Parsing into Enhanced Dependencies Results : </title>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <style type="text/css">
      <!--
        .hilight { background: lightgreen; }
@@ -83,65 +83,65 @@
    <!--Load the AJAX API-->
    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
    <script type="text/javascript">
-   
+
      // Load the Visualization API and the piechart package.
-     
-     
+
+
 		 google.load('visualization', '1', {'packages':['corechart','table']});
-	 
-	 	 
+
+
      // Set a callback to run when the Google Visualization API is loaded.
 //     google.charts.setOnLoadCallback(drawTables);
 	 	google.setOnLoadCallback(function() {drawTables()});
-	 
-	 // Callback that creates and populates a data table, 
+
+	 // Callback that creates and populates a data table,
 	  // instantiates the pie chart, passes in the data and
 	       // draws it.
-		   
+
 	 function drawTables() {
-		 
+
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing [Avg.] - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_[Avg.]_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  88.91,  86.30,  84.71,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  83.71,  85.50,  84.40,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  72.85,  69.97,  67.02,  ]);
-				 
+
 					data.addRow(['results/grew-02',  86.37,  84.76,  81.86,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  34.60,  27.26,  25.98,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  89.25,  88.34,  87.17,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.36,  89.15,  87.81,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  1.12,  90.66,  89.70,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  88.19,  86.22,  84.70,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -156,7 +156,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -169,50 +169,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_[Avg.]_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Arabic-PADT - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Arabic-PADT_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  81.04,  78.35,  76.40,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  66.37,  72.59,  71.01,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  64.88,  61.13,  53.75,  ]);
-				 
+
 					data.addRow(['results/grew-02',  74.85,  73.09,  71.13,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  85.32,  83.64,  81.58,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  2.12,  84.44,  82.25,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  2.09,  83.17,  81.23,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  81.97,  79.79,  77.17,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -227,7 +227,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -240,50 +240,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Arabic-PADT_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Bulgarian-BTB - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Bulgarian-BTB_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  89.52,  87.41,  86.67,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  90.19,  93.08,  92.44,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  83.39,  80.65,  78.73,  ]);
-				 
+
 					data.addRow(['results/grew-02',  91.62,  89.71,  88.83,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  90.03,  80.21,  78.45,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  94.15,  93.79,  93.16,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.54,  93.47,  92.52,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  1.13,  94.56,  93.63,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.71,  91.89,  90.84,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -298,7 +298,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -311,50 +311,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Bulgarian-BTB_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Czech-CAC - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Czech-CAC_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  94.67,  90.53,  89.07,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  88.40,  89.32,  88.06,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  77.44,  74.04,  70.51,  ]);
-				 
+
 					data.addRow(['results/grew-02',  91.14,  88.29,  86.45,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  91.84,  90.61,  89.47,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.61,  93.31,  92.26,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  1.18,  93.74,  92.69,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.66,  89.70,  88.21,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -369,7 +369,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -382,50 +382,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Czech-CAC_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Czech-FicTree - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Czech-FicTree_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  94.87,  92.01,  90.71,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  87.50,  90.48,  89.14,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  77.10,  74.20,  70.92,  ]);
-				 
+
 					data.addRow(['results/grew-02',  90.50,  88.68,  86.77,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  90.62,  89.72,  88.58,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  3.16,  93.63,  92.68,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  2.33,  94.96,  93.98,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.44,  89.84,  88.52,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -440,7 +440,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -453,50 +453,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Czech-FicTree_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Czech-PDT - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Czech-PDT_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  93.63,  90.91,  89.49,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  89.87,  91.62,  90.66,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  79.61,  76.59,  73.30,  ]);
-				 
+
 					data.addRow(['results/grew-02',  91.95,  90.00,  88.30,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  92.77,  91.90,  90.92,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.58,  93.27,  92.25,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  1.44,  93.68,  92.66,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.85,  90.68,  89.34,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -511,7 +511,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -524,50 +524,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Czech-PDT_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Czech-PUD - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Czech-PUD_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  87.96,  86.09,  83.81,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  85.05,  86.69,  84.93,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  77.84,  75.12,  71.74,  ]);
-				 
+
 					data.addRow(['results/grew-02',  87.09,  85.64,  83.17,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  88.30,  87.22,  85.41,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.69,  88.13,  86.25,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.49,  88.33,  86.50,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  87.61,  85.60,  83.54,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -582,7 +582,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -595,50 +595,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Czech-PUD_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Dutch-Alpino - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Dutch-Alpino_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  92.54,  90.67,  89.00,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  87.21,  90.33,  89.82,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  77.88,  74.93,  73.16,  ]);
-				 
+
 					data.addRow(['results/grew-02',  90.38,  88.55,  87.97,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  92.48,  91.81,  91.39,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.44,  92.17,  91.25,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.14,  93.60,  93.00,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  91.22,  89.47,  88.62,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -653,7 +653,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -666,50 +666,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Dutch-Alpino_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Dutch-LassySmall - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Dutch-LassySmall_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  89.38,  87.21,  85.22,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  79.19,  75.40,  75.06,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  71.01,  66.34,  64.90,  ]);
-				 
+
 					data.addRow(['results/grew-02',  83.28,  80.98,  80.40,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  86.54,  85.77,  85.50,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  2.36,  86.78,  86.15,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  2.72,  91.34,  90.61,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  84.32,  80.71,  80.00,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -724,7 +724,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -737,50 +737,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Dutch-LassySmall_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing English-EWT - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_English-EWT_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  87.11,  85.28,  84.34,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  84.84,  87.69,  87.34,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  79.46,  76.16,  74.85,  ]);
-				 
+
 					data.addRow(['results/grew-02',  87.36,  86.65,  86.13,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  84.48,  66.38,  64.50,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  90.27,  89.79,  89.42,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  2.44,  89.02,  88.33,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  2.07,  89.40,  88.90,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  88.87,  88.02,  87.41,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -795,7 +795,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -808,50 +808,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_English-EWT_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing English-GUM - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_English-GUM_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  86.62,  84.25,  82.89,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  78.93,  80.60,  79.85,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  72.95,  68.99,  67.24,  ]);
-				 
+
 					data.addRow(['results/grew-02',  81.80,  80.97,  80.29,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  82.22,  65.90,  63.78,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  83.09,  83.49,  82.78,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.87,  85.75,  84.75,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.91,  87.87,  87.06,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  87.23,  86.05,  85.36,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -866,7 +866,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -879,50 +879,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_English-GUM_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing English-PUD - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_English-PUD_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  87.80,  86.06,  84.70,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  85.81,  88.82,  88.29,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  80.10,  76.87,  75.32,  ]);
-				 
+
 					data.addRow(['results/grew-02',  90.04,  89.38,  88.73,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  86.13,  70.29,  67.71,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  90.47,  90.50,  90.00,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.11,  88.91,  87.96,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.04,  88.84,  88.22,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  88.95,  88.73,  88.12,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -937,7 +937,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -950,50 +950,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_English-PUD_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Estonian-EDT - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Estonian-EDT_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  88.73,  87.45,  85.92,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  84.44,  87.69,  87.30,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  66.36,  65.77,  62.26,  ]);
-				 
+
 					data.addRow(['results/grew-02',  86.18,  84.13,  80.67,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  84.57,  59.42,  55.87,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  89.52,  89.45,  88.98,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.12,  89.07,  88.26,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.79,  90.39,  89.83,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  86.17,  85.23,  83.88,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1008,7 +1008,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1021,50 +1021,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Estonian-EDT_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Estonian-EWT - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Estonian-EWT_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  83.12,  78.86,  77.32,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  74.70,  74.74,  74.04,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  57.64,  55.52,  52.38,  ]);
-				 
+
 					data.addRow(['results/grew-02',  75.27,  72.81,  69.30,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  74.73,  50.34,  47.59,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  80.50,  78.60,  77.91,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.30,  81.95,  80.99,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.92,  84.02,  83.22,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  76.69,  73.62,  72.11,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1079,7 +1079,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1092,50 +1092,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Estonian-EWT_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Finnish-PUD - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Finnish-PUD_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  92.21,  88.84,  87.33,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  87.73,  88.92,  88.09,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  61.15,  62.62,  56.84,  ]);
-				 
+
 					data.addRow(['results/grew-02',  89.74,  87.77,  86.62,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  93.53,  90.45,  89.60,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.52,  90.31,  88.99,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.29,  90.40,  89.72,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.85,  89.86,  88.57,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1150,7 +1150,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1163,50 +1163,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Finnish-PUD_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Finnish-TDT - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Finnish-TDT_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  92.33,  88.87,  87.35,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  86.50,  90.34,  89.83,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  63.44,  63.65,  58.36,  ]);
-				 
+
 					data.addRow(['results/grew-02',  88.10,  86.02,  84.45,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  93.77,  92.77,  92.19,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.29,  92.93,  92.04,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.95,  93.64,  93.14,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.69,  91.31,  90.52,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1221,7 +1221,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1234,50 +1234,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Finnish-TDT_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing French-FQB - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_French-FQB_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  87.53,  86.70,  86.40,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  83.62,  86.39,  85.97,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  74.87,  72.58,  71.70,  ]);
-				 
+
 					data.addRow(['results/grew-02',  87.95,  87.48,  85.89,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  88.72,  88.61,  88.16,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  3.08,  87.78,  87.43,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  3.11,  90.74,  90.24,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  89.65,  88.61,  87.78,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1292,7 +1292,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1305,50 +1305,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_French-FQB_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing French-Sequoia - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_French-Sequoia_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  93.52,  91.13,  91.00,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  89.02,  89.33,  89.18,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  82.57,  79.14,  78.84,  ]);
-				 
+
 					data.addRow(['results/grew-02',  83.90,  82.70,  82.07,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  85.71,  90.83,  90.64,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.64,  91.85,  91.71,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.88,  95.35,  95.22,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  91.86,  89.41,  88.94,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1363,7 +1363,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1376,50 +1376,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_French-Sequoia_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Italian-ISDT - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Italian-ISDT_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  93.27,  91.16,  90.40,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  91.12,  92.94,  92.41,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  84.92,  82.11,  78.32,  ]);
-				 
+
 					data.addRow(['results/grew-02',  93.12,  92.05,  90.98,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  94.44,  93.78,  93.28,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.72,  93.59,  92.88,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.58,  93.98,  93.31,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  93.65,  92.52,  91.81,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1434,7 +1434,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1447,50 +1447,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Italian-ISDT_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Latvian-LVTB - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Latvian-LVTB_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  90.25,  86.22,  84.57,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  85.10,  87.45,  86.96,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  72.03,  67.62,  66.43,  ]);
-				 
+
 					data.addRow(['results/grew-02',  85.27,  81.77,  77.45,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  85.19,  59.00,  56.67,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  91.25,  89.35,  88.82,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.42,  89.77,  89.17,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.97,  90.72,  90.23,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  86.63,  83.92,  83.01,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1505,7 +1505,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1518,50 +1518,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Latvian-LVTB_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Lithuanian-ALKSNIS - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Lithuanian-ALKSNIS_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  84.75,  81.28,  79.75,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  73.25,  79.79,  78.04,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  53.55,  52.52,  48.27,  ]);
-				 
+
 					data.addRow(['results/grew-02',  78.65,  76.34,  74.62,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  73.52,  61.54,  59.13,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  83.27,  82.47,  80.76,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.77,  83.76,  80.87,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  1.24,  87.49,  86.06,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  78.31,  74.61,  71.31,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1576,7 +1576,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1589,50 +1589,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Lithuanian-ALKSNIS_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Polish-LFG - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Polish-LFG_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  94.09,  92.41,  83.96,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  86.94,  87.37,  77.34,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  79.76,  77.84,  68.95,  ]);
-				 
+
 					data.addRow(['results/grew-02',  87.52,  86.76,  71.27,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  88.23,  88.20,  78.03,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  3.55,  94.45,  91.70,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  3.02,  95.08,  92.30,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  93.44,  93.19,  89.30,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1647,7 +1647,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1660,50 +1660,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Polish-LFG_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Polish-PDB - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Polish-PDB_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  92.49,  89.63,  88.55,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  90.58,  92.62,  92.24,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  78.38,  74.27,  72.67,  ]);
-				 
+
 					data.addRow(['results/grew-02',  91.73,  90.53,  80.09,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  94.54,  93.23,  92.79,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.76,  92.71,  90.22,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  1.23,  93.27,  91.17,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.64,  90.38,  87.87,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1718,7 +1718,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1731,50 +1731,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Polish-PDB_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Polish-PUD - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Polish-PUD_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  92.27,  89.81,  88.56,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  90.49,  92.25,  91.63,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  77.04,  73.10,  71.15,  ]);
-				 
+
 					data.addRow(['results/grew-02',  91.55,  90.39,  79.51,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  93.84,  92.95,  92.32,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.77,  92.69,  90.76,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.59,  92.94,  91.40,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.33,  90.42,  88.42,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1789,7 +1789,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1802,50 +1802,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Polish-PUD_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Russian-SynTagRus - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Russian-SynTagRus_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  94.29,  91.76,  90.73,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  90.97,  93.14,  92.83,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  83.23,  80.13,  78.56,  ]);
-				 
+
 					data.addRow(['results/grew-02',  92.97,  91.59,  90.56,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  91.01,  72.66,  66.33,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  94.64,  93.11,  92.64,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.73,  94.00,  93.59,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.51,  94.55,  94.01,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  93.32,  91.49,  90.90,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1860,7 +1860,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1873,50 +1873,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Russian-SynTagRus_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Slovak-SNK - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Slovak-SNK_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  91.72,  88.53,  87.04,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  86.60,  90.87,  89.59,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  71.71,  67.09,  64.28,  ]);
-				 
+
 					data.addRow(['results/grew-02',  90.45,  88.73,  86.92,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  87.49,  73.47,  67.45,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  93.88,  91.14,  89.66,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.96,  92.84,  90.25,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  1.60,  95.90,  94.96,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  91.75,  88.77,  86.05,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -1931,7 +1931,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -1944,50 +1944,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Slovak-SNK_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Swedish-PUD - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Swedish-PUD_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  84.02,  81.66,  79.43,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  78.21,  82.33,  81.40,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  69.11,  65.22,  63.13,  ]);
-				 
+
 					data.addRow(['results/grew-02',  83.27,  82.39,  78.47,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  77.87,  62.93,  60.17,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  86.67,  85.60,  84.78,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.15,  85.53,  83.45,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.04,  87.30,  86.39,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  84.02,  82.22,  80.51,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -2002,7 +2002,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -2015,50 +2015,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Swedish-PUD_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Swedish-Talbanken - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Swedish-Talbanken_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  91.38,  88.60,  86.71,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  86.13,  89.45,  88.74,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  76.84,  73.27,  71.14,  ]);
-				 
+
 					data.addRow(['results/grew-02',  89.68,  88.53,  84.38,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  86.20,  68.51,  65.87,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  92.96,  91.59,  91.05,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.51,  91.51,  89.57,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.34,  93.71,  93.17,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  92.74,  90.70,  89.00,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -2073,7 +2073,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -2086,50 +2086,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Swedish-Talbanken_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Tamil-TTB - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Tamil-TTB_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  56.28,  53.47,  52.25,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  54.72,  40.59,  39.26,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  47.66,  46.13,  42.47,  ]);
-				 
+
 					data.addRow(['results/grew-02',  61.07,  60.17,  58.65,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  63.83,  61.93,  59.32,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  0.20,  61.65,  58.93,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.00,  66.89,  65.58,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  56.04,  54.13,  51.70,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -2144,7 +2144,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -2157,50 +2157,50 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Tamil-TTB_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		   //1
-		
+
 		 	//2
-			
+
 			<!-- starting processing Ukrainian-IU - fine - -->
-			
-			
+
+
 				var data = new google.visualization.DataTable();
-			
+
 				var chart = new google.visualization.Table(document.getElementById('chart_lang_Ukrainian-IU_fine'));
-			 	//# create columns 
+			 	//# create columns
 				data.addColumn('string', 'team');
-				 
-				
+
+
 				 	data.addColumn('number','LAS (%)');
-				
+
 				 	data.addColumn('number','EULAS (%)');
-				
+
 				 	data.addColumn('number','ELAS (%)');
-				
-				
+
+
 				//# add rows
-				 
+
 					data.addRow(['results/combo-primary',  90.96,  87.60,  86.92,  ]);
-				 
+
 					data.addRow(['results/dcu_epfl-primary',  84.05,  86.64,  86.09,  ]);
-				 
+
 					data.addRow(['results/fastparse-v1_2021',  70.79,  65.41,  63.42,  ]);
-				 
+
 					data.addRow(['results/grew-02',  88.24,  85.87,  83.90,  ]);
-				 
+
 					data.addRow(['results/nuig-15232114',  null,  null,  null,  ]);
-				 
+
 					data.addRow(['results/robertnlp-primary1',  93.16,  89.49,  88.86,  ]);
-				 
+
 					data.addRow(['results/shanghaitech-ace_v3',  1.10,  90.21,  88.94,  ]);
-				 
+
 					data.addRow(['results/tgif-primary',  0.95,  93.18,  92.78,  ]);
-				 
+
 					data.addRow(['results/unipi-attn_smax_ta',  91.92,  89.41,  87.51,  ]);
-					
-				
+
+
 			    var formatter = new google.visualization.ColorFormat();
 			      formatter.addGradientRange(70,100,'white','#7BB77E','#37B73D');
 			      formatter.addGradientRange(50,70,'white','#F48404','#F2D9AE');
@@ -2215,7 +2215,7 @@
 		      formatter.format(data,3);
 
 			  chart.draw(data, {width: '60em', allowHtml: true});
-			  
+
 
 	      var synthesis = google.visualization.data.group(
 	  						 data,
@@ -2228,112 +2228,112 @@
 	      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar_lang_Ukrainian-IU_fine'));
 	      chart.draw(synthesis, {width: 1200,height: 600});
 
-				 
+
 			//2
 		 //1
-		  
-		
+
+
 		 // DEBUG_HERE
  		 //3
  		       var data = new google.visualization.DataTable();
 
  		       data.addColumn('string', 'team / ELAS (%)');
  			   var lang_counter=0;
- 			   
+
  		       		data.addColumn('number', '[Avg.]');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Arabic-PADT');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Bulgarian-BTB');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Czech-CAC');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Czech-FicTree');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Czech-PDT');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Czech-PUD');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Dutch-Alpino');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Dutch-LassySmall');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'English-EWT');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'English-GUM');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'English-PUD');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Estonian-EDT');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Estonian-EWT');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Finnish-PUD');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Finnish-TDT');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'French-FQB');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'French-Sequoia');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Italian-ISDT');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Latvian-LVTB');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Lithuanian-ALKSNIS');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Polish-LFG');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Polish-PDB');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Polish-PUD');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Russian-SynTagRus');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Slovak-SNK');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Swedish-PUD');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Swedish-Talbanken');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Tamil-TTB');
  					lang_counter++;
- 				
+
  		       		data.addColumn('number', 'Ukrainian-IU');
  					lang_counter++;
- 				
+
  		 //      data.addColumn('number', 'ACC (%, avg)');
  		 //      data.addColumn('number', 'LAS (%, avg2)');
-		 
-		 
+
+
  		//# add rows
  	 		  //4
  	 			data.addRow(['results/combo-primary',
@@ -2397,9 +2397,9 @@
  					52.25,
  				 // the horror, Mresults != lang bc of the debugging
  					86.92,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/dcu_epfl-primary',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2462,9 +2462,9 @@
  					39.26,
  				 // the horror, Mresults != lang bc of the debugging
  					86.09,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/fastparse-v1_2021',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2527,9 +2527,9 @@
  					42.47,
  				 // the horror, Mresults != lang bc of the debugging
  					63.42,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/grew-02',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2592,9 +2592,9 @@
  					58.65,
  				 // the horror, Mresults != lang bc of the debugging
  					83.90,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/nuig-15232114',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2657,9 +2657,9 @@
  					null,
  				 // the horror, Mresults != lang bc of the debugging
  					null,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/robertnlp-primary1',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2722,9 +2722,9 @@
  					59.32,
  				 // the horror, Mresults != lang bc of the debugging
  					88.86,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/shanghaitech-ace_v3',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2787,9 +2787,9 @@
  					58.93,
  				 // the horror, Mresults != lang bc of the debugging
  					88.94,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/tgif-primary',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2852,9 +2852,9 @@
  					65.58,
  				 // the horror, Mresults != lang bc of the debugging
  					92.78,
- 				
+
  				]);
-				
+
 			  //4
  	 			data.addRow(['results/unipi-attn_smax_ta',
  				 // the horror, Mresults != lang bc of the debugging
@@ -2917,53 +2917,53 @@
  					51.70,
  				 // the horror, Mresults != lang bc of the debugging
  					87.51,
- 				
+
  				]);
-				
-			 //4 #foreach t	
-				
+
+			 //4 #foreach t
+
  			 //3 # foreach m1 #3
-		
-		 <!-- here end displays synthesis per page -->		 
+
+		 <!-- here end displays synthesis per page -->
  	     var formatter = new google.visualization.ColorFormat();
  	       formatter.addGradientRange(85,100,'white','#7BB77E','#37B73D');
  	       formatter.addGradientRange(70,85,'white','#F48404','#F2D9AE');
  		   var i;
  		   for (i = 0; i < lang_counter+1; i++) { // team col + nb of langages
  			   formatter.format(data,i);
- 			}   
+ 			}
 
 
  	       var formatter = new google.visualization.NumberFormat({fractionDigits: 2});
- 		   for (i = 0; i < lang_counter+1; i++) { 
+ 		   for (i = 0; i < lang_counter+1; i++) {
  			   formatter.format(data,i);
- 			}   
+ 			}
 
  	     var chart = new google.visualization.Table(document.getElementById('chart_synthesis_fine'));
  	     chart.draw(data, {width: '600em', allowHtml: true});
 
 
 		 // printing synthesis graphic
-		 
-		 
+
+
 //		 var data = new google.visualization.DataTable();
 		 var data = transposeDateDataTable(data)
-		
+
 
 
 
 
 		 var chart = new google.visualization.LineChart(document.getElementById('chart_synthesis_scatter_fine'));
-		 chart.draw(data, {width: 1200, pointSize: 10, lineWidth: 0, height: 800, 
-		 vAxis: { title: 'ELAS (%)', gridlines: { count: -1}, minorGridlines: {count: 1}}, 
+		 chart.draw(data, {width: 1200, pointSize: 10, lineWidth: 0, height: 800,
+		 vAxis: { title: 'ELAS (%)', gridlines: { count: -1}, minorGridlines: {count: 1}},
 		 hAxis: {title: '', slantedText:true, slantedTextAngle:45 }, series: {0: {lineWidth: 2, pointSize: 0, visibleInLegend: false }}});
 
 
-		 
+
 	 }// end drawTables
-	 
-	 
-	 
+
+
+
 	 function transposeDateDataTable (dataTable) {
 
 	     // Create new datatable
@@ -2994,7 +2994,7 @@
 
 	 }// end of transpose
    </script>
-    
+
   </head>
 
   <body>
@@ -3064,462 +3064,462 @@
 
         <li><a href="#tabs-Ukrainian-IU">Ukrainian-IU</a></li>
 
-       <li><a href="#tabs-synthesis">Synthesis</a></li> 
-      </ul>  
-  	
+       <li><a href="#tabs-synthesis">Synthesis</a></li>
+      </ul>
+
   		<div id="tabs-[Avg.]">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-[Avg.]-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-[Avg.]-fine">
   			             <div id="chart_lang_[Avg.]_fine"></div>
   			             <div id="chart_bar_lang_[Avg.]_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-[Avg.]" -->
-    
+
   		<div id="tabs-Arabic-PADT">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Arabic-PADT-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Arabic-PADT-fine">
   			             <div id="chart_lang_Arabic-PADT_fine"></div>
   			             <div id="chart_bar_lang_Arabic-PADT_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Arabic-PADT" -->
-    
+
   		<div id="tabs-Bulgarian-BTB">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Bulgarian-BTB-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Bulgarian-BTB-fine">
   			             <div id="chart_lang_Bulgarian-BTB_fine"></div>
   			             <div id="chart_bar_lang_Bulgarian-BTB_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Bulgarian-BTB" -->
-    
+
   		<div id="tabs-Czech-CAC">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Czech-CAC-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Czech-CAC-fine">
   			             <div id="chart_lang_Czech-CAC_fine"></div>
   			             <div id="chart_bar_lang_Czech-CAC_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Czech-CAC" -->
-    
+
   		<div id="tabs-Czech-FicTree">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Czech-FicTree-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Czech-FicTree-fine">
   			             <div id="chart_lang_Czech-FicTree_fine"></div>
   			             <div id="chart_bar_lang_Czech-FicTree_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Czech-FicTree" -->
-    
+
   		<div id="tabs-Czech-PDT">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Czech-PDT-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Czech-PDT-fine">
   			             <div id="chart_lang_Czech-PDT_fine"></div>
   			             <div id="chart_bar_lang_Czech-PDT_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Czech-PDT" -->
-    
+
   		<div id="tabs-Czech-PUD">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Czech-PUD-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Czech-PUD-fine">
   			             <div id="chart_lang_Czech-PUD_fine"></div>
   			             <div id="chart_bar_lang_Czech-PUD_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Czech-PUD" -->
-    
+
   		<div id="tabs-Dutch-Alpino">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Dutch-Alpino-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Dutch-Alpino-fine">
   			             <div id="chart_lang_Dutch-Alpino_fine"></div>
   			             <div id="chart_bar_lang_Dutch-Alpino_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Dutch-Alpino" -->
-    
+
   		<div id="tabs-Dutch-LassySmall">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Dutch-LassySmall-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Dutch-LassySmall-fine">
   			             <div id="chart_lang_Dutch-LassySmall_fine"></div>
   			             <div id="chart_bar_lang_Dutch-LassySmall_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Dutch-LassySmall" -->
-    
+
   		<div id="tabs-English-EWT">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-English-EWT-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-English-EWT-fine">
   			             <div id="chart_lang_English-EWT_fine"></div>
   			             <div id="chart_bar_lang_English-EWT_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-English-EWT" -->
-    
+
   		<div id="tabs-English-GUM">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-English-GUM-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-English-GUM-fine">
   			             <div id="chart_lang_English-GUM_fine"></div>
   			             <div id="chart_bar_lang_English-GUM_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-English-GUM" -->
-    
+
   		<div id="tabs-English-PUD">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-English-PUD-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-English-PUD-fine">
   			             <div id="chart_lang_English-PUD_fine"></div>
   			             <div id="chart_bar_lang_English-PUD_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-English-PUD" -->
-    
+
   		<div id="tabs-Estonian-EDT">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Estonian-EDT-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Estonian-EDT-fine">
   			             <div id="chart_lang_Estonian-EDT_fine"></div>
   			             <div id="chart_bar_lang_Estonian-EDT_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Estonian-EDT" -->
-    
+
   		<div id="tabs-Estonian-EWT">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Estonian-EWT-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Estonian-EWT-fine">
   			             <div id="chart_lang_Estonian-EWT_fine"></div>
   			             <div id="chart_bar_lang_Estonian-EWT_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Estonian-EWT" -->
-    
+
   		<div id="tabs-Finnish-PUD">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Finnish-PUD-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Finnish-PUD-fine">
   			             <div id="chart_lang_Finnish-PUD_fine"></div>
   			             <div id="chart_bar_lang_Finnish-PUD_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Finnish-PUD" -->
-    
+
   		<div id="tabs-Finnish-TDT">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Finnish-TDT-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Finnish-TDT-fine">
   			             <div id="chart_lang_Finnish-TDT_fine"></div>
   			             <div id="chart_bar_lang_Finnish-TDT_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Finnish-TDT" -->
-    
+
   		<div id="tabs-French-FQB">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-French-FQB-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-French-FQB-fine">
   			             <div id="chart_lang_French-FQB_fine"></div>
   			             <div id="chart_bar_lang_French-FQB_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-French-FQB" -->
-    
+
   		<div id="tabs-French-Sequoia">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-French-Sequoia-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-French-Sequoia-fine">
   			             <div id="chart_lang_French-Sequoia_fine"></div>
   			             <div id="chart_bar_lang_French-Sequoia_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-French-Sequoia" -->
-    
+
   		<div id="tabs-Italian-ISDT">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Italian-ISDT-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Italian-ISDT-fine">
   			             <div id="chart_lang_Italian-ISDT_fine"></div>
   			             <div id="chart_bar_lang_Italian-ISDT_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Italian-ISDT" -->
-    
+
   		<div id="tabs-Latvian-LVTB">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Latvian-LVTB-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Latvian-LVTB-fine">
   			             <div id="chart_lang_Latvian-LVTB_fine"></div>
   			             <div id="chart_bar_lang_Latvian-LVTB_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Latvian-LVTB" -->
-    
+
   		<div id="tabs-Lithuanian-ALKSNIS">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Lithuanian-ALKSNIS-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Lithuanian-ALKSNIS-fine">
   			             <div id="chart_lang_Lithuanian-ALKSNIS_fine"></div>
   			             <div id="chart_bar_lang_Lithuanian-ALKSNIS_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Lithuanian-ALKSNIS" -->
-    
+
   		<div id="tabs-Polish-LFG">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Polish-LFG-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Polish-LFG-fine">
   			             <div id="chart_lang_Polish-LFG_fine"></div>
   			             <div id="chart_bar_lang_Polish-LFG_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Polish-LFG" -->
-    
+
   		<div id="tabs-Polish-PDB">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Polish-PDB-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Polish-PDB-fine">
   			             <div id="chart_lang_Polish-PDB_fine"></div>
   			             <div id="chart_bar_lang_Polish-PDB_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Polish-PDB" -->
-    
+
   		<div id="tabs-Polish-PUD">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Polish-PUD-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Polish-PUD-fine">
   			             <div id="chart_lang_Polish-PUD_fine"></div>
   			             <div id="chart_bar_lang_Polish-PUD_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Polish-PUD" -->
-    
+
   		<div id="tabs-Russian-SynTagRus">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Russian-SynTagRus-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Russian-SynTagRus-fine">
   			             <div id="chart_lang_Russian-SynTagRus_fine"></div>
   			             <div id="chart_bar_lang_Russian-SynTagRus_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Russian-SynTagRus" -->
-    
+
   		<div id="tabs-Slovak-SNK">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Slovak-SNK-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Slovak-SNK-fine">
   			             <div id="chart_lang_Slovak-SNK_fine"></div>
   			             <div id="chart_bar_lang_Slovak-SNK_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Slovak-SNK" -->
-    
+
   		<div id="tabs-Swedish-PUD">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Swedish-PUD-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Swedish-PUD-fine">
   			             <div id="chart_lang_Swedish-PUD_fine"></div>
   			             <div id="chart_bar_lang_Swedish-PUD_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Swedish-PUD" -->
-    
+
   		<div id="tabs-Swedish-Talbanken">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Swedish-Talbanken-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Swedish-Talbanken-fine">
   			             <div id="chart_lang_Swedish-Talbanken_fine"></div>
   			             <div id="chart_bar_lang_Swedish-Talbanken_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Swedish-Talbanken" -->
-    
+
   		<div id="tabs-Tamil-TTB">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Tamil-TTB-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Tamil-TTB-fine">
   			             <div id="chart_lang_Tamil-TTB_fine"></div>
   			             <div id="chart_bar_lang_Tamil-TTB_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Tamil-TTB" -->
-    
+
   		<div id="tabs-Ukrainian-IU">
   	        <ul>
-  			
+
   	        	<li><a href="#tabs-Ukrainian-IU-fine">fine</a></li>
-  			
+
   	        </ul>
-	
-  			
+
+
   			        <div id="tabs-Ukrainian-IU-fine">
   			             <div id="chart_lang_Ukrainian-IU_fine"></div>
   			             <div id="chart_bar_lang_Ukrainian-IU_fine"></div>
   			        </div>
-  			
+
 	  		</div> <!-- id="tabs-Ukrainian-IU" -->
-     <!-- foreach language -->    
-	
-     
-	  
+     <!-- foreach language -->
+
+
+
 
 
      <div id="tabs-synthesis">
@@ -3528,14 +3528,14 @@
            <li><a href="#tabs-synthesis-fine">fine</a></li>
 
        </ul>
-  
-	   
+
+
 	           <div id="tabs-synthesis-fine">
 	                <div id="chart_synthesis_fine"></div>
 	                <div id="chart_synthesis_scatter_fine"></div>
 	           </div><!-- div id="tabs-synthesis-fine" -->
 
-	   
+
 	  </div> <!-- div id="tabs" -->
     </body>
 
