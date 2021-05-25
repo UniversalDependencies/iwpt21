@@ -7,8 +7,8 @@
 ./tools/get_tables_from_iwptRes.pl coarse 
 ./tools/get_tables_from_iwptRes.pl fine   
 
-./tools/get_tables_from_iwptRes.pl coarse "work_unoff/*.html"
-./tools/get_tables_from_iwptRes.pl fine   "work_unoff/*.html"
+#./tools/get_tables_from_iwptRes.pl coarse "work_unoff/*.html"
+#./tools/get_tables_from_iwptRes.pl fine   "work_unoff/*.html"
 
 
 for OFF in official unofficial ; do

@@ -42,10 +42,11 @@ my $infix="";
 if (defined $ARGV[1]){
 	$workdir=$ARGV[1];
 	print STDERR "Workdir = $workdir\n";
+	$workdir="$workdir/*.html";
 	$infix="unofficial";
 }else{
 	print STDERR "Workdir = $workdir\n";
-	$workdir="work/*.html";
+	$workdir="../results/*.html";
 	$infix="official";
 }
 
@@ -101,7 +102,7 @@ my %langH=&get_hash_per_language(\%results);
 
 foreach my $el (sort keys %langH){
 	print $el."\t";
-	print join("\t",sort keys $langH{$el} )."\n";
+	print join("\t",sort keys %{ $langH{$el} })."\n";
 	
 }
 
@@ -118,8 +119,10 @@ $config->args();
 
 my $html = $config->html;
 
-my $tt=Template->new({});
 
+
+my $tt=Template->new; #({});
+exit;
 
 
 $tt->process(\*DATA,
@@ -146,8 +149,8 @@ sub get_hash_per_language{
 	my %results=%{$ptr_results};
 	my %LangH=();
 	foreach my $team (keys %results){
-		foreach my $type (keys $results{$team}){
-			foreach my $lang (sort keys $results{$team}{$type}){
+		foreach my $type (keys %{ $results{$team} }){
+			foreach my $lang (sort keys %{ $results{$team}{$type}}){
 				#if ($lang=~/sequoia|avg|French|English/i){
 					print "$team\t$type\t$lang\n";
 					$LangH{$lang}{$type}{$team}=$results{$team}{$type}{$lang};
