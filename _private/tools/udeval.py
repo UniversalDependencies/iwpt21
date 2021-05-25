@@ -541,13 +541,13 @@ def evaluate(gold_ud, system_ud):
                 match = pattern.match(x)
                 if match:
                     gold_deps.append((match.group(1), match.group(2)))
-            if len(gold_deps): print('gold' + len(gold_deps))
+            if len(gold_deps): print('gold' + str(len(gold_deps)))
             system_deps = []
             for x in words.system_word.columns[MISC].split('|'):
                 match = pattern.match(x)
                 if match:
                     system_deps.append((match.group(1), match.group(2)))
-            if len(system_deps): print('system' + len(system_deps))
+            if len(system_deps): print('system' + str(len(system_deps)))
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
