@@ -675,7 +675,7 @@ def evaluate(gold_ud, system_ud):
         # include enhanced DEPS score -- GB
         "ELAS": enhanced_alignment_score(alignment, 0),
         "EULAS": enhanced_alignment_score(alignment, 1),
-        "EUDP": edeptype_alignment_score(alignment, 'P'),
+        "EUDP": edeptype_alignment_score(alignment, 'B'),
         "CLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL]),
                                 filter_fn=lambda w: w.is_content_deprel),
         "MLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL], w.columns[UPOS], w.columns[FEATS],
