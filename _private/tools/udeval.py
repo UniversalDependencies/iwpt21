@@ -113,6 +113,7 @@ import io
 import sys
 import unicodedata
 import unittest
+import re
 
 # CoNLL-U column names
 ID, FORM, LEMMA, UPOS, XPOS, FEATS, HEAD, DEPREL, DEPS, MISC = range(10)
