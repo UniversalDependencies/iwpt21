@@ -541,22 +541,25 @@ def evaluate(gold_ud, system_ud):
                 match = pattern.match(x)
                 if match:
                     gold_deps.append((match.group(1), match.group(2)))
-            if len(gold_deps): print('gold' + str(len(gold_deps)))
+            if len(gold_deps): print('gold = ' + str(len(gold_deps)))
             system_deps = []
             for x in words.system_word.columns[MISC].split('|'):
                 match = pattern.match(x)
                 if match:
                     system_deps.append((match.group(1), match.group(2)))
-            if len(system_deps): print('system' + str(len(system_deps)))
+            if len(system_deps): print('system = ' + str(len(system_deps)))
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
+                        print('matching dep = ' + dep)
                         # Parents are pointers to word object, make sure to compare system parent with aligned gold word
                         # in cases where tokenization introduces mismatches in number of words per sentence.
                         if parent == alignment.matched_words_map.get(sparent, 'NotAligned'):
                             correct += 1
+                            print('correct')
                         elif (parent == 0 and sparent == 0):  # cases where parent is root
                             correct += 1
+                            print('correct')
         return Score(gold, system, correct, aligned)
 
     def beyond_end(words, i, multiword_span_end):
