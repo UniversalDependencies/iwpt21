@@ -160,6 +160,35 @@ def process_enhanced_deps(deps) :
         edeps.append((hd,steps))   # (3,['conj:en','obj:voor'])
     return edeps
 
+# DZ: extract Edep=X:1:nsubj:xsubj tags from the MISC column
+# The classification is provided by the script enhanced_classify_relations.pl
+# Known dependency types (copied from that script):
+# * basic (B) ... this enhanced edge is identical to an edge in the basic tree (including the deprel)
+# * cased (C) ... case-enhanced relation (the relation with the shorter label may or may not exist in the basic tree)
+# * relabeled (L) ... the same two nodes are also connected in the basic tree but the deprel is different and the difference does not look like a case enhancement
+# * gapping (G) ... the parent or the child is an empty node; the edge was added because of gapping
+# * orphan (O) ... basic relation missing from enhanced graph because it was replaced by a relation to/from an empty node (the basic edge is not necessarily labeled 'orphan')
+# * coparent (P) ... shared parent of coordination, relation propagated to a non-first conjunct
+# * codepend (S) ... shared dependent of coordination, relation propagated from a non-first conjunct
+# * xsubj (X) ... relation between a controlled predicate and its external subject
+# * relcl (R) ... relation between a node in a relative clause and the modified nominal; also the 'ref' relation between the modified nominal and the coreferential relative pronoun
+# * relpron (W) ... basic relation incoming to a relative pronoun is missing from enhanced graph because it was replaced by the 'ref' relation
+# * missing (M) ... basic relation is missing from the enhanced graph but none of the above reasons has been recognized
+# * enhanced (E) ... this enhanced edge does not exist in the basic tree and none of the above reasons has been recognized
+# Some types may be combined. For example, there may be an enhanced relation
+# that exists because of 'relcl' and 'coparent', and it would disappear if
+# either of the enhancement types were not annotated.
+def process_typed_edeps(misc):
+    edeps = {}
+    for type in ['B', 'C', 'L', 'G', 'O', 'P', 'S', 'X', 'R', 'W', 'M', 'E']:
+        edeps[type] = []
+        pattern = re.compile(r'^Edep=[A-Z]*' + type + r'[A-Z]*:(\d+):(.+)$')
+        for x in misc.split('|'):
+            match = pattern.match(x)
+            if match:
+                edeps[type].append((match.group(1), match.group(2)))
+    return edeps
+
 # Load given CoNLL-U file into internal representation
 def load_conllu(file,treebank_type):
     # Internal representation classes
@@ -204,6 +233,8 @@ def load_conllu(file,treebank_type):
             # store enhanced deps --GB
             # split string positions and enhanced labels as well?
             self.columns[DEPS] = process_enhanced_deps(columns[DEPS])
+            # DZ: store typed enhanced dependencies
+            self.typed_edeps = process_typed_edeps(columns[MISC])
 
     ud = UDRepresentation()
 
@@ -250,6 +281,15 @@ def load_conllu(file,treebank_type):
                     parent = ud.words[sentence_start + hd -1] if hd else hd  # just assign '0' to parent for root cases
                     processed_deps.append((parent,steps))
                 enhanced_deps = processed_deps
+                # DZ: Replace head positions of typed edeps with parent word objects.
+                processed_typed_edeps = {}
+                for type in word.typed_edeps:
+                    processed_typed_edeps[type] = []
+                    for (head, deprel) in word.typed_edeps[type]:
+                        hd = int(head)
+                        parent = ud.words[sentence_start + hd - 1] if hd else hd # just assign '0' for root parents
+                        processed_typed_edeps[type].append((parent, deprel))
+                word.typed_edeps = processed_typed_edeps
 
                 # ignore rel>rel dependencies, and instead append the original hd/rel edge
                 # note that this also ignores other extensions (like adding lemma's)
@@ -525,36 +565,28 @@ def evaluate(gold_ud, system_ud):
         # Some types may be combined. For example, there may be an enhanced relation
         # that exists because of 'relcl' and 'coparent', and it would disappear if
         # either of the enhancement types were not annotated.
-        pattern = re.compile(r'^Edep=[A-Z]*' + type + r'[A-Z]*:(\d+):(.+)$')
         # Count the number of instances in the gold annotation.
         gold = 0
         for gold_word in alignment.gold_words:
-            gold += len([x for x in gold_word.columns[MISC].split('|') if pattern.match(x)])
+            gold += len(gold_word.typed_edeps.get(type, None))
         system = 0
         for system_word in alignment.system_words:
-            system += len([x for x in system_word.columns[MISC].split('|') if pattern.match(x)])
+            system += len(system_word.typed_edeps.get(type, None))
         aligned = len(alignment.matched_words)
         correct = 0
         for words in alignment.matched_words:
-            gold_deps = []
-            for x in words.gold_word.columns[MISC].split('|'):
-                match = pattern.match(x)
-                if match:
-                    gold_deps.append((match.group(1), match.group(2)))
+            gold_deps = gold_word.typed_edeps.get(type, [])
             if len(gold_deps): print('gold = ' + str(len(gold_deps)))
-            system_deps = []
-            for x in words.system_word.columns[MISC].split('|'):
-                match = pattern.match(x)
-                if match:
-                    system_deps.append((match.group(1), match.group(2)))
+            system_deps = system_word.typed_edeps.get(type, [])
             if len(system_deps): print('system = ' + str(len(system_deps)))
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
-                        print('matching dep = ' + dep, parent, sparent, alignment.matched_words_map.get(sparent, 'NotAligned'))
                         # Parents are pointers to word object, make sure to compare system parent with aligned gold word
                         # in cases where tokenization introduces mismatches in number of words per sentence.
-                        if parent == alignment.matched_words_map.get(sparent, 'NotAligned'):
+                        aligned_sparent = alignment.matched_words_map.get(sparent, 'NotAligned')
+                        print('matching dep = ' + dep, parent, sparent, aligned_sparent)
+                        if parent == aligned_sparent:
                             correct += 1
                             print('correct')
                         elif (parent == 0 and sparent == 0):  # cases where parent is root
