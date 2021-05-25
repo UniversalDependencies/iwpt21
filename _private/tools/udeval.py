@@ -540,12 +540,12 @@ def evaluate(gold_ud, system_ud):
             for x in words.gold_word.columns[MISC].split('|'):
                 match = pattern.match(x)
                 if match:
-                    gold_deps.append(match.group(1), match.group(2))
+                    gold_deps.append((match.group(1), match.group(2)))
             system_deps = []
             for x in words.system_word.columns[MISC].split('|'):
                 match = pattern.match(x)
                 if match:
-                    system_deps.append(match.group(1), match.group(2))
+                    system_deps.append((match.group(1), match.group(2)))
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
