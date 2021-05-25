@@ -42,12 +42,11 @@ results with some additionnal, bug fixed, submissions from the participants. If 
 post-shared task resuls to be included, submit your system output and contact us.
 -->
 
-* [Official Scores, Coarse F1 scores](http://pauillac.inria.fr/~seddah/coarse_IWPT_SharedTask_official_results.html)
-* [Official Scores, Qualitative F1 scores](http://pauillac.inria.fr/~seddah/fine_IWPT_SharedTask_official_results.html)
-<!--
-* [Unofficial Scores, Coarse F1 scores](http://pauillac.inria.fr/~seddah/coarse_IWPT_SharedTask_unofficial_results.html)
-* [Unofficial Scores, Qualitative F1 scores](http://pauillac.inria.fr/~seddah/fine_IWPT_SharedTask_unofficial_results.html)
--->
+* [Official Scores, Coarse F1 scores](results_official_coarse.html)
+* [Official Scores, Qualitative F1 scores](results_official_fine.html)
+
+<!-- * [Unofficial Scores, Coarse F1 scores](http://pauillac.inria.fr/~seddah/coarse_IWPT_SharedTask_unofficial_results.html)
+     * [Unofficial Scores, Qualitative F1 scores](http://pauillac.inria.fr/~seddah/fine_IWPT_SharedTask_unofficial_results.html) -->
 
 
 
