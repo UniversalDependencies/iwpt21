@@ -576,22 +576,17 @@ def evaluate(gold_ud, system_ud):
         correct = 0
         for words in alignment.matched_words:
             gold_deps = gold_word.typed_edeps.get(type, [])
-            if len(gold_deps): print('gold = ' + str(len(gold_deps)))
             system_deps = system_word.typed_edeps.get(type, [])
-            if len(system_deps): print('system = ' + str(len(system_deps)))
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
                         # Parents are pointers to word object, make sure to compare system parent with aligned gold word
                         # in cases where tokenization introduces mismatches in number of words per sentence.
                         aligned_sparent = alignment.matched_words_map.get(sparent, 'NotAligned')
-                        print('matching dep = ' + dep, parent, sparent, aligned_sparent)
                         if parent == aligned_sparent:
                             correct += 1
-                            print('correct')
                         elif (parent == 0 and sparent == 0):  # cases where parent is root
                             correct += 1
-                            print('correct')
         return Score(gold, system, correct, aligned)
 
     def beyond_end(words, i, multiword_span_end):
@@ -712,7 +707,18 @@ def evaluate(gold_ud, system_ud):
         # include enhanced DEPS score -- GB
         "ELAS": enhanced_alignment_score(alignment, 0),
         "EULAS": enhanced_alignment_score(alignment, 1),
-        "EUDP": edeptype_alignment_score(alignment, 'B'),
+        "EUDB": edeptype_alignment_score(alignment, 'B'),
+        "EUDC": edeptype_alignment_score(alignment, 'C'),
+        "EUDL": edeptype_alignment_score(alignment, 'L'),
+        "EUDG": edeptype_alignment_score(alignment, 'G'),
+        "EUDO": edeptype_alignment_score(alignment, 'O'),
+        "EUDP": edeptype_alignment_score(alignment, 'P'),
+        "EUDS": edeptype_alignment_score(alignment, 'S'),
+        "EUDX": edeptype_alignment_score(alignment, 'X'),
+        "EUDR": edeptype_alignment_score(alignment, 'R'),
+        "EUDW": edeptype_alignment_score(alignment, 'W'),
+        "EUDM": edeptype_alignment_score(alignment, 'M'),
+        "EUDE": edeptype_alignment_score(alignment, 'E'),
         "CLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL]),
                                 filter_fn=lambda w: w.is_content_deprel),
         "MLAS": alignment_score(alignment, lambda w, ga: (ga(w.parent), w.columns[DEPREL], w.columns[UPOS], w.columns[FEATS],
@@ -767,7 +773,18 @@ def main():
         print("LAS F1 Score: {:.2f}".format(100 * evaluation["LAS"].f1))
         print("ELAS F1 Score: {:.2f}".format(100 * evaluation["ELAS"].f1))
         print("EULAS F1 Score: {:.2f}".format(100 * evaluation["EULAS"].f1))
+        print("EUD B F1 Score: {:.2f}".format(100 * evaluation["EUDB"].f1))
+        print("EUD C F1 Score: {:.2f}".format(100 * evaluation["EUDC"].f1))
+        print("EUD L F1 Score: {:.2f}".format(100 * evaluation["EUDL"].f1))
+        print("EUD G F1 Score: {:.2f}".format(100 * evaluation["EUDG"].f1))
+        print("EUD O F1 Score: {:.2f}".format(100 * evaluation["EUDO"].f1))
         print("EUD P F1 Score: {:.2f}".format(100 * evaluation["EUDP"].f1))
+        print("EUD S F1 Score: {:.2f}".format(100 * evaluation["EUDS"].f1))
+        print("EUD X F1 Score: {:.2f}".format(100 * evaluation["EUDX"].f1))
+        print("EUD R F1 Score: {:.2f}".format(100 * evaluation["EUDR"].f1))
+        print("EUD W F1 Score: {:.2f}".format(100 * evaluation["EUDW"].f1))
+        print("EUD M F1 Score: {:.2f}".format(100 * evaluation["EUDM"].f1))
+        print("EUD E F1 Score: {:.2f}".format(100 * evaluation["EUDE"].f1))
         print("MLAS Score: {:.2f}".format(100 * evaluation["MLAS"].f1))
         print("BLEX Score: {:.2f}".format(100 * evaluation["BLEX"].f1))
     else:
@@ -776,7 +793,7 @@ def main():
         else:
             print("Metric     | Precision |    Recall |  F1 Score | AligndAcc")
         print("-----------+-----------+-----------+-----------+-----------")
-        for metric in["Tokens", "Sentences", "Words", "UPOS", "XPOS", "UFeats", "AllTags", "Lemmas", "UAS", "LAS", "ELAS", "EULAS", "EUDP", "CLAS", "MLAS", "BLEX"]:
+        for metric in["Tokens", "Sentences", "Words", "UPOS", "XPOS", "UFeats", "AllTags", "Lemmas", "UAS", "LAS", "ELAS", "EULAS", "EUDB", "EUDC", "EUDL", "EUDG", "EUDO", "EUDP", "EUDS", "EUDX", "EUDR", "EUDW", "EUDM", "EUDE", "CLAS", "MLAS", "BLEX"]:
             if args.counts:
                 print("{:11}|{:10} |{:10} |{:10} |{:10}".format(
                     metric,
