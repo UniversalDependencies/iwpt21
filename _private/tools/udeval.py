@@ -578,7 +578,7 @@ def evaluate(gold_ud, system_ud):
                             correct_system_deps.append((sparent, sdep))
             for (sparent, sdep) in system_deps:
                 if not (sparent, sdep) in correct_system_deps:
-                    aligned++
+                    aligned += 1
         return Score(gold, system, correct, aligned)
 
     def beyond_end(words, i, multiword_span_end):
