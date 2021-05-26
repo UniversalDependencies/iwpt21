@@ -748,6 +748,52 @@ def evaluate_wrapper(args):
     system_ud = load_conllu_file(args.system_file,treebank_type)
     return evaluate(gold_ud, system_ud)
 
+def build_evaluation_table(evaluation, verbose, counts):
+    text = []
+    # Print the evaluation
+    if not verbose and not counts:
+        text.append("LAS F1 Score: {:.2f}".format(100 * evaluation["LAS"].f1))
+        text.append("ELAS F1 Score: {:.2f}".format(100 * evaluation["ELAS"].f1))
+        text.append("EULAS F1 Score: {:.2f}".format(100 * evaluation["EULAS"].f1))
+        text.append("EUD B F1 Score: {:.2f}".format(100 * evaluation["EUDB"].f1))
+        text.append("EUD C F1 Score: {:.2f}".format(100 * evaluation["EUDC"].f1))
+        text.append("EUD L F1 Score: {:.2f}".format(100 * evaluation["EUDL"].f1))
+        text.append("EUD G F1 Score: {:.2f}".format(100 * evaluation["EUDG"].f1))
+        text.append("EUD O F1 Score: {:.2f}".format(100 * evaluation["EUDO"].f1))
+        text.append("EUD P F1 Score: {:.2f}".format(100 * evaluation["EUDP"].f1))
+        text.append("EUD S F1 Score: {:.2f}".format(100 * evaluation["EUDS"].f1))
+        text.append("EUD X F1 Score: {:.2f}".format(100 * evaluation["EUDX"].f1))
+        text.append("EUD R F1 Score: {:.2f}".format(100 * evaluation["EUDR"].f1))
+        text.append("EUD W F1 Score: {:.2f}".format(100 * evaluation["EUDW"].f1))
+        text.append("EUD M F1 Score: {:.2f}".format(100 * evaluation["EUDM"].f1))
+        text.append("EUD E F1 Score: {:.2f}".format(100 * evaluation["EUDE"].f1))
+        text.append("MLAS Score: {:.2f}".format(100 * evaluation["MLAS"].f1))
+        text.append("BLEX Score: {:.2f}".format(100 * evaluation["BLEX"].f1))
+    else:
+        if args.counts:
+            text.append("Metric     | Correct   |      Gold | Predicted | Aligned")
+        else:
+            text.append("Metric     | Precision |    Recall |  F1 Score | AligndAcc")
+        text.append("-----------+-----------+-----------+-----------+-----------")
+        for metric in["Tokens", "Sentences", "Words", "UPOS", "XPOS", "UFeats", "AllTags", "Lemmas", "UAS", "LAS", "ELAS", "EULAS", "EUDB", "EUDC", "EUDL", "EUDG", "EUDO", "EUDP", "EUDS", "EUDX", "EUDR", "EUDW", "EUDM", "EUDE", "CLAS", "MLAS", "BLEX"]:
+            if args.counts:
+                text.append("{:11}|{:10} |{:10} |{:10} |{:10}".format(
+                    metric,
+                    evaluation[metric].correct,
+                    evaluation[metric].gold_total,
+                    evaluation[metric].system_total,
+                    evaluation[metric].aligned_total or (evaluation[metric].correct if metric == "Words" else "")
+                ))
+            else:
+                text.append("{:11}|{:10.2f} |{:10.2f} |{:10.2f} |{}".format(
+                    metric,
+                    100 * evaluation[metric].precision,
+                    100 * evaluation[metric].recall,
+                    100 * evaluation[metric].f1,
+                    "{:10.2f}".format(100 * evaluation[metric].aligned_accuracy) if evaluation[metric].aligned_accuracy is not None else ""
+                ))
+    return "\n".join(text)
+
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
@@ -765,49 +811,8 @@ def main():
 
     # Evaluate
     evaluation = evaluate_wrapper(args)
-
-    # Print the evaluation
-    if not args.verbose and not args.counts:
-        print("LAS F1 Score: {:.2f}".format(100 * evaluation["LAS"].f1))
-        print("ELAS F1 Score: {:.2f}".format(100 * evaluation["ELAS"].f1))
-        print("EULAS F1 Score: {:.2f}".format(100 * evaluation["EULAS"].f1))
-        print("EUD B F1 Score: {:.2f}".format(100 * evaluation["EUDB"].f1))
-        print("EUD C F1 Score: {:.2f}".format(100 * evaluation["EUDC"].f1))
-        print("EUD L F1 Score: {:.2f}".format(100 * evaluation["EUDL"].f1))
-        print("EUD G F1 Score: {:.2f}".format(100 * evaluation["EUDG"].f1))
-        print("EUD O F1 Score: {:.2f}".format(100 * evaluation["EUDO"].f1))
-        print("EUD P F1 Score: {:.2f}".format(100 * evaluation["EUDP"].f1))
-        print("EUD S F1 Score: {:.2f}".format(100 * evaluation["EUDS"].f1))
-        print("EUD X F1 Score: {:.2f}".format(100 * evaluation["EUDX"].f1))
-        print("EUD R F1 Score: {:.2f}".format(100 * evaluation["EUDR"].f1))
-        print("EUD W F1 Score: {:.2f}".format(100 * evaluation["EUDW"].f1))
-        print("EUD M F1 Score: {:.2f}".format(100 * evaluation["EUDM"].f1))
-        print("EUD E F1 Score: {:.2f}".format(100 * evaluation["EUDE"].f1))
-        print("MLAS Score: {:.2f}".format(100 * evaluation["MLAS"].f1))
-        print("BLEX Score: {:.2f}".format(100 * evaluation["BLEX"].f1))
-    else:
-        if args.counts:
-            print("Metric     | Correct   |      Gold | Predicted | Aligned")
-        else:
-            print("Metric     | Precision |    Recall |  F1 Score | AligndAcc")
-        print("-----------+-----------+-----------+-----------+-----------")
-        for metric in["Tokens", "Sentences", "Words", "UPOS", "XPOS", "UFeats", "AllTags", "Lemmas", "UAS", "LAS", "ELAS", "EULAS", "EUDB", "EUDC", "EUDL", "EUDG", "EUDO", "EUDP", "EUDS", "EUDX", "EUDR", "EUDW", "EUDM", "EUDE", "CLAS", "MLAS", "BLEX"]:
-            if args.counts:
-                print("{:11}|{:10} |{:10} |{:10} |{:10}".format(
-                    metric,
-                    evaluation[metric].correct,
-                    evaluation[metric].gold_total,
-                    evaluation[metric].system_total,
-                    evaluation[metric].aligned_total or (evaluation[metric].correct if metric == "Words" else "")
-                ))
-            else:
-                print("{:11}|{:10.2f} |{:10.2f} |{:10.2f} |{}".format(
-                    metric,
-                    100 * evaluation[metric].precision,
-                    100 * evaluation[metric].recall,
-                    100 * evaluation[metric].f1,
-                    "{:10.2f}".format(100 * evaluation[metric].aligned_accuracy) if evaluation[metric].aligned_accuracy is not None else ""
-                ))
+    results = build_evaluation_table(evaluation, args.verbose, args.counts)
+    print(results)
 
 if __name__ == "__main__":
     main()
