@@ -557,11 +557,12 @@ def evaluate(gold_ud, system_ud):
         system = 0
         for system_word in alignment.system_words:
             system += len(system_word.typed_edeps.get(type, []))
-        aligned = len(alignment.matched_words)
+        aligned = 0
         correct = 0
         for words in alignment.matched_words:
             gold_deps = words.gold_word.typed_edeps.get(type, [])
             system_deps = words.system_word.typed_edeps.get(type, [])
+            aligned += len(gold_deps) + len(system_deps)
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
