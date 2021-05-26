@@ -770,13 +770,13 @@ def build_evaluation_table(evaluation, verbose, counts):
         text.append("MLAS Score: {:.2f}".format(100 * evaluation["MLAS"].f1))
         text.append("BLEX Score: {:.2f}".format(100 * evaluation["BLEX"].f1))
     else:
-        if args.counts:
+        if counts:
             text.append("Metric     | Correct   |      Gold | Predicted | Aligned")
         else:
             text.append("Metric     | Precision |    Recall |  F1 Score | AligndAcc")
         text.append("-----------+-----------+-----------+-----------+-----------")
         for metric in["Tokens", "Sentences", "Words", "UPOS", "XPOS", "UFeats", "AllTags", "Lemmas", "UAS", "LAS", "ELAS", "EULAS", "EUDB", "EUDC", "EUDL", "EUDG", "EUDO", "EUDP", "EUDS", "EUDX", "EUDR", "EUDW", "EUDM", "EUDE", "CLAS", "MLAS", "BLEX"]:
-            if args.counts:
+            if counts:
                 text.append("{:11}|{:10} |{:10} |{:10} |{:10}".format(
                     metric,
                     evaluation[metric].correct,
