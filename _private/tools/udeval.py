@@ -562,7 +562,8 @@ def evaluate(gold_ud, system_ud):
         for words in alignment.matched_words:
             gold_deps = words.gold_word.typed_edeps.get(type, [])
             system_deps = words.system_word.typed_edeps.get(type, [])
-            aligned += len(gold_deps) + len(system_deps)
+            aligned += len(gold_deps)
+            correct_system_deps = []
             for (parent, dep) in gold_deps:
                 for (sparent, sdep) in system_deps:
                     if dep == sdep:
@@ -571,8 +572,13 @@ def evaluate(gold_ud, system_ud):
                         aligned_sparent = alignment.matched_words_map.get(sparent, 'NotAligned')
                         if parent == aligned_sparent:
                             correct += 1
+                            correct_system_deps.append((sparent, sdep))
                         elif (parent == 0 and sparent == 0):  # cases where parent is root
                             correct += 1
+                            correct_system_deps.append((sparent, sdep))
+            for (sparent, sdep) in system_deps:
+                if not (sparent, sdep) in correct_system_deps:
+                    aligned++
         return Score(gold, system, correct, aligned)
 
     def beyond_end(words, i, multiword_span_end):
