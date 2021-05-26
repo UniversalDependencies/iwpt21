@@ -562,6 +562,10 @@ def evaluate(gold_ud, system_ud):
         for words in alignment.matched_words:
             gold_deps = words.gold_word.typed_edeps.get(type, [])
             system_deps = words.system_word.typed_edeps.get(type, [])
+            # The aligned count will serve as the denominator for Aligned Accuracy.
+            # It is not clear what it should mean for individual enhancement types
+            # and whether we want to include also incorrectly predicted system deps.
+            # To be able to include them, we need to remember the correct ones.
             aligned += len(gold_deps)
             correct_system_deps = []
             for (parent, dep) in gold_deps:
@@ -579,6 +583,8 @@ def evaluate(gold_ud, system_ud):
             for (sparent, sdep) in system_deps:
                 if not (sparent, sdep) in correct_system_deps:
                     aligned += 1
+        # We might also want to supply None instead of aligned.
+        # But it probably does not hurt to compute the accuracy.
         return Score(gold, system, correct, aligned)
 
     def beyond_end(words, i, multiword_span_end):
