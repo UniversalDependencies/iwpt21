@@ -220,13 +220,6 @@ html_evaluation.pl
 
   perl html_evaluation.pl team_name submission_id dev|test
 
-expand_edeps_in_french.pl
-
-  Takes a CoNLL-U file with the cryptic-but-ud-valid encoding of the French double relations,
-  ("xoxdeps") and converts them back to the human-readable form ("fulldeps").
-
-  perl expand_edeps_in_french.pl fr.xoxdeps.conllu > fr.fulldeps.conllu
-
 enhanced_graph_properties.pl
 
   Reads a CoNLL-U file and collects statistics about the enhanced graphs found in the DEPS
@@ -236,6 +229,33 @@ enhanced_graph_properties.pl
   enhancement is annotated in the given dataset).
 
   perl enhanced_graph_properties.pl file.conllu
+
+enhanced_classify_relations.pl
+
+  Reads a CoNLL-U file and tries to classify each basic and enhanced relation with respect to
+  the six defined enhancement types. Basic relations can be copied, relabeled, or omitted from
+  the enhanced graph. New relations can be added to the enhanced graph that are not present in
+  the basic tree. All this can be done in line with one (or more) of the enhancement types, but
+  it is also possible that the reason for a difference between basic and enhanced relations
+  cannot be identified. For each relation, the recognized enhancement is encoded in the MISC
+  column, and the CoNLL-U file with this extra information is written to STDOUT. Statistics
+  about the relation types are written to STDERR at the end. Note that the statistics may differ
+  from those reported by enhanced_graph_properties.pl, as the heuristics the two scripts use to
+  identify enhancement types differ.
+
+  perl enhanced_classify_relations.pl input.conllu > output.conllu
+
+
+udeval.py
+
+  An extension of the official evaluation script iwpt21_xud_eval.py. In addition to the metrics
+  reported by the official evaluation script, this extension can also evaluate each enhancement
+  type separately if the input CoNLL-U files have been preprocessed by
+  enhanced_classify_relations.pl. This script was not used when producing the official ranking
+  of the systems in the shared task; however, it was used to provide additional insights for the
+  shared task overview paper.
+
+  python udeval.py -v gold.nen.classified.conllu system.nen.classified.conllu
 
 
 SYSTEM OUTPUTS
