@@ -1,35 +1,35 @@
-IWPT 2020 Shared Task on Parsing into Enhanced Universal Dependencies
+IWPT 2021 Shared Task on Parsing into Enhanced Universal Dependencies
 ---------------------------------------------------------------------
 
-This package contains data used in the IWPT 2020 shared task. The package is available from
-http://hdl.handle.net/11234/1-3238 (permanent URL).
+This package contains data used in the IWPT 2021 shared task. The package is available from
+http://hdl.handle.net/11234/1-3728 (permanent URL).
 
 For more information on the shared task, see the IWPT conference proceedings in the ACL anthology
 https://www.aclweb.org/anthology/sigs/sigparse/
 as well as the shared task web site:
-https://universaldependencies.org/iwpt20/
+https://universaldependencies.org/iwpt21/
 
 The package contains training, development and test (evaluation) datasets as they were used
-during the shared task. The data is based on a subset of Universal Dependencies release 2.5
-(http://hdl.handle.net/11234/1-3105) but some treebanks contain additional enhanced annotations.
-Moreover, not all of these additions became part of Universal Dependencies release 2.6
-(http://hdl.handle.net/11234/1-3226), which makes the shared task data unique and worth
+during the shared task. The data is based on a subset of Universal Dependencies release 2.7
+(http://hdl.handle.net/11234/1-3424) but some treebanks contain additional enhanced annotations.
+Moreover, not all of these additions became part of Universal Dependencies release 2.8
+(http://hdl.handle.net/11234/1-3687), which makes the shared task data unique and worth
 a separate release to enable later comparison with new parsing algorithms.
 
 
 LICENSE
 -------
 
-The package is distributed under the same license as Universal Dependencies 2.5. This is
+The package is distributed under the same license as Universal Dependencies 2.7. This is
 a collective license, i.e., individual treebanks may use different license terms. See
-https://lindat.mff.cuni.cz/repository/xmlui/page/licence-UD-2.5?locale-attribute=en
+https://lindat.mff.cuni.cz/repository/xmlui/page/license-ud-2.7
 for details.
 
 
 FILES AND FOLDERS
 -----------------
 
-There are 17 languages and 28 treebanks. Some treebanks contain training, development and
+There are 17 languages and 29 treebanks. Some treebanks contain training, development and
 test data. Some treebanks contain only the test data. Each treebank has a folder named
 UD_Language-TreebankID:
 
@@ -42,6 +42,7 @@ UD_Czech-PUD
 UD_Dutch-Alpino
 UD_Dutch-LassySmall
 UD_English-EWT
+UD_English-GUM
 UD_English-PUD
 UD_Estonian-EDT
 UD_Estonian-EWT
@@ -105,27 +106,6 @@ to the test files, we also provide the development files in the same form (they 
 available to the participants of the shared task).
 
 
-FRENCH
-------
-
-In addition to enhancements described in the UD v2 guidelines
-(https://universaldependencies.org/u/overview/enhanced-syntax.html),
-the French data also show neutralized diathesis in the spirit of (Candito et al. 2017).
-It is not possible to squeeze this information into the dependency labels in a way that would
-be both human-readable and valid according to the UD guidelines. Therefore, the French CoNLL-U
-files are provided in two flavors: "fulldeps" and "xoxdeps". The former is the intended, human-
-readable format where final and canonical grammatical functions are separated by the "@"
-character; e.g., "obl:agent@nsubj" means that the dependent is an oblique agent phrase (the
-final function) but canonically it corresponds to the subject of the verb in active form (the
-canonical function). Such dependency labels do not comply with the current UD guidelines which
-do not allow the "@" character in dependency labels (also, the full labels sometimes contain
-more colons ":" than permitted). The labels thus have been transformed reducing the number of
-colons and replacing "@" with "xox", hence the xoxdeps.conllu files. The systems participating
-in the shared task worked with the xoxdeps files, as these pass the official validation. However,
-the cryptic xoxdeps labels can be easily converted back to the original format, even in the
-parser output (provided the parser predicted the label correctly; see the tools below).
-
-
 TOOLS
 -----
 
@@ -152,7 +132,7 @@ enhanced_collapse_empty_nodes.pl
 
   perl enhanced_collapse_empty_nodes.pl file.conllu > file.nen.conllu
 
-iwpt20_xud_eval.py
+iwpt21_xud_eval.py
 
   The official evaluation script in the shared task. It takes valid gold-standard and
   system-output file after these have been processed with enhanced_collapse_empty_nodes.pl.
@@ -160,7 +140,7 @@ iwpt20_xud_eval.py
   whitespace characters (tokenization) while all non-whitespace characters must be identical
   (no normalization is allowed).
 
-  python iwpt20_xud_eval.py -v gold.nen.conllu system.nen.conllu
+  python iwpt21_xud_eval.py -v gold.nen.conllu system.nen.conllu
 
   The script can be told that certain types of enhancements should not be evaluated. This
   is done with treebanks where some enhancements are not annotated in the gold standard and

@@ -14,6 +14,7 @@ import traceback
 #import re
 import regex as re
 import unicodedata
+import json
 
 
 THISDIR=os.path.dirname(os.path.realpath(os.path.abspath(__file__))) # The folder where this script resides.
@@ -22,17 +23,25 @@ THISDIR=os.path.dirname(os.path.realpath(os.path.abspath(__file__))) # The folde
 COLCOUNT=10
 ID,FORM,LEMMA,UPOS,XPOS,FEATS,HEAD,DEPREL,DEPS,MISC=range(COLCOUNT)
 COLNAMES='ID,FORM,LEMMA,UPOS,XPOS,FEATS,HEAD,DEPREL,DEPS,MISC'.split(',')
-TOKENSWSPACE=MISC+1 #one extra constant
+TOKENSWSPACE=MISC+1 # one extra constant
+AUX=MISC+2 # another extra constant
+COP=MISC+3 # another extra constant
 
 # Global variables:
-curr_line=0 # Current line in the input file
-sentence_line=0 # The line in the input file on which the current sentence starts
-sentence_id=None # The most recently read sentence id
-line_of_first_empty_node=None
-line_of_first_enhanced_orphan=None
+curr_line = 0 # Current line in the input file
+sentence_line = 0 # The line in the input file on which the current sentence starts
+sentence_id = None # The most recently read sentence id
+line_of_first_empty_node = None
+line_of_first_enhanced_orphan = None
+error_counter = {} # key: error type value: error count
+warn_on_missing_files = set() # langspec files which you should warn about in case they are missing (can be deprel, edeprel, feat_val, tokens_w_space)
+warn_on_undoc_feats = '' # filled after reading docfeats.json; printed when an unknown feature is encountered in the data
+warn_on_undoc_deps = '' # filled after reading docdeps.json; printed when an unknown relation is encountered in the data
+spaceafterno_in_effect = False # needed to check that no space after last word of sentence does not co-occur with new paragraph or document
+featdata = {} # key: language code (feature-value-UPOS data loaded from feats.json)
+auxdata = {} # key: language code (auxiliary/copula data loaded from data.json)
+depreldata = {} # key: language code (deprel data loaded from deprels.json)
 
-error_counter={} # key: error type value: error count
-warn_on_missing_files=set() # langspec files which you should warn about in case they are missing (can be deprel, edeprel, feat_val, tokens_w_space)
 def warn(msg, error_type, testlevel=0, testid='some-test', lineno=True, nodelineno=0, nodeid=0):
     """
     Print the warning.
@@ -115,27 +124,32 @@ def trees(inp, tag_sets, args):
     sentence at a time from the input stream.
     """
     global curr_line, sentence_line, sentence_id
-    comments=[] # List of comment lines to go with the current sentence
-    lines=[] # List of token/word lines of the current sentence
+    comments = [] # List of comment lines to go with the current sentence
+    lines = [] # List of token/word lines of the current sentence
+    corrupted = False # In case of wrong number of columns check the remaining lines of the sentence but do not yield the sentence for further processing.
     testlevel = 1
     testclass = 'Format'
     for line_counter, line in enumerate(inp):
-        curr_line=line_counter+1
-        line=line.rstrip(u"\n")
+        curr_line = line_counter+1
+        line = line.rstrip(u"\n")
         if is_whitespace(line):
             testid = 'pseudo-empty-line'
             testmessage = 'Spurious line that appears empty but is not; there are whitespace characters.'
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
             # We will pretend that the line terminates a sentence in order to avoid subsequent misleading error messages.
             if lines:
-                yield comments, lines
-                comments=[]
-                lines=[]
+                if not corrupted:
+                    yield comments, lines
+                comments = []
+                lines = []
+                corrupted = False
         elif not line: # empty line
             if lines: # sentence done
-                yield comments, lines
+                if not corrupted:
+                    yield comments, lines
                 comments=[]
                 lines=[]
+                corrupted = False
             else:
                 testid = 'extra-empty-line'
                 testmessage = 'Spurious empty line. Only one empty line is expected after every sentence.'
@@ -163,6 +177,7 @@ def trees(inp, tag_sets, args):
                 testid = 'number-of-columns'
                 testmessage = 'The line has %d columns but %d are expected. The contents of the columns will not be checked.' % (len(cols), COLCOUNT)
                 warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                corrupted = True
             # If there is an unexpected number of columns, do not test their contents.
             # Maybe the contents belongs to a different column. And we could see
             # an exception if a column value is missing.
@@ -180,7 +195,8 @@ def trees(inp, tag_sets, args):
             testid = 'missing-empty-line'
             testmessage = 'Missing empty line after the last sentence.'
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
-            yield comments, lines
+            if not corrupted:
+                yield comments, lines
 
 ###### Tests applicable to a single row indpendently of the others
 
@@ -268,7 +284,10 @@ interval_re=re.compile('^([0-9]+)-([0-9]+)$',re.U)
 def validate_ID_sequence(tree):
     """
     Validates that the ID sequence is correctly formed.
+    Besides issuing a warning if an error is found, it also returns False to
+    the caller so it can avoid building a tree from corrupt ids.
     """
+    ok = True
     testlevel = 1
     testclass = 'Format'
     words=[]
@@ -290,12 +309,14 @@ def validate_ID_sequence(tree):
                 testid = 'invalid-word-interval'
                 testmessage = "Spurious word interval definition: '%s'." % cols[ID]
                 warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                ok = False
                 continue
             beg,end=int(match.group(1)),int(match.group(2))
             if not ((not words and beg >= 1) or (words and beg >= words[-1] + 1)):
                 testid = 'misplaced-word-interval'
                 testmessage = 'Multiword range not before its first word.'
                 warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                ok = False
                 continue
             tokens.append((beg,end))
         elif is_empty_node(cols):
@@ -304,6 +325,7 @@ def validate_ID_sequence(tree):
                 testid = 'misplaced-empty-node'
                 testmessage = 'Empty node id %s, expected %d.%d' % (cols[ID], current_word_id, next_empty_id)
                 warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                ok = False
             next_empty_id += 1
     # Now let's do some basic sanity checks on the sequences
     wrdstrseq = ','.join(str(x) for x in words)
@@ -312,6 +334,7 @@ def validate_ID_sequence(tree):
         testid = 'word-id-sequence'
         testmessage = "Words do not form a sequence. Got '%s'. Expected '%s'." % (wrdstrseq, expstrseq)
         warn(testmessage, testclass, testlevel=testlevel, testid=testid, lineno=False)
+        ok = False
     # Check elementary sanity of word intervals.
     # Remember that these are not just multi-word tokens. Here we have intervals even for single-word tokens (b=e)!
     for (b, e) in tokens:
@@ -319,12 +342,15 @@ def validate_ID_sequence(tree):
             testid = 'reversed-word-interval'
             testmessage = 'Spurious token interval %d-%d' % (b,e)
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+            ok = False
             continue
         if b<1 or e>len(words): # out of range
             testid = 'word-interval-out'
             testmessage = 'Spurious token interval %d-%d (out of range)' % (b,e)
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+            ok = False
             continue
+    return ok
 
 def validate_token_ranges(tree):
     """
@@ -412,32 +438,57 @@ def validate_sent_id(comments,known_ids,lcode):
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
         known_ids.add(sid)
 
-text_re=re.compile('^# text\s*=\s*(.+)$')
+newdoc_re = re.compile('^#\s*newdoc(\s|$)')
+newpar_re = re.compile('^#\s*newpar(\s|$)')
+text_re = re.compile('^#\s*text\s*=\s*(.+)$')
 def validate_text_meta(comments,tree):
+    # Remember if SpaceAfter=No applies to the last word of the sentence.
+    # This is not prohibited in general but it is prohibited at the end of a paragraph or document.
+    global spaceafterno_in_effect
     testlevel = 2
     testclass = 'Metadata'
-    matched=[]
+    newdoc_matched = []
+    newpar_matched = []
+    text_matched = []
     for c in comments:
-        match=text_re.match(c)
-        if match:
-            matched.append(match)
-    if not matched:
+        newdoc_match = newdoc_re.match(c)
+        if newdoc_match:
+            newdoc_matched.append(newdoc_match)
+        newpar_match = newpar_re.match(c)
+        if newpar_match:
+            newpar_matched.append(newpar_match)
+        text_match = text_re.match(c)
+        if text_match:
+            text_matched.append(text_match)
+    if len(newdoc_matched) > 1:
+        testid = 'multiple-newdoc'
+        testmessage = 'Multiple newdoc attributes.'
+        warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+    if len(newpar_matched) > 1:
+        testid = 'multiple-newpar'
+        testmessage = 'Multiple newpar attributes.'
+        warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+    if (newdoc_matched or newpar_matched) and spaceafterno_in_effect:
+        testid = 'spaceafter-newdocpar'
+        testmessage = 'New document or paragraph starts when the last token of the previous sentence says SpaceAfter=No.'
+        warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+    if not text_matched:
         testid = 'missing-text'
         testmessage = 'Missing the text attribute.'
         warn(testmessage, testclass, testlevel=testlevel, testid=testid)
-    elif len(matched)>1:
+    elif len(text_matched) > 1:
         testid = 'multiple-text'
         testmessage = 'Multiple text attributes.'
         warn(testmessage, testclass, testlevel=testlevel, testid=testid)
     else:
-        stext=matched[0].group(1)
+        stext = text_matched[0].group(1)
         if stext[-1].isspace():
             testid = 'text-trailing-whitespace'
             testmessage = 'The text attribute must not end with whitespace.'
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
         # Validate the text against the SpaceAfter attribute in MISC.
-        skip_words=set()
-        mismatch_reported=0 # do not report multiple mismatches in the same sentence; they usually have the same cause
+        skip_words = set()
+        mismatch_reported = 0 # do not report multiple mismatches in the same sentence; they usually have the same cause
         for cols in tree:
             if MISC >= len(cols):
                 # This error has been reported elsewhere but we cannot check MISC now.
@@ -480,7 +531,10 @@ def validate_text_meta(comments,tree):
                     mismatch_reported=1
             else:
                 stext=stext[len(cols[FORM]):] # eat the form
-                if 'SpaceAfter=No' not in cols[MISC].split("|"):
+                if 'SpaceAfter=No' in cols[MISC].split("|"):
+                    spaceafterno_in_effect = True
+                else:
+                    spaceafterno_in_effect = False
                     if args.check_space_after and (stext) and not stext[0].isspace():
                         testid = 'missing-spaceafter'
                         testmessage = "'SpaceAfter=No' is missing in the MISC field of node #%s because the text is '%s'." % (cols[ID], shorten(cols[FORM]+stext))
@@ -500,8 +554,8 @@ def validate_cols(cols, tag_sets, args):
     """
     if is_word(cols) or is_empty_node(cols):
         validate_character_constraints(cols) # level 2
+        validate_upos(cols, tag_sets) # level 2
         validate_features(cols, tag_sets, args) # level 2 and up (relevant code checks whether higher level is required)
-        validate_upos(cols,tag_sets) # level 2
     elif is_multiword_token(cols):
         validate_token_empty_vals(cols)
     # else do nothing; we have already reported wrong ID format at level 1
@@ -509,9 +563,6 @@ def validate_cols(cols, tag_sets, args):
         validate_deprels(cols, tag_sets, args) # level 2 and up
     elif is_empty_node(cols):
         validate_empty_node_empty_vals(cols) # level 2
-        # TODO check also the following:
-        # - DEPS are connected and non-acyclic
-        # (more, what?)
     if args.level > 3:
         validate_whitespace(cols, tag_sets) # level 4 (it is language-specific; to disallow everywhere, use --lang ud)
 
@@ -593,8 +644,8 @@ def validate_character_constraints(cols):
             testmessage = "Invalid enhanced relation type: '%s'." % cols[DEPS]
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
 
-attr_val_re=re.compile('^([A-Z0-9][A-Z0-9a-z]*(?:\[[a-z0-9]+\])?)=(([A-Z0-9][A-Z0-9a-z]*)(,([A-Z0-9][A-Z0-9a-z]*))*)$',re.U)
-val_re=re.compile('^[A-Z0-9][A-Z0-9a-z]*',re.U)
+attr_val_re=re.compile('^([A-Z][A-Za-z0-9]*(?:\[[a-z0-9]+\])?)=(([A-Z0-9][A-Z0-9a-z]*)(,([A-Z0-9][A-Z0-9a-z]*))*)$',re.U)
+val_re=re.compile('^[A-Z0-9][A-Za-z0-9]*',re.U)
 def validate_features(cols, tag_sets, args):
     """
     Checks general constraints on feature-value format. On level 4 and higher,
@@ -602,12 +653,21 @@ def validate_features(cols, tag_sets, args):
     must be allowed on level 2 because it could be defined as language-specific.
     To disallow non-universal features, test on level 4 with language 'ud'.)
     """
+    global warn_on_undoc_feats
     testclass = 'Morpho'
     if FEATS >= len(cols):
         return # this has been already reported in trees()
     feats=cols[FEATS]
     if feats == '_':
         return True
+    # List of permited features is language-specific.
+    # The current token may be in a different language due to code switching.
+    lang = args.lang
+    featset = tag_sets[FEATS]
+    altlang = get_alt_language(cols[MISC])
+    if altlang:
+        lang = altlang
+        featset = get_featdata_for_language(altlang)
     feat_list=feats.split('|')
     if [f.lower() for f in feat_list]!=sorted(f.lower() for f in feat_list):
         testlevel = 2
@@ -620,7 +680,7 @@ def validate_features(cols, tag_sets, args):
         if match is None:
             testlevel = 2
             testid = 'invalid-feature'
-            testmessage = "Spurious morphological feature: '%s'. Should be of the form Feature=Value and must start with [A-Z0-9] and only contain [A-Za-z0-9]." % f
+            testmessage = "Spurious morphological feature: '%s'. Should be of the form Feature=Value and must start with [A-Z] and only contain [A-Za-z0-9]." % f
             warn(testmessage, testclass, testlevel=testlevel, testid=testid)
             attr_set.add(f) # to prevent misleading error "Repeated features are disallowed"
         else:
@@ -647,12 +707,53 @@ def validate_features(cols, tag_sets, args):
                 # Level 2 tests character properties and canonical order but not that the f-v pair is known.
                 # Level 4 also checks whether the feature value is on the list.
                 # If only universal feature-value pairs are allowed, test on level 4 with lang='ud'.
-                if args.level > 3 and tag_sets[FEATS] is not None and attr+'='+v not in tag_sets[FEATS]:
-                    warn_on_missing_files.add("feat_val")
+                if args.level > 3 and featset is not None:
                     testlevel = 4
-                    testid = 'unknown-feature-value'
-                    testmessage = "Unknown feature-value pair '%s=%s'." % (attr, v)
-                    warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                    # The featset is no longer a simple set of feature-value pairs.
+                    # It is a complex database that we read from feats.json.
+                    if attr not in featset:
+                        testid = 'feature-unknown'
+                        testmessage = "Feature %s is not documented for language [%s]." % (attr, lang)
+                        if not altlang and len(warn_on_undoc_feats) > 0:
+                            # If some features were excluded because they are not documented,
+                            # tell the user when the first unknown feature is encountered in the data.
+                            # Then erase this (long) introductory message and do not repeat it with
+                            # other instances of unknown features.
+                            testmessage += "\n\n" + warn_on_undoc_feats
+                            warn_on_undoc_feats = ''
+                        warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                    else:
+                        lfrecord = featset[attr]
+                        if lfrecord['permitted']==0:
+                            testid = 'feature-not-permitted'
+                            testmessage = "Feature %s is not permitted in language [%s]." % (attr, lang)
+                            if not altlang and len(warn_on_undoc_feats) > 0:
+                                testmessage += "\n\n" + warn_on_undoc_feats
+                                warn_on_undoc_feats = ''
+                            warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                        else:
+                            values = lfrecord['uvalues'] + lfrecord['lvalues'] + lfrecord['unused_uvalues'] + lfrecord['unused_lvalues']
+                            if not v in values:
+                                testid = 'feature-value-unknown'
+                                testmessage = "Value %s is not documented for feature %s in language [%s]." % (v, attr, lang)
+                                if not altlang and len(warn_on_undoc_feats) > 0:
+                                    testmessage += "\n\n" + warn_on_undoc_feats
+                                    warn_on_undoc_feats = ''
+                                warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                            elif not cols[UPOS] in lfrecord['byupos']:
+                                testid = 'feature-upos-not-permitted'
+                                testmessage = "Feature %s is not permitted with UPOS %s in language [%s]." % (attr, cols[UPOS], lang)
+                                if not altlang and len(warn_on_undoc_feats) > 0:
+                                    testmessage += "\n\n" + warn_on_undoc_feats
+                                    warn_on_undoc_feats = ''
+                                warn(testmessage, testclass, testlevel=testlevel, testid=testid)
+                            elif not v in lfrecord['byupos'][cols[UPOS]] or lfrecord['byupos'][cols[UPOS]][v]==0:
+                                testid = 'feature-value-upos-not-permitted'
+                                testmessage = "Value %s of feature %s is not permitted with UPOS %s in language [%s]." % (v, attr, cols[UPOS], lang)
+                                if not altlang and len(warn_on_undoc_feats) > 0:
+                                    testmessage += "\n\n" + warn_on_undoc_feats
+                                    warn_on_undoc_feats = ''
+                                warn(testmessage, testclass, testlevel=testlevel, testid=testid)
     if len(attr_set) != len(feat_list):
         testlevel = 2
         testid = 'repeated-feature'
@@ -672,19 +773,41 @@ def validate_upos(cols, tag_sets):
         warn(testmessage, testclass, testlevel=testlevel, testid=testid)
 
 def validate_deprels(cols, tag_sets, args):
+    global warn_on_undoc_deps
     if DEPREL >= len(cols):
         return # this has been already reported in trees()
+    # List of permited relations is language-specific.
+    # The current token may be in a different language due to code switching.
+    deprelset = tag_sets[DEPREL]
+    ###!!! Unlike with features and auxiliaries, with deprels it is less clear
+    ###!!! whether we actually want to switch the set of labels when the token
+    ###!!! belongs to another language. If the set is changed at all, then it
+    ###!!! should be a union of the main language and the token language.
+    ###!!! Otherwise we risk that, e.g., we have allowed 'flat:name' for our
+    ###!!! language, the maintainers of the other language have not allowed it,
+    ###!!! and then we could not use it when the foreign language is active.
+    ###!!! (This has actually happened in French GSD.)
+    altlang = None
+    #altlang = get_alt_language(cols[MISC])
+    #if altlang:
+    #    deprelset = get_depreldata_for_language(altlang)
     # Test only the universal part if testing at universal level.
     deprel = cols[DEPREL]
     testlevel = 4
     if args.level < 4:
         deprel = lspec2ud(deprel)
         testlevel = 2
-    if tag_sets[DEPREL] is not None and deprel not in tag_sets[DEPREL]:
-        warn_on_missing_files.add("deprel")
+    if deprelset is not None and deprel not in deprelset:
         testclass = 'Syntax'
         testid = 'unknown-deprel'
+        # If some relations were excluded because they are not documented,
+        # tell the user when the first unknown relation is encountered in the data.
+        # Then erase this (long) introductory message and do not repeat it with
+        # other instances of unknown relations.
         testmessage = "Unknown DEPREL label: '%s'" % cols[DEPREL]
+        if not altlang and len(warn_on_undoc_deps) > 0:
+            testmessage += "\n\n" + warn_on_undoc_deps
+            warn_on_undoc_deps = ''
         warn(testmessage, testclass, testlevel=testlevel, testid=testid)
     if DEPS >= len(cols):
         return # this has been already reported in trees()
@@ -906,7 +1029,7 @@ def validate_misc(tree):
         misc = [ma.split('=', 1) for ma in cols[MISC].split('|')]
         mamap = {}
         for ma in misc:
-            if re.match(r"^(SpaceAfter|Translit|LTranslit|Gloss|LId|LDeriv)$", ma[0]):
+            if re.match(r"^(SpaceAfter|Lang|Translit|LTranslit|Gloss|LId|LDeriv)$", ma[0]):
                 mamap.setdefault(ma[0], 0)
                 mamap[ma[0]] = mamap[ma[0]] + 1
         for a in list(mamap):
@@ -1154,13 +1277,6 @@ def validate_upos_vs_deprel(id, tree):
     if deprel == 'cop' and not re.match(r"^(AUX|PRON|DET|SYM)", cols[UPOS]):
         testid = 'rel-upos-cop'
         testmessage = "'cop' should be 'AUX' or 'PRON'/'DET' but it is '%s'" % (cols[UPOS])
-        warn(testmessage, testclass, testlevel=testlevel, testid=testid, nodeid=id, nodelineno=tree['linenos'][id])
-    # AUX is normally aux or cop. It can appear in many other relations if it is promoted due to ellipsis.
-    # However, I believe that it should not appear in compound. From the other side, compound can consist
-    # of many different part-of-speech categories but I don't think it can contain AUX.
-    if deprel == 'compound' and re.match(r"^(AUX)", cols[UPOS]):
-        testid = 'rel-upos-compound'
-        testmessage = "'compound' should not be 'AUX'"
         warn(testmessage, testclass, testlevel=testlevel, testid=testid, nodeid=id, nodelineno=tree['linenos'][id])
     # Case is normally an adposition, maybe particle.
     # However, there are also secondary adpositions and they may have the original POS tag:
@@ -1599,7 +1715,7 @@ def validate_whitespace(cols, tag_sets):
 # Level 5 tests. Annotation content vs. the guidelines, language-specific.
 #==============================================================================
 
-def validate_auxiliary_verbs(cols, children, nodes, line, lang):
+def validate_auxiliary_verbs(cols, children, nodes, line, lang, auxlist):
     """
     Verifies that the UPOS tag AUX is used only with lemmas that are known to
     act as auxiliary verbs or particles in the given language.
@@ -1611,186 +1727,13 @@ def validate_auxiliary_verbs(cols, children, nodes, line, lang):
       'line' ....... line number of the node within the file
     """
     if cols[UPOS] == 'AUX' and cols[LEMMA] != '_':
-        ###!!! In the future, lists like this one will be read from a file.
-        auxdict = {
-            # ChrisManning 2019/04: Allow 'get' as aux for get passive construction. And 'ought'
-            'en':  ['be', 'have', 'do', 'will', 'would', 'may', 'might', 'can', 'could', 'shall', 'should', 'must', 'get', 'ought'],
-            'af':  ['is', 'wees', 'het', 'word', 'sal', 'wil', 'mag', 'durf', 'kan', 'moet'],
-            # Gosse Bouma: 'krijgen' is used as passive auxiliary in cases where an indirect object is promoted to subject (as in German 'kriegen'-passiv).
-            'nl':  ['zijn', 'hebben', 'worden', 'krijgen', 'kunnen', 'mogen', 'zullen', 'moeten'],
-            'de':  ['sein', 'haben', 'werden', 'dürfen', 'können', 'mögen', 'wollen', 'sollen', 'müssen'],
-            'sv':  ['vara', 'ha', 'bli', 'komma', 'få', 'kunna', 'kunde', 'vilja', 'torde', 'behöva', 'böra', 'skola', 'måste', 'må', 'lär', 'do'], # Note: 'do' is English and is included because of code switching (titles of songs).
-            'no':  ['være', 'vere', 'ha', 'verte', 'bli', 'få', 'kunne', 'ville', 'vilje', 'tørre', 'tore', 'burde', 'skulle', 'måtte'],
-            'da':  ['være', 'have', 'blive', 'kunne', 'ville', 'turde', 'burde', 'skulle', 'måtte'],
-            'fo':  ['vera', 'hava', 'verða', 'koma', 'fara', 'kunna'],
-            'is':  ['vera', 'hafa', 'verða', 'geta', 'mega', 'munu', 'skulu', 'eiga'],
-            'got': ['wisan'],
-            # DZ: The Portuguese list is much longer than for the other Romance languages
-            # and I suspect that maybe not all these verbs are auxiliary in the UD sense,
-            # i.e. they neither construct a periphrastic tense, nor modality etc.
-            # This should be discussed further and perhaps shortened (and in any
-            # case, verbs that stay on the list must be explained in the Portuguese
-            # documentation!)
-            'pt':  ['ser', 'estar', 'haver', 'ter', 'andar', 'ir', 'poder', 'dever', 'continuar', 'passar', 'ameaçar',
-                    'recomeçar', 'ficar', 'começar', 'voltar', 'parecer', 'acabar', 'deixar', 'vir','chegar', 'costumar', 'quer',
-                    'querer','parar','procurar','interpretar','tender', 'viver','permitir','agredir','tornar', 'interpelar'],
-            'gl':  ['ser', 'estar', 'haber', 'ter', 'ir', 'poder', 'querer', 'deber', 'vir', 'semellar', 'seguir', 'deixar', 'quedar', 'levar', 'acabar'],
-            'es':  ['ser', 'estar', 'haber', 'tener', 'ir', 'poder', 'saber', 'querer', 'deber'],
-            'ca':  ['ser', 'estar', 'haver', 'anar', 'poder', 'saber'],
-            'fr':  ['être', 'avoir', 'faire', 'aller', 'pouvoir', 'savoir', 'vouloir', 'devoir'],
-            'it':  ['essere', 'stare', 'avere', 'fare', 'andare', 'venire', 'potere', 'sapere', 'volere', 'dovere'],
-            'ro':  ['fi', 'avea', 'putea', 'ști', 'vrea', 'trebui'],
-            #In Late Latin, also habeo appears as an auxiliary (like in the modern Romance languages), whereas it can happen a confusion between some forms of sum and fio (originally "to be made")
-			'la':  ['sum','habeo','fio'],
-            'cs':  ['být', 'bývat', 'bývávat'],
-            'sk':  ['byť', 'bývať', 'by'],
-            'hsb': ['być'],
-            # zostać is for passive-action, być for passive-state
-            # niech* are imperative markers (the only means in 3rd person; alternating with morphological imperative in 2nd person)
-            # "to" is a copula and the Polish team insists that, "according to current analyses of Polish", it is a verb and it contributes the present tense feature to the predicate
-            'pl':  ['być', 'bywać', 'by', 'zostać', 'zostawać', 'niech', 'niechby', 'niechże', 'niechaj', 'niechajże', 'to'],
-            'uk':  ['бути', 'бувати', 'би', 'б'],
-            'be':  ['быць', 'б'],
-            'ru':  ['быть', 'бы', 'б'],
-            # Hanne says that negation is fused with the verb in the present tense and
-            # then the negative lemma is used. DZ: I believe that in the future
-            # the negative forms should get the affirmative lemma + the feature Polarity=Neg,
-            # as it is assumed in the guidelines and done in other languages.
-            'orv': ['быти', 'не быти', 'бы', 'бъ'],
-            'sl':  ['biti'],
-            'hr':  ['biti', 'htjeti'],
-            'sr':  ['biti', 'hteti'],
-            'bg':  ['съм', 'бъда', 'бивам', 'би', 'да', 'ще'],
-            'cu':  ['бꙑти', 'не.бꙑти'],
-            'lt':  ['būti'],
-            'lv':  ['būt', 'kļūt', 'tikt', 'tapt'], # see the comment in the list of copulas
-            'ga':  ['is'],
-            'gd':  ['is'],
-            'cy':  ['bod', 'yn', 'wedi', 'newydd', 'heb', 'ar', 'y', 'a', 'mi', 'fe', 'am'],
-            'br':  ['bezañ'],
-            'sq':  ['kam', 'jam', 'u'],
-            'grc': ['εἰμί'],
-            'el':  ['είμαι', 'έχω', 'πρέπει', 'θα', 'ας', 'να'],
-            'hy':  ['եմ', 'լինել', 'տալ', 'պիտի', 'պետք', 'ունեմ', 'կամ'],
-            'kmr': ['bûn', 'hebûn'],
-            'fa':  ['است'],
-            # Two writing systems are used in Sanskrit treebanks (Devanagari and Latin) and we must list both spellings.
-            'sa':  ['अस्', 'as', 'भू', 'bhū', 'इ', 'i', 'कृ', 'kṛ', 'शक्', 'śak'],
-            'hi':  ['है', 'था', 'रह', 'कर', 'जा', 'सक', 'पा', 'चाहिए', 'हो', 'पड़', 'लग', 'चुक', 'ले', 'दे', 'डाल', 'बैठ', 'उठ', 'रख', 'आ'],
-            'ur':  ['ہے', 'تھا', 'رہ', 'کر', 'جا', 'سک', 'پا', 'چاہیئے', 'ہو', 'پڑ', 'لگ', 'چک', 'لے', 'دے', 'بیٹھ', 'رکھ', 'آ'],
-            # The Bhojpuri list is suspiciously long. Some words may actually be inflected forms of other words.
-            'bho': ['हऽ', 'आ', 'स', 'बा', 'छी', 'भा', 'ना', 'गइल', 'रह', 'कर', 'जा', 'सक', 'पा', 'चाही', 'हो', 'पड़', 'लग', 'चुक', 'ले', 'दे', 'मार', 'डाल', 'बैठ', 'उठ', 'रख'],
-            'mr':  ['असणे', 'नाही', 'नका', 'होणे', 'शकणे', 'लागणे', 'देणे', 'येणे'],
-            # Uralic languages.
-            'fi':  ['olla', 'ei', 'voida', 'pitää', 'saattaa', 'täytyä', 'joutua', 'aikoa', 'taitaa', 'tarvita', 'mahtaa'],
-            'krl': ['olla', 'ei', 'voija', 'piteä'],
-            'olo': ['olla', 'ei', 'voija', 'pidiä', 'suaha', 'rotie'],
-            'et':  ['olema', 'ei', 'ära', 'võima', 'pidama', 'saama', 'näima', 'paistma', 'tunduma', 'tohtima'],
-            'sme': ['leat'],
-            # Jack: i-gõl = should not
-            'sms': ['leeʹd', 'haaʹleed', 'ij', 'ni', 'õlggâd', 'urččmõš', 'iʹlla', 'i-ǥõl', 'feʹrttjed', 'pâʹstted'],
-            # Jack: copulas 'улемс', 'ульнемс', 'оль', 'арась'; negation а аволь апак иля эзь 'аш'
-            # "have to, need to, must": савомс савкшномс эрявомс
-            # "future; begin, start": кармамс
-            # "question particles": ли штоли
-            # mood: давайте давай бу кадык
-            # сашендовомс = have to
-            # 'аш' = does not exist
-            'myv': ['улемс', 'ульнемс', 'оль', 'арась', 'а', 'аволь', 'апак', 'иля', 'эзь', 'савомс', 'савкшномс', 'эрявомс', 'кармамс', 'ли', 'штоли', 'давайте', 'давай', 'бу', 'кадык'],
-            'mdf': ['улемс', 'оль', 'ашезь', 'аф', 'афи', 'афоль', 'апак', 'аш', 'эрявомс', 'савомс', 'сашендовомс', 'катк'],
-            # 'оз' is the negation verb analogous to Finnish 'ei'.
-            # Jack: абу 'exists not' in kpv with a usual deprel of aux:neg needs to be listed among the kpv AUX.
-            # 'быть' is Russian copula and it is occasionally used in spoken Komi due to code switching.
-            'kpv': ['лоны', 'лолыны', 'овлывлыны', 'вӧвны', 'вӧвлыны', 'вӧвлывлыны', 'оз', 'абу', 'быть', 'эм'],
-            # Jack: вермыны 'be able', позьны 'be possible/allowed', ковны 'must'
-            # овлыны 'to be (habitual)'; 'не' negation from Russian
-            'koi': ['овны', 'овлыны', 'овлывлыны', 'вӧвны', 'бы', 'вермыны', 'ковны', 'позьны', 'оз', 'не', 'эм'],
-            'hu':  ['van', 'lesz', 'fog', 'volna', 'lehet', 'marad', 'elszenved', 'hoz'],
-            # Altaic languages.
-            'tr':  ['ol', 'i', 'mi', 'değil', 'bil', 'olacak', 'olduk', 'bulun'],
-            'kk':  ['бол', 'е'],
-            'ug':  ['بول', 'ئى', 'كەت', 'بەر'],
-            'bxr': ['бай', 'боло'],
-            'ko':  ['이+라는'],
-            'ja':  ['だ', 'た', 'ようだ', 'たい', 'いる', 'ない', 'なる', 'する', 'ある', 'おる', 'ます', 'れる', 'られる', 'すぎる', 'める', 'できる', 'しまう', 'せる', 'う', 'いく', '行く', '来る', 'ぬ', 'よう', 'くる', 'くれる', 'てる', 'そう', 'べし', 'くださる', 'もらう', 'みる', 'いただく', 'やすい', 'しれる', '始める', '続ける', 'らしい', 'みたい', 'ちゃう', 'える', 'いい', 'す', 'もらえる', 'させる', 'おく', 'いただける', 'ほしい', 'よい', 'なり', '付ける', 'にくい', '出す', 'いたす', 'っつう', 'きれる', 'でる', '切る', 'たり', 'いける', '易い', 'づらい', 'なさる', 'づける', '難い', '致す', '続く', '渡る', '抜く', '合う', 'がましい', '遅れる', '果てる', 'つくす', 'ごとし', 'がたい', 'ゆく', 'まじ', 'きる', 'や', 'いらっしゃる', 'はじめる', 'つづける', '行ける', '終わる', '終える', '損ねる', '慣れる', '忘れる', '尽くす', 'わたる', 'みたく', 'まいる', 'たがる', 'しめる', 'かかる', 'おける', '込む', '置く', '直す', '回る', '参る', 'らる', 'やる', 'まう', 'まい', 'ぬく', 'とく', 'てく', 'だす', 'じゃ', 'む', 'り', '亘る', 'ず'],
-            # Dravidian languages.
-            # போ / po “go” for future tense, follows the infinitive of the main verb
-            # மாட்டு / māṭṭu “will not” for negative future tense with human subject
-            # படு / paṭu “experience” for the passive voice
-            # வை / vai “put” for the causative voice
-            # இரு / iru “be”
-            # இல் / il (இல்லை / illai) “not be” for negation
-            # வேண்டு / veṇṭu “must”
-            # முடி / muṭi “can”
-            'ta':  ['போ', 'மாட்டு', 'படு', 'வை', 'இரு', 'இல்', 'வேண்டு', 'முயல்', 'கொள்', 'விடு', 'உள்', 'வரு', 'முடி', 'வா', 'செய்', 'ஆகு', 'கூடு', 'பெறு', 'தகு', 'வரல்', 'பிடு', 'வீடு', 'என்', 'கூறு', 'கூறு', 'கொடு', 'ஆவர்', 'விரி', 'கிடை', 'அல்'],
-            # Northeast Caucasian languages.
-            'lez': ['x̂ana', "k'an"],
-            # Sino-Tibetan languages.
-            # 爲, cop 儀 Nec 可 Pot 宜 Nec 得 Pot 敢 Des 欲 Des 肯 Des 能 Pot 足 Pot 須 Nec 被 Pass 見 Pass
-            'lzh': ['爲', '被', '見', '儀', '宜', '須', '可', '得', '能', '足', '敢', '欲', '肯'],
-            'zh':  ['是', '为', '為'],
-            'yue': ['係', '為'],
-            'lus': ['nii'],
-            'prx': ['in', 'd̪uk'],
-            # Austro-Asiatic languages.
-            'vi':  ['là'],
-            # Austronesian languages.
-            'id':  ['adalah'],
-            'tl':  ['may', 'kaya', 'sana', 'huwag'],
-            'ifb': ['agguy', 'adi', 'gun', "'ahi"],
-            # Australian languages: Pama-Nyungan.
-            'wbp': ['ka'],
-            'zmu': ['yi'],
-            # Afro-Asiatic languages.
-            'mt':  ['kien', 'għad', 'għadx', 'ġa', 'se', 'ħa', 'qed'],
-            # رُبَّمَا rubbamā "maybe, perhaps" is a modal auxiliary
-            # عَلَّ ʿalla "perhaps" is a modal auxiliary
-            # عَاد ʿād “return, no longer do” seems to be an aspectual auxiliary
-            # مَا mā "not" is negation. Maybe it should be PART/advmod rather than AUX/aux?
-            # هَل hal "whether" is a question particle. Maybe it should be PART/advmod rather than AUX/aux?
-            # أ ʾa "whether, indeed" is a question particle. It occurs together with the negative copula: "أليس" (ʾalays) "isn't it...". Maybe it should be PART/advmod rather than AUX/aux?
-            'ar':  [
-                'كَان',
-                'لَيس',
-                'لسنا',
-                'هُوَ',
-                'سَوفَ',
-                'سَ',
-                'قَد',
-                'رُبَّمَا',
-                'عَلَّ',
-                'عَاد',
-                'مَا',
-                'هَل',
-                'أَ'
-            ],
-            'he':  ['היה', 'הוא', 'זה'],
-            'aii': ['ܗܵܘܹܐ', 'ܟܸܐ', 'ܟܹܐ', 'ܟܲܕ', 'ܒܸܬ', 'ܒܹܬ', 'ܒܸܕ', 'ܒ', 'ܦܵܝܫ', 'ܡܵܨܸܢ', 'ܩܲܡ'],
-            # https://universaldependencies.org/cop/auxiliaries.html (as per mail from Amir 19.11.2019)
-            # https://universaldependencies.org/cop/dep/aux_.html
-            # existential elements ⲟⲩⲛ/ⲙⲛ in indefinite durative tenses (but not in pure existential clauses)
-            # 29.5.2020: added ϫⲡⲓ ‘jpi’: it means and is about as frequent as English ‘ought to’. It has the same syntax as other existing auxiliary verbs, such as ϣ ‘š’, “be able to”.
-            'cop': ['ⲟⲩⲛ', 'ⲙⲛ', 'ⲙⲛⲧⲉ', 'ϣⲁⲣⲉ', 'ϣⲁ', 'ⲙⲉⲣⲉ', 'ⲙⲉ', 'ⲁ', 'ⲙⲡⲉ', 'ⲙⲡ', 'ⲛⲉⲣⲉ', 'ⲛⲉ', 'ⲛⲁ', 'ⲛⲧⲉ', 'ⲧⲁⲣⲉ', 'ⲧⲁⲣ', 'ϣⲁⲛⲧⲉ', 'ⲙⲡⲁⲧⲉ', 'ⲛⲧⲉⲣⲉ', 'ⲉⲣϣⲁⲛ', 'ⲉϣ', 'ϣ', 'ϫⲡⲓ', 'ⲛⲉϣ', 'ⲉⲣⲉ', 'ⲛⲛⲉ', 'ⲙⲁⲣⲉ', 'ⲙⲡⲣⲧⲣⲉ'],
-            'gqa': ['ə', 'ni'],
-            'ha':  ['ce', 'ne', 'ta', 'ba'],
-            # Nilo-Saharan languages.
-            'laj': ['bèdò', 'bìnò'],
-            # Mande languages.
-            'mxx': ['à', 'yè'],
-            # Niger-Congo languages.
-            # DZ: Wolof auxiliaries taken from the documentation.
-            'wo':  ['di', 'a', 'da', 'la', 'na', 'bu', 'ngi', 'woon', 'avoir', 'être'], # Note: 'avoir' and 'être' are French and are included because of code switching.
-            'yo':  ['jẹ́', 'ní', 'kí', 'kìí', 'ń', 'ti', 'tí', 'yóò', 'máa', 'á', 'a', 'ó', 'yió', 'ìbá', 'ì', 'bá', 'lè', 'gbọdọ̀', 'má', 'máà'],
-            'kfz': ['la'],
-            'bav': ['lùu'],
-            # Yuman languages.
-            'mov': ['iðu:m'],
-            # Tupian languages.
-            'gun': ['iko', "nda'ei", "nda'ipoi", 'ĩ'],
-            # Creole
-            'pcm': ['na', 'be', 'bin', 'can', 'cannot', 'con', 'could', 'dey', 'do', 'don', 'fit', 'for', 'gats', 'go', 'have', 'make', 'may', 'might', 'muna', 'must', 'never', 'shall', 'should', 'will', 'would']
-
-        }
+        altlang = get_alt_language(cols[MISC])
+        if altlang:
+            lang = altlang
+            auxlist, coplist = get_auxdata_for_language(altlang)
+        auxdict = {}
+        if auxlist != []:
+            auxdict = {lang: auxlist}
         if lang == 'shopen':
             # 'desu', 'kudasai', 'yo' and 'sa' are romanized Japanese.
             lspecauxs = ['desu', 'kudasai', 'yo', 'sa']
@@ -1812,7 +1755,7 @@ def validate_auxiliary_verbs(cols, children, nodes, line, lang):
             testmessage = "'%s' is not an auxiliary verb in language [%s]" % (cols[LEMMA], lang)
             warn(testmessage, testclass, testlevel=testlevel, testid=testid, nodeid=cols[ID], nodelineno=line)
 
-def validate_copula_lemmas(cols, children, nodes, line, lang):
+def validate_copula_lemmas(cols, children, nodes, line, lang, coplist):
     """
     Verifies that the relation cop is used only with lemmas that are known to
     act as copulas in the given language.
@@ -1824,145 +1767,37 @@ def validate_copula_lemmas(cols, children, nodes, line, lang):
       'line' ....... line number of the node within the file
     """
     if cols[DEPREL] == 'cop' and cols[LEMMA] != '_':
-        ###!!! In the future, lists like this one will be read from a file.
-        # The UD guidelines narrow down the class of copulas to just the equivalent of "to be" (equivalence).
-        # Other verbs that may be considered copulas by the traditional grammar (such as the equivalents of
-        # "to become" or "to seem") are not copulas in UD; they head the nominal predicate, which is their xcomp.
-        # Existential "to be" can be copula only if it is the same verb as in equivalence ("John is a teacher").
-        # If the language uses two different verbs, then the existential one is not a copula.
-        # Besides AUX, the copula can also be a pronoun in some languages.
-        copdict = {
-            'en':  ['be'],
-            'af':  ['is', 'wees'],
-            'nl':  ['zijn'],
-            'de':  ['sein'],
-            'sv':  ['vara'],
-            'no':  ['være', 'vere'], # 'vere' is the Nynorsk variant
-            'da':  ['være'],
-            'fo':  ['vera'],
-            'is':  ['vera'],
-            'got': ['wisan'],
-            'pcm': ['be', 'bin', 'can', 'con', 'dey', 'do', 'don', 'gats', 'go', 'must', 'na', 'shall', 'should', 'will' ],
-            # In Romance languages, both "ser" and "estar" qualify as copulas.
-            'pt':  ['ser', 'estar'],
-            'gl':  ['ser', 'estar'],
-            'es':  ['ser', 'estar'],
-            'ca':  ['ser', 'estar'],
-            'fr':  ['être'],
-            'it':  ['essere'],
-            'ro':  ['fi'],
-            'la':  ['sum'],
+        altlang = get_alt_language(cols[MISC])
+        if altlang:
+            lang = altlang
+            auxlist, coplist = get_auxdata_for_language(altlang)
+        copdict = {}
+        if coplist != []:
+            copdict = {lang: coplist}
             # In Slavic languages, the iteratives are still variants of "to be", although they have a different lemma (derived from the main one).
             # In addition, Polish and Russian also have pronominal copulas ("to" = "this/that").
-            'cs':  ['být', 'bývat', 'bývávat'],
-            'sk':  ['byť', 'bývať'],
-            'hsb': ['być'],
-            'pl':  ['być', 'bywać', 'to'],
-            'uk':  ['бути', 'бувати'],
-            'be':  ['быць', 'гэта'],
-            'ru':  ['быть', 'это'],
-            # See above (AUX verbs) for the comment on affirmative vs. negative lemma.
-            'orv': ['быти', 'не быти'],
-            'sl':  ['biti'],
-            'hr':  ['biti'],
-            'sr':  ['biti'],
-            'bg':  ['съм', 'бъда'],
-            # See above (AUX verbs) for the comment on affirmative vs. negative lemma.
-            'cu':  ['бꙑти', 'не.бꙑти'],
-            'lt':  ['būti'],
+            # 'orv': ['быти', 'не быти'] See above (AUX verbs) for the comment on affirmative vs. negative lemma.
             # Lauma says that all four should be copulas despite the fact that
             # kļūt and tapt correspond to English "to become", which is not
             # copula in UD. See also the discussion in
             # https://github.com/UniversalDependencies/docs/issues/622
-            'lv':  ['būt', 'kļūt', 'tikt', 'tapt'],
-            'ga':  ['is'],
-            'gd':  ['is'],
-            'cy':  ['bod'],
-            'br':  ['bezañ'],
-            'sq':  ['jam'],
-            'grc': ['εἰμί'],
-            'el':  ['είμαι'],
-            'hy':  ['եմ'],
-            'kmr': ['bûn'],
-            'fa':  ['است'],
+            # 'lv':  ['būt', 'kļūt', 'tikt', 'tapt'],
             # Two writing systems are used in Sanskrit treebanks (Devanagari and Latin) and we must list both spellings.
-            'sa':  ['अस्', 'as', 'भू', 'bhū'],
-            'hi':  ['है', 'था'],
-            'ur':  ['ہے', 'تھا'],
-            'bho': ['हऽ', 'बा', 'भा'],
-            'mr':  ['असणे'],
-            'eu':  ['izan', 'egon', 'ukan'],
-            # Uralic languages.
-            'fi':  ['olla'],
-            'krl': ['olla'],
-            'olo': ['olla'],
-            'et':  ['olema'],
-            'sme': ['leat'],
-            # Jack: iʹlla = to not be
-            'sms': ['leeʹd', 'iʹlla'],
+            # Jack: [sms] iʹlla = to not be
             # Jack says about Erzya:
             # The copula is represented by the independent copulas ульнемс (preterit) and улемс (non-past),
             # and the dependent morphology -оль (both preterit and non-past).
             # The neg арась occurs in locative/existential negation, and its
             # positive counterpart is realized in the three copulas above.
-            'myv': ['улемс', 'ульнемс', 'оль', 'арась'],
-            # The neg аш is locative/existential negation.
-            'mdf': ['улемс', 'оль', 'аш'],
+            # The neg аш in [mdf] is locative/existential negation.
             # Niko says about Komi:
             # Past tense copula is вӧвны, and in the future it is лоны, and both have a few frequentative forms.
             # 'быть' is Russian copula and it is occasionally used in spoken Komi due to code switching.
-            'kpv': ['лоны', 'лолыны', 'овлывлыны', 'вӧвны', 'вӧвлыны', 'вӧвлывлыны', 'быть', 'эм'],
             # Komi Permyak: овлыны = to be (habitual) [Jack Rueter]
-            'koi': ['овны', 'овлыны', 'овлывлыны', 'вӧвны', 'эм'],
-            'hu':  ['van'],
-            # Altaic languages.
-            'tr':  ['ol', 'i'],
-            'kk':  ['бол', 'е'],
-            'ug':  ['بول', 'ئى'],
-            'bxr': ['бай', 'боло'],
-            'ko':  ['이+라는'],
-            'ja':  ['だ'],
-            # Dravidian languages.
-            'ta':  ['முயல்'],
-            # Northeast Caucasian languages.
-            'lez': ['x̂ana'],
             # Sino-Tibetan languages.
             # See https://github.com/UniversalDependencies/docs/issues/653 for a discussion about Chinese copulas.
             # 是(shi4) and 为/為(wei2) should be interchangeable.
             # Sam: In Cantonese, 為 is used only in the high-standard variety, not in colloquial speech.
-            'lzh': ['爲'],
-            'zh':  ['是', '为', '為'],
-            'yue': ['係', '為'],
-            'lus': ['nii'],
-            'prx': ['in', 'd̪uk'],
-            # Austro-Asiatic languages.
-            'vi':  ['là'],
-            # Austronesian languages.
-            'id':  ['adalah'],
-            'tl':  ['may'],
-            # Australian languages: Pama-Nyungan.
-            'zmu': ['yi'],
-            # Afro-Asiatic languages.
-            'mt':  ['kien'],
-            'ar':  ['كَان', 'لَيس', 'لسنا', 'هُوَ'],
-            'he':  ['היה', 'הוא', 'זה'],
-            'aii': ['ܗܵܘܹܐ'],
-            'am':  ['ን'],
-            'cop': ['ⲡⲉ', 'ⲡ'],
-            'ha':  ['ce', 'ne'],
-            # Nilo-Saharan languages.
-            'laj': ['bèdò'],
-            # Mande languages.
-            'mxx': ['à', 'yè'],
-            # Niger-Congo languages.
-            'wo':  ['di', 'la', 'ngi', 'être'], # 'être' is French and is needed because of code switching.
-            'yo':  ['jẹ́', 'ní'],
-            'kfz': ['la'],
-            'bav': ['lùu'],
-            # Tupian languages.
-            # 'iko' is the normal copula, 'nda'ei' and 'nda'ipoi' are negative copulas and 'ĩ' is locative copula.
-            'gun': ['iko', "nda'ei", "nda'ipoi", 'ĩ']
-        }
         if lang == 'shopen':
             # 'desu' is romanized Japanese.
             lspeccops = ['desu']
@@ -1984,7 +1819,7 @@ def validate_copula_lemmas(cols, children, nodes, line, lang):
             testmessage = "'%s' is not a copula in language [%s]" % (cols[LEMMA], lang)
             warn(testmessage, testclass, testlevel=testlevel, testid=testid, nodeid=cols[ID], nodelineno=line)
 
-def validate_lspec_annotation(tree, lang):
+def validate_lspec_annotation(tree, lang, tag_sets):
     """
     Checks language-specific consequences of the annotation guidelines.
     """
@@ -2028,8 +1863,8 @@ def validate_lspec_annotation(tree, lang):
             continue
         myline = lines.get(cols[ID], sentence_line)
         mychildren = children.get(cols[ID], [])
-        validate_auxiliary_verbs(cols, mychildren, nodes, myline, lang)
-        validate_copula_lemmas(cols, mychildren, nodes, myline, lang)
+        validate_auxiliary_verbs(cols, mychildren, nodes, myline, lang, tag_sets[AUX])
+        validate_copula_lemmas(cols, mychildren, nodes, myline, lang, tag_sets[COP])
 
 
 
@@ -2043,7 +1878,7 @@ def validate(inp, out, args, tag_sets, known_sent_ids):
         tree_counter += 1
         #the individual lines have been validated already in trees()
         #here go tests which are done on the whole tree
-        validate_ID_sequence(sentence) # level 1
+        idseqok = validate_ID_sequence(sentence) # level 1
         validate_token_ranges(sentence) # level 1
         if args.level > 1:
             validate_sent_id(comments, known_sent_ids, args.lang) # level 2
@@ -2053,13 +1888,18 @@ def validate(inp, out, args, tag_sets, known_sent_ids):
             validate_ID_references(sentence) # level 2
             validate_deps(sentence) # level 2 and up
             validate_misc(sentence) # level 2 and up
-            tree = build_tree(sentence) # level 2 test: tree is single-rooted, connected, cycle-free
-            egraph = build_egraph(sentence) # level 2 test: egraph is connected
+            # Avoid building tree structure if the sequence of node ids is corrupted.
+            if idseqok:
+                tree = build_tree(sentence) # level 2 test: tree is single-rooted, connected, cycle-free
+                egraph = build_egraph(sentence) # level 2 test: egraph is connected
+            else:
+                tree = None
+                egraph = None
             if tree:
                 if args.level > 2:
                     validate_annotation(tree) # level 3
                     if args.level > 4:
-                        validate_lspec_annotation(sentence, args.lang) # level 5
+                        validate_lspec_annotation(sentence, args.lang, tag_sets) # level 5
             else:
                 testlevel = 2
                 testclass = 'Format'
@@ -2071,9 +1911,9 @@ def validate(inp, out, args, tag_sets, known_sent_ids):
                     validate_enhanced_annotation(egraph) # level 3
     validate_newlines(inp) # level 1
 
-def load_file(f_name):
-    res=set()
-    with io.open(f_name, 'r', encoding='utf-8') as f:
+def load_file(filename):
+    res = set()
+    with io.open(filename, 'r', encoding='utf-8') as f:
         for line in f:
             line=line.strip()
             if not line or line.startswith('#'):
@@ -2081,7 +1921,138 @@ def load_file(f_name):
             res.add(line)
     return res
 
-def load_set(f_name_ud,f_name_langspec,validate_langspec=False,validate_enhanced=False):
+def load_upos_set(filename):
+    """
+    Loads the list of permitted UPOS tags and returns it as a set.
+    """
+    res = load_file(os.path.join(THISDIR, 'data', filename))
+    return res
+
+def load_feat_set(filename_langspec, lcode):
+    """
+    Loads the list of permitted feature-value pairs and returns it as a set.
+    """
+    global featdata
+    global warn_on_undoc_feats
+    with open(os.path.join(THISDIR, 'data', filename_langspec), 'r', encoding='utf-8') as f:
+        all_features_0 = json.load(f)
+    featdata = all_features_0['features']
+    featset = get_featdata_for_language(lcode)
+    # Prepare a global message about permitted features and values. We will add
+    # it to the first error message about an unknown feature. Note that this
+    # global information pertains to the default validation language and it
+    # should not be used with code-switched segments in alternative languages.
+    msg = ''
+    if not lcode in featdata:
+        msg += "No feature-value pairs have been permitted for language [%s].\n" % (lcode)
+        msg += "They can be permitted at the address below (if the language has an ISO code and is registered with UD):\n"
+        msg += "https://quest.ms.mff.cuni.cz/udvalidator/cgi-bin/unidep/langspec/specify_feature.pl\n"
+        warn_on_undoc_feats = msg
+    else:
+        # Identify feature values that are permitted in the current language.
+        for f in featset:
+            for e in featset[f]['errors']:
+                msg += "ERROR in _%s/feat/%s.md: %s\n" % (lcode, f, e)
+        res = set()
+        for f in featset:
+            if featset[f]['permitted'] > 0:
+                for v in featset[f]['uvalues']:
+                    res.add(f+'='+v)
+                for v in featset[f]['lvalues']:
+                    res.add(f+'='+v)
+        sorted_documented_features = sorted(res)
+        msg += "The following %d feature values are currently permitted in language [%s]:\n" % (len(sorted_documented_features), lcode)
+        msg += ', '.join(sorted_documented_features) + "\n"
+        msg += "If a language needs a feature that is not documented in the universal guidelines, the feature must\n"
+        msg += "have a language-specific documentation page in a prescribed format.\n"
+        msg += "See https://universaldependencies.org/contributing_language_specific.html for further guidelines.\n"
+        msg += "All features including universal must be specifically turned on for each language in which they are used.\n"
+        msg += "See https://quest.ms.mff.cuni.cz/udvalidator/cgi-bin/unidep/langspec/specify_feature.pl for details.\n"
+        warn_on_undoc_feats = msg
+    return featset
+
+def get_featdata_for_language(lcode):
+    """
+    Searches the previously loaded database of feature-value combinations.
+    Returns the lists for a given language code. For most CoNLL-U files,
+    this function is called only once at the beginning. However, some files
+    contain code-switched data and we may temporarily need to validate
+    another language.
+    """
+    global featdata
+    ###!!! If lcode is 'ud', we should permit all universal feature-value pairs,
+    ###!!! regardless of language-specific documentation.
+    # Do not crash if the user asks for an unknown language.
+    if not lcode in featdata:
+        return {} ###!!! or None?
+    return featdata[lcode]
+
+def load_deprel_set(filename_langspec, lcode):
+    """
+    Loads the list of permitted relation types and returns it as a set.
+    """
+    global depreldata
+    global warn_on_undoc_deps
+    with open(os.path.join(THISDIR, 'data', filename_langspec), 'r', encoding='utf-8') as f:
+        all_deprels_0 = json.load(f)
+    depreldata = all_deprels_0['deprels']
+    deprelset = get_depreldata_for_language(lcode)
+    # Prepare a global message about permitted relation labels. We will add
+    # it to the first error message about an unknown relation. Note that this
+    # global information pertains to the default validation language and it
+    # should not be used with code-switched segments in alternative languages.
+    msg = ''
+    if len(deprelset) == 0:
+        msg += "No dependency relation types have been permitted for language [%s].\n" % (lcode)
+        msg += "They can be permitted at the address below (if the language has an ISO code and is registered with UD):\n"
+        msg += "https://quest.ms.mff.cuni.cz/udvalidator/cgi-bin/unidep/langspec/specify_deprel.pl\n"
+    else:
+        # Identify dependency relations that are permitted in the current language.
+        # If there are errors in documentation, identify the erroneous doc file.
+        # Note that depreldata[lcode] may not exist even though we have a non-empty
+        # set of relations, if lcode is 'ud'.
+        if lcode in depreldata:
+            for r in depreldata[lcode]:
+                file = re.sub(r':', r'-', r)
+                if file == 'aux':
+                    file = 'aux_'
+                for e in depreldata[lcode][r]['errors']:
+                    msg += "ERROR in _%s/dep/%s.md: %s\n" % (lcode, file, e)
+        sorted_documented_relations = sorted(deprelset)
+        msg += "The following %d relations are currently permitted in language [%s]:\n" % (len(sorted_documented_relations), lcode)
+        msg += ', '.join(sorted_documented_relations) + "\n"
+        msg += "If a language needs a relation subtype that is not documented in the universal guidelines, the relation\n"
+        msg += "must have a language-specific documentation page in a prescribed format.\n"
+        msg += "See https://universaldependencies.org/contributing_language_specific.html for further guidelines.\n"
+        msg += "Documented dependency relations can be specifically turned on/off for each language in which they are used.\n"
+        msg += "See https://quest.ms.mff.cuni.cz/udvalidator/cgi-bin/unidep/langspec/specify_deprel.pl for details.\n"
+        # Save the message in a global variable.
+        # We will add it to the first error message about an unknown feature in the data.
+    warn_on_undoc_deps = msg
+    return deprelset
+
+def get_depreldata_for_language(lcode):
+    """
+    Searches the previously loaded database of dependency relation labels.
+    Returns the lists for a given language code. For most CoNLL-U files,
+    this function is called only once at the beginning. However, some files
+    contain code-switched data and we may temporarily need to validate
+    another language.
+    """
+    global depreldata
+    deprelset = set()
+    # If lcode is 'ud', we should permit all universal dependency relations,
+    # regardless of language-specific documentation.
+    ###!!! We should be able to take them from the documentation JSON files instead of listing them here.
+    if lcode == 'ud':
+        deprelset = set(['nsubj', 'obj', 'iobj', 'csubj', 'ccomp', 'xcomp', 'obl', 'vocative', 'expl', 'dislocated', 'advcl', 'advmod', 'discourse', 'aux', 'cop', 'mark', 'nmod', 'appos', 'nummod', 'acl', 'amod', 'det', 'clf', 'case', 'conj', 'cc', 'fixed', 'flat', 'compound', 'list', 'parataxis', 'orphan', 'goeswith', 'reparandum', 'punct', 'root', 'dep'])
+    elif lcode in depreldata:
+        for r in depreldata[lcode]:
+            if depreldata[lcode][r]['permitted'] > 0:
+                deprelset.add(r)
+    return deprelset
+
+def load_set(f_name_ud, f_name_langspec, validate_langspec=False, validate_enhanced=False):
     """
     Loads a list of values from the two files, and returns their
     set. If f_name_langspec doesn't exist, loads nothing and returns
@@ -2093,15 +2064,15 @@ def load_set(f_name_ud,f_name_langspec,validate_langspec=False,validate_enhanced
     truly extensions of universal relations, too; but a more relaxed regular expression will
     be checked because enhanced relations may contain stuff that is forbidden in the basic ones.
     """
-    res=load_file(os.path.join(THISDIR,"data",f_name_ud))
-    #Now res holds UD
-    #Next load and optionally check the langspec extensions
-    if f_name_langspec is not None and f_name_langspec!=f_name_ud:
+    res = load_file(os.path.join(THISDIR, 'data', f_name_ud))
+    # Now res holds UD
+    # Next load and optionally check the langspec extensions
+    if f_name_langspec is not None and f_name_langspec != f_name_ud:
         path_langspec = os.path.join(THISDIR,"data",f_name_langspec)
         if os.path.exists(path_langspec):
             global curr_fname
             curr_fname = path_langspec # so warn() does not fail on undefined curr_fname
-            l_spec=load_file(path_langspec)
+            l_spec = load_file(path_langspec)
             for v in l_spec:
                 if validate_enhanced:
                     # We are reading the list of language-specific dependency relations in the enhanced representation
@@ -2146,6 +2117,47 @@ def load_set(f_name_ud,f_name_langspec,validate_langspec=False,validate_enhanced
                 res.add(v)
     return res
 
+def get_auxdata_for_language(lcode):
+    """
+    Searches the previously loaded database of auxiliary/copula lemmas. Returns
+    the AUX and COP lists for a given language code. For most CoNLL-U files,
+    this function is called only once at the beginning. However, some files
+    contain code-switched data and we may temporarily need to validate
+    another language.
+    """
+    global auxdata
+    # If any of the functions of the lemma is other than cop.PRON, it counts as an auxiliary.
+    # If any of the functions of the lemma is cop.*, it counts as a copula.
+    auxlist = []
+    coplist = []
+    if lcode == 'shopen':
+        for lcode1 in auxdata.keys():
+            lemmalist = auxdata[lcode1].keys()
+            auxlist = auxlist + [x for x in lemmalist if len([y for y in auxdata[lcode1][x]['functions'] if y['function'] != 'cop.PRON']) > 0]
+            coplist = coplist + [x for x in lemmalist if len([y for y in auxdata[lcode1][x]['functions'] if re.match("^cop\.", y['function'])]) > 0]
+    else:
+        lemmalist = auxdata.get(lcode, {}).keys()
+        auxlist = [x for x in lemmalist if len([y for y in auxdata[lcode][x]['functions'] if y['function'] != 'cop.PRON']) > 0]
+        coplist = [x for x in lemmalist if len([y for y in auxdata[lcode][x]['functions'] if re.match("^cop\.", y['function'])]) > 0]
+    return auxlist, coplist
+
+def get_alt_language(misc):
+    """
+    Takes the value of the MISC column for a token and checks it for the
+    attribute Lang=xxx. If present, it is interpreted as the code of the
+    language in which the current token is. This is uselful for code switching,
+    if a phrase is in a language different from the main language of the
+    document. The validator can then temporarily switch to a different set
+    of language-specific tests.
+    """
+    misclist = misc.split('|')
+    p = re.compile(r'Lang=(.+)')
+    for attr in misclist:
+        m = p.match(attr)
+        if m:
+            return m.group(1)
+    return None
+
 if __name__=="__main__":
     opt_parser = argparse.ArgumentParser(description="CoNLL-U validation script")
 
@@ -2157,10 +2169,10 @@ if __name__=="__main__":
     #io_group.add_argument('output', nargs='', help='Output file name, or "-" or nothing for standard output.')
 
     list_group=opt_parser.add_argument_group("Tag sets","Options relevant to checking tag sets.")
-    list_group.add_argument("--lang", action="store", required=True, default=None, help="Which langauge are we checking? If you specify this (as a two-letter code), the tags will be checked using the language-specific files in the data/ directory of the validator. It's also possible to use 'ud' for checking compliance with purely ud.")
+    list_group.add_argument("--lang", action="store", required=True, default=None, help="Which langauge are we checking? If you specify this (as a two-letter code), the tags will be checked using the language-specific files in the data/ directory of the validator.")
+    list_group.add_argument("--level", action="store", type=int, default=5, dest="level", help="Level 1: Test only CoNLL-U backbone. Level 2: UD format. Level 3: UD contents. Level 4: Language-specific labels. Level 5: Language-specific contents.")
 
     tree_group=opt_parser.add_argument_group("Tree constraints","Options for checking the validity of the tree.")
-    tree_group.add_argument("--level", action="store", type=int, default=5, dest="level", help="Level 1: Test only CoNLL-U backbone. Level 2: UD format. Level 3: UD contents. Level 4: Language-specific labels. Level 5: Language-specific contents.")
     tree_group.add_argument("--multiple-roots", action="store_false", default=True, dest="single_root", help="Allow trees with several root words (single root required by default).")
 
     meta_group=opt_parser.add_argument_group("Metadata constraints","Options for checking the validity of tree metadata.")
@@ -2182,19 +2194,27 @@ if __name__=="__main__":
     if args.level < 4:
         args.lang = 'ud'
 
-    tagsets={XPOS:None,UPOS:None,FEATS:None,DEPREL:None,DEPS:None,TOKENSWSPACE:None} #sets of tags for every column that needs to be checked, plus (in v2) other sets, like the allowed tokens with space
+    # Sets of tags for every column that needs to be checked, plus (in v2) other sets, like the allowed tokens with space
+    tagsets = {XPOS:None, UPOS:None, FEATS:None, DEPREL:None, DEPS:None, TOKENSWSPACE:None, AUX:None}
 
     if args.lang:
-        tagsets[DEPREL]=load_set("deprel.ud","deprel."+args.lang,validate_langspec=True)
+        tagsets[UPOS] = load_upos_set('cpos.ud')
+        tagsets[FEATS] = load_feat_set('feats.json', args.lang)
+        tagsets[DEPREL] = load_deprel_set('deprels.json', args.lang)
         # All relations available in DEPREL are also allowed in DEPS.
         # In addition, there might be relations that are only allowed in DEPS.
         # One of them, "ref", is universal and we currently mention it directly
         # in the code, although there is also a file "edeprel.ud".
-        tagsets[DEPS]=tagsets[DEPREL]|{"ref"}|load_set("deprel.ud","edeprel."+args.lang,validate_enhanced=True)
-        tagsets[FEATS]=load_set("feat_val.ud","feat_val."+args.lang)
-        tagsets[UPOS]=load_set("cpos.ud",None)
-        tagsets[TOKENSWSPACE]=load_set("tokens_w_space.ud","tokens_w_space."+args.lang)
-        tagsets[TOKENSWSPACE]=[re.compile(regex,re.U) for regex in tagsets[TOKENSWSPACE]] #...turn into compiled regular expressions
+        tagsets[DEPS] = tagsets[DEPREL]|{"ref"}|load_set("deprel.ud","edeprel."+args.lang,validate_enhanced=True)
+        tagsets[TOKENSWSPACE] = load_set("tokens_w_space.ud","tokens_w_space."+args.lang)
+        tagsets[TOKENSWSPACE] = [re.compile(regex,re.U) for regex in tagsets[TOKENSWSPACE]] #...turn into compiled regular expressions
+        # Read the list of auxiliaries from the JSON file.
+        # This file must not be edited directly!
+        # Use the web interface at https://quest.ms.mff.cuni.cz/udvalidator/cgi-bin/unidep/langspec/specify_auxiliary.pl instead!
+        with open(os.path.join(THISDIR, 'data', 'data.json'), 'r', encoding='utf-8') as f:
+            jsondata = json.load(f)
+        auxdata = jsondata['auxiliaries']
+        tagsets[AUX], tagsets[COP] = get_auxdata_for_language(args.lang)
 
     out=sys.stdout # hard-coding - does this ever need to be anything else?
 
