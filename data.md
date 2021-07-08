@@ -5,15 +5,15 @@ title: IWPT 2021 Shared Task – Data
 
 # Shared Task Data
 
-<!-- MODIFY AND UNCOMMENT THIS AFTER THE TASK WHEN THE DATA IS PUBLISHED
+<!-- MODIFY AND UNCOMMENT THIS AFTER THE TASK WHEN THE DATA IS PUBLISHED -->
 
 The training, development and evaluation data sets that were used in the
 shared task are now publicly available for download in
-[Lindat](http://hdl.handle.net/11234/1-3238). The package also includes
+[Lindat](http://hdl.handle.net/11234/1-3728). The package also includes
 scripts used during the shared task by the organizing team, as well as
 the primary submissions (parsed data) of each participating team.
 
-TAKE THE BELOW TEXT OUT AFTER THE TASK -->
+<!-- TAKE THE BELOW TEXT OUT AFTER THE TASK
 
 The full data will be published in Lindat after the shared task.
 During the task, the data is temporarily available at the following links:
@@ -24,9 +24,11 @@ During the task, the data is temporarily available at the following links:
 * [Gold test data by language](https://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-test-gold.tgz) (added 2021-05-25)
 * [Blind test data by language](http://ufal.mff.cuni.cz/~zeman/soubory/iwpt2021-test-blind.tgz)
 
+-->
+
 ## Training and Development Data
 
-Within the .tar.gz package, the datasets are organized similarly to UD
+Within the .tgz package, the datasets are organized similarly to UD
 releases, that is, CoNLL-U files are in subfolders that represent treebanks
 rather than languages. Each folder contains the README and LICENSE files
 (all treebanks come with some type of open license but some of them are
@@ -57,3 +59,4 @@ of the gold package.
 * 2021-04-05 22:14 UTC+2: The first train-dev package published.
 * 2021-04-07 21:02 UTC+2: Updated annotation of Arabic, Czech, Lithuanian, and Slovak.
 * 2021-04-12 12:58 UTC+2: Added more English data (from the GUM treebank).
+* 2021-07-08 08:12 UTC+2: Removed the temporary links to data that were used during the shared task. Replaced them with a permanent link to the data published after the task.
