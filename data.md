@@ -9,7 +9,7 @@ title: IWPT 2021 Shared Task – Data
 
 The training, development and evaluation data sets that were used in the
 shared task are now publicly available for download in
-[Lindat](http://hdl.handle.net/11234/1-3728). The package also includes
+[Lindat (http://hdl.handle.net/11234/1-3728)](http://hdl.handle.net/11234/1-3728). The package also includes
 scripts used during the shared task by the organizing team, as well as
 the primary submissions (parsed data) of each participating team.
 
